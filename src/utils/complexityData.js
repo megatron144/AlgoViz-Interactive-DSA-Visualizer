@@ -153,6 +153,19 @@ export const ALGO_DETAILS = {
     description: 'A non-comparison sorting algorithm that operates by counting the number of occurrences of each distinct value in the array.',
     keyPoints: ['Linear time for bounded integer ranges [0, K]', 'Stable when implemented with prefix sums', 'Used as subroutine in Radix Sort']
   },
+  'radix-sort': {
+    name: 'Radix Sort (LSD)',
+    category: 'Sorting',
+    timeComplexity: { best: 'O(d · (N + K))', average: 'O(d · (N + K))', worst: 'O(d · (N + K))' },
+    spaceComplexity: 'O(N + K)',
+    description: 'A non-comparison sorting algorithm that sorts integer numbers digit by digit from least significant digit (LSD) to most significant digit using stable counting sort subroutine.',
+    keyPoints: [
+      'Non-comparison integer sorting algorithm',
+      'Stable when using stable counting sort per digit',
+      'Linear time complexity O(d · (N + K)) where d is digit count and K is base (base 10)',
+      'Highly effective for fixed-width numerical datasets'
+    ]
+  },
 
   // Pathfinding
   'dijkstra': {

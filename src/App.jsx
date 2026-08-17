@@ -24,7 +24,6 @@ import {
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('advanced');
-  const [isDarkMode, setIsDarkMode] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
   const [activeLine, setActiveLine] = useState(1);
@@ -52,8 +51,6 @@ export default function App() {
       <Navbar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
-        isDarkMode={isDarkMode}
-        setIsDarkMode={setIsDarkMode}
         soundEnabled={soundEnabled}
         setSoundEnabled={setSoundEnabled}
         onOpenCodeDrawer={() => setShowCodeDrawer(!showCodeDrawer)}

@@ -76,6 +76,7 @@ export default function SortingDuel({ baseArray = [] }) {
     { id: 'quick-sort', label: 'Quick Sort' },
     { id: 'heap-sort', label: 'Heap Sort' },
     { id: 'shell-sort', label: 'Shell Sort' },
+    { id: 'radix-sort', label: 'Radix Sort' },
   ];
 
   return (
