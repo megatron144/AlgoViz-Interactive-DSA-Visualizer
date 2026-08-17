@@ -170,7 +170,6 @@ class BinaryLifting {
 
     // Query Lowest Common Ancestor (LCA) in O(log N)
     public int getLCA(int u, int v) {
-        // Ensure u is deeper than v
         if (depth[u] < depth[v]) { int t = u; u = v; v = t; }
 
         // 1. Lift u up to the same depth as v
@@ -222,7 +221,8 @@ def get_lca(u, v, up, depth):
             u = up[u][i]
             v = up[v][i]
     return up[u][0]`,
-    cpp: `const int LOGN = 20;
+    cpp: `// Binary Lifting in C++
+const int LOGN = 20;
 int up[MAXN][LOGN], depth[MAXN];
 
 void dfs(int u, int p, int d) {
@@ -287,9 +287,9 @@ class SparseTable {
         return Math.min(st[l][j], st[r - (1 << j) + 1][j]);
     }
 }`,
-    python: `import math
+    python: `# Sparse Table in Python
+import math
 
-# Sparse Table in Python
 class SparseTable:
     def __init__(self, arr):
         self.n = len(arr)
@@ -304,7 +304,8 @@ class SparseTable:
     def query(self, L, R):
         k = math.floor(math.log2(R - L + 1))
         return min(self.st[L][k], self.st[R - (1 << k) + 1][k])`,
-    cpp: `struct SparseTable {
+    cpp: `// Sparse Table in C++
+struct SparseTable {
     vector<vector<int>> st;
     SparseTable(const vector<int>& arr) {
         int n = arr.size();
@@ -324,6 +325,167 @@ class SparseTable:
 };`
   },
 
+  'hld': {
+    java: `// Heavy-Light Decomposition (HLD) in Java
+import java.util.*;
+
+class HeavyLightDecomposition {
+    int[] parent, depth, heavy, head, pos;
+    int curPos = 0;
+
+    public void init(int n) {
+        parent = new int[n];
+        depth = new int[n];
+        heavy = new int[n];
+        head = new int[n];
+        pos = new int[n];
+        Arrays.fill(heavy, -1);
+    }
+
+    // DFS 1: Computes subtree sizes, depths, and identifies heavy edges
+    public int dfs(int v, int p, int d, List<List<Integer>> adj) {
+        int size = 1, maxCSize = 0;
+        depth[v] = d; parent[v] = p;
+        for (int c : adj.get(v)) {
+            if (c != p) {
+                int cSize = dfs(c, v, d + 1, adj);
+                size += cSize;
+                if (cSize > maxCSize) {
+                    maxCSize = cSize;
+                    heavy[v] = c; // Heavy child with largest subtree
+                }
+            }
+        }
+        return size;
+    }
+
+    // DFS 2: Decomposes tree into contiguous segments for segment tree queries
+    public void decompose(int v, int h, List<List<Integer>> adj) {
+        head[v] = h;
+        pos[v] = ++curPos;
+        if (heavy[v] != -1) decompose(heavy[v], h, adj); // Continue heavy chain
+        for (int c : adj.get(v)) {
+            if (c != parent[v] && c != heavy[v]) {
+                decompose(c, c, adj); // Start new light chain
+            }
+        }
+    }
+}`,
+    python: `# Heavy-Light Decomposition in Python
+def dfs_size(u, p, d, parent, depth, heavy, adj):
+    size = 1; max_c_size = 0
+    parent[u] = p; depth[u] = d; heavy[u] = -1
+    for v in adj[u]:
+        if v != p:
+            c_size = dfs_size(v, u, d + 1, parent, depth, heavy, adj)
+            size += c_size
+            if c_size > max_c_size:
+                max_c_size = c_size; heavy[u] = v
+    return size
+
+def decompose(u, h, parent, heavy, head, pos, adj, cur_pos):
+    head[u] = h; pos[u] = cur_pos[0]; cur_pos[0] += 1
+    if heavy[u] != -1:
+        decompose(heavy[u], h, parent, heavy, head, pos, adj, cur_pos)
+    for v in adj[u]:
+        if v != parent[u] and v != heavy[u]:
+            decompose(v, v, parent, heavy, head, pos, adj, cur_pos)`,
+    cpp: `// Heavy-Light Decomposition in C++
+int parent_node[N], depth[N], heavy[N], head[N], pos[N], cur_pos;
+
+int dfs(int v, int p = 0, int d = 0) {
+    int size = 1, max_c_size = 0;
+    depth[v] = d; parent_node[v] = p; heavy[v] = -1;
+    for (int c : adj[v]) {
+        if (c != p) {
+            int c_size = dfs(c, v, d + 1);
+            size += c_size;
+            if (c_size > max_c_size) {
+                max_c_size = c_size;
+                heavy[v] = c;
+            }
+        }
+    }
+    return size;
+}`
+  },
+
+  'linear-basis': {
+    java: `// Linear Basis over GF(2) (XOR Basis) in Java
+class LinearBasis {
+    private static final int BITS = 32;
+    private int[] basis = new int[BITS]; // basis[i] has highest bit at index i
+
+    // Inserts a number into the basis; returns true if linearly independent
+    public boolean insert(int mask) {
+        for (int i = BITS - 1; i >= 0; i--) {
+            if ((mask & (1 << i)) == 0) continue;
+            if (basis[i] == 0) {
+                basis[i] = mask; // Found new basis vector
+                return true;
+            }
+            mask ^= basis[i]; // Reduce using existing basis vector
+        }
+        return false; // Vector was linearly dependent (reducible to 0)
+    }
+
+    // Returns the maximum XOR sum achievable by any subset of elements
+    public int getMaxXor() {
+        int maxXor = 0;
+        for (int i = BITS - 1; i >= 0; i--) {
+            if ((maxXor ^ basis[i]) > maxXor) {
+                maxXor ^= basis[i];
+            }
+        }
+        return maxXor;
+    }
+}`,
+    python: `# Linear Basis in Python
+class LinearBasis:
+    def __init__(self, bits=32):
+        self.bits = bits
+        self.basis = [0] * bits
+
+    def insert(self, mask):
+        for i in range(self.bits - 1, -1, -1):
+            if not (mask & (1 << i)): continue
+            if not self.basis[i]:
+                self.basis[i] = mask
+                return True
+            mask ^= self.basis[i]
+        return False
+
+    def get_max_xor(self):
+        max_xor = 0
+        for i in range(self.bits - 1, -1, -1):
+            if (max_xor ^ self.basis[i]) > max_xor:
+                max_xor ^= self.basis[i]
+        return max_xor`,
+    cpp: `// Linear Basis in C++
+struct LinearBasis {
+    static const int BITS = 32;
+    int basis[BITS];
+    LinearBasis() { memset(basis, 0, sizeof(basis)); }
+
+    bool insert(int mask) {
+        for (int i = BITS - 1; i >= 0; i--) {
+            if (!(mask & (1 << i))) continue;
+            if (!basis[i]) { basis[i] = mask; return true; }
+            mask ^= basis[i];
+        }
+        return false;
+    }
+
+    int getMaxXor() {
+        int res = 0;
+        for (int i = BITS - 1; i >= 0; i--) {
+            if ((res ^ basis[i]) > res) res ^= basis[i];
+        }
+        return res;
+    }
+};`
+  },
+
   // =========================================================================
   // 2. SORTING ALGORITHMS
   // =========================================================================
@@ -337,17 +499,14 @@ public class BubbleSort {
             boolean swapped = false; // Flag to detect already-sorted arrays early
             // Inner loop bubbles largest unsorted element to index (n - i - 1)
             for (int j = 0; j < n - i - 1; j++) {
-                // Compare adjacent elements
                 if (arr[j] > arr[j + 1]) {
-                    // Swap adjacent elements
                     int temp = arr[j];
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
                     swapped = true;
                 }
             }
-            // If no swaps occurred in pass, array is completely sorted
-            if (!swapped) break;
+            if (!swapped) break; // Terminate early if no swaps occurred
         }
     }
 }`,
@@ -384,16 +543,13 @@ void bubbleSort(vector<int>& arr) {
 public class SelectionSort {
     public static void selectionSort(int[] arr) {
         int n = arr.length;
-        // Move boundary of unsorted subarray one by one
         for (int i = 0; i < n - 1; i++) {
             int minIdx = i; // Assume first unsorted element is minimum
-            // Scan through remainder of array to locate smallest value
             for (int j = i + 1; j < n; j++) {
                 if (arr[j] < arr[minIdx]) {
                     minIdx = j; // Found new minimum index
                 }
             }
-            // Swap found minimum element with first element of unsorted part
             if (minIdx != i) {
                 int temp = arr[i];
                 arr[i] = arr[minIdx];
@@ -430,17 +586,15 @@ void selectionSort(vector<int>& arr) {
 public class InsertionSort {
     public static void insertionSort(int[] arr) {
         int n = arr.length;
-        // Start from second element (index 1)
         for (int i = 1; i < n; i++) {
-            int key = arr[i]; // Value to be placed into sorted left subarray
+            int key = arr[i]; // Value to place into sorted left subarray
             int j = i - 1;
 
-            // Shift elements of arr[0..i-1] that are greater than key to one position ahead
+            // Shift elements greater than key to one position ahead
             while (j >= 0 && arr[j] > key) {
                 arr[j + 1] = arr[j];
                 j--;
             }
-            // Place key into its proper sorted slot
             arr[j + 1] = key;
         }
     }
@@ -475,31 +629,25 @@ void insertionSort(vector<int>& arr) {
 public class QuickSort {
     public static void quickSort(int[] arr, int low, int high) {
         if (low < high) {
-            // pi is partitioning index: arr[pi] is now in exact sorted position
             int pi = partition(arr, low, high);
-
-            // Recursively sort elements before partition and after partition
             quickSort(arr, low, pi - 1);
             quickSort(arr, pi + 1, high);
         }
     }
 
-    // Lomuto Partitioning Scheme: places pivot at its sorted position
+    // Lomuto Partitioning Scheme
     private static int partition(int[] arr, int low, int high) {
-        int pivot = arr[high]; // Select rightmost element as pivot
-        int i = low - 1;       // Index of smaller element
+        int pivot = arr[high]; // Rightmost element as pivot
+        int i = low - 1;
 
         for (int j = low; j < high; j++) {
-            // If current element is smaller than or equal to pivot
             if (arr[j] <= pivot) {
                 i++;
-                // Swap arr[i] and arr[j]
                 int temp = arr[i];
                 arr[i] = arr[j];
                 arr[j] = temp;
             }
         }
-        // Swap pivot with element at (i + 1) to finalize pivot placement
         int temp = arr[i + 1];
         arr[i + 1] = arr[high];
         arr[high] = temp;
@@ -552,40 +700,28 @@ void quickSort(vector<int>& arr, int low, int high) {
 public class MergeSort {
     public static void mergeSort(int[] arr, int l, int r) {
         if (l < r) {
-            // Find middle index to divide array into halves
             int m = l + (r - l) / 2;
-
-            // Sort first and second halves recursively
             mergeSort(arr, l, m);
             mergeSort(arr, m + 1, r);
-
-            // Merge the two sorted halves
             merge(arr, l, m, r);
         }
     }
 
-    // Merges two sorted subarrays arr[l..m] and arr[m+1..r]
     private static void merge(int[] arr, int l, int m, int r) {
         int n1 = m - l + 1;
         int n2 = r - m;
-
-        // Create temporary auxiliary arrays
         int[] L = new int[n1];
         int[] R = new int[n2];
 
         for (int i = 0; i < n1; ++i) L[i] = arr[l + i];
         for (int j = 0; j < n2; ++j) R[j] = arr[m + 1 + j];
 
-        // Two pointers to merge L and R back into arr[l..r]
         int i = 0, j = 0, k = l;
         while (i < n1 && j < n2) {
             if (L[i] <= R[j]) arr[k++] = L[i++];
             else arr[k++] = R[j++];
         }
-
-        // Copy remaining elements of L[] if any
         while (i < n1) arr[k++] = L[i++];
-        // Copy remaining elements of R[] if any
         while (j < n2) arr[k++] = R[j++];
     }
 }`,
@@ -629,34 +765,24 @@ void mergeSort(vector<int>& arr, int l, int r) {
 public class HeapSort {
     public static void heapSort(int[] arr) {
         int n = arr.length;
-
-        // 1. Build max heap (rearrange array from bottom-up internal nodes)
-        for (int i = n / 2 - 1; i >= 0; i--) {
-            heapify(arr, n, i);
-        }
+        // 1. Build max heap
+        for (int i = n / 2 - 1; i >= 0; i--) heapify(arr, n, i);
 
         // 2. Extract elements one by one from heap root
         for (int i = n - 1; i > 0; i--) {
-            // Move current max root arr[0] to end index i
             int temp = arr[0];
             arr[0] = arr[i];
             arr[i] = temp;
-
-            // Restore max heap property on reduced heap
             heapify(arr, i, 0);
         }
     }
 
-    // Heapify subtree rooted at index i with heap size n
     private static void heapify(int[] arr, int n, int i) {
-        int largest = i;       // Initialize largest as root
-        int l = 2 * i + 1;     // Left child
-        int r = 2 * i + 2;     // Right child
-
+        int largest = i;
+        int l = 2 * i + 1, r = 2 * i + 2;
         if (l < n && arr[l] > arr[largest]) largest = l;
         if (r < n && arr[r] > arr[largest]) largest = r;
 
-        // If largest is not root, swap and continue heapifying
         if (largest != i) {
             int swap = arr[i];
             arr[i] = arr[largest];
@@ -709,13 +835,10 @@ void heapSort(vector<int>& arr) {
 public class ShellSort {
     public static void shellSort(int[] arr) {
         int n = arr.length;
-        // Start with a large gap, then reduce the gap in half each iteration
         for (int gap = n / 2; gap > 0; gap /= 2) {
-            // Perform gapped insertion sort for this gap size
             for (int i = gap; i < n; i++) {
                 int temp = arr[i];
                 int j = i;
-                // Shift earlier gap-sorted elements up until correct location found
                 while (j >= gap && arr[j - gap] > temp) {
                     arr[j] = arr[j - gap];
                     j -= gap;
@@ -762,7 +885,6 @@ import java.util.Arrays;
 
 public class RadixSort {
     public static void radixSort(int[] arr) {
-        // Find the maximum number to know maximum number of digits
         int max = getMax(arr);
 
         // Do counting sort for every digit place: 1s (exp=1), 10s (exp=10), etc.
@@ -771,31 +893,22 @@ public class RadixSort {
         }
     }
 
-    // Stable counting sort subroutine applied on digit place (exp)
     private static void countSortByDigit(int[] arr, int exp) {
         int n = arr.length;
         int[] output = new int[n];
-        int[] count = new int[10]; // Buckets for digits 0-9
+        int[] count = new int[10]; // Buckets 0-9
 
-        // 1. Store count of occurrences of each digit
         for (int i = 0; i < n; i++) {
-            int digit = (arr[i] / exp) % 10;
-            count[digit]++;
+            count[(arr[i] / exp) % 10]++;
         }
-
-        // 2. Change count[i] so that count[i] contains actual position in output[]
         for (int i = 1; i < 10; i++) {
             count[i] += count[i - 1];
         }
-
-        // 3. Build output array in reverse order to preserve stable ordering
         for (int i = n - 1; i >= 0; i--) {
             int digit = (arr[i] / exp) % 10;
             output[count[digit] - 1] = arr[i];
             count[digit]--;
         }
-
-        // 4. Copy sorted output back to arr[]
         for (int i = 0; i < n; i++) {
             arr[i] = output[i];
         }
@@ -855,8 +968,641 @@ void radixSort(vector<int>& arr) {
 }`
   },
 
+  'counting-sort': {
+    java: `// Counting Sort in Java: Linear time O(N + K) for bounded integers
+public class CountingSort {
+    public static void countingSort(int[] arr) {
+        int n = arr.length;
+        int max = arr[0], min = arr[0];
+        for (int x : arr) {
+            if (x > max) max = x;
+            if (x < min) min = x;
+        }
+
+        int range = max - min + 1;
+        int[] count = new int[range];
+        int[] output = new int[n];
+
+        // 1. Store count of each number
+        for (int i = 0; i < n; i++) count[arr[i] - min]++;
+
+        // 2. Cumulative count for stable indices
+        for (int i = 1; i < range; i++) count[i] += count[i - 1];
+
+        // 3. Build output array
+        for (int i = n - 1; i >= 0; i--) {
+            output[count[arr[i] - min] - 1] = arr[i];
+            count[arr[i] - min]--;
+        }
+
+        // 4. Copy back
+        for (int i = 0; i < n; i++) arr[i] = output[i];
+    }
+}`,
+    python: `# Counting Sort in Python
+def counting_sort(arr):
+    if not arr: return arr
+    min_val, max_val = min(arr), max(arr)
+    count = [0] * (max_val - min_val + 1)
+    for x in arr: count[x - min_val] += 1
+    idx = 0
+    for i, c in enumerate(count):
+        for _ in range(c):
+            arr[idx] = i + min_val
+            idx += 1
+    return arr`,
+    cpp: `// Counting Sort in C++
+void countingSort(vector<int>& arr) {
+    if (arr.empty()) return;
+    int minVal = *min_element(arr.begin(), arr.end());
+    int maxVal = *max_element(arr.begin(), arr.end());
+    vector<int> count(maxVal - minVal + 1, 0);
+    for (int x : arr) count[x - minVal]++;
+    int idx = 0;
+    for (int i = 0; i < count.size(); i++) {
+        while (count[i]-- > 0) arr[idx++] = i + minVal;
+    }
+}`
+  },
+
   // =========================================================================
-  // 3. SEARCHING ALGORITHMS
+  // 3. PATHFINDING ALGORITHMS
+  // =========================================================================
+  'astar': {
+    java: `// A* Search Algorithm in Java: Pathfinding with Manhattan Heuristic
+import java.util.*;
+
+public class AStarSearch {
+    static class Node implements Comparable<Node> {
+        int r, c, g, f;
+        Node(int r, int c, int g, int h) {
+            this.r = r; this.c = c; this.g = g; this.f = g + h;
+        }
+        public int compareTo(Node o) { return Integer.compare(this.f, o.f); }
+    }
+
+    public static int heuristic(int r1, int c1, int r2, int c2) {
+        return Math.abs(r1 - r2) + Math.abs(c1 - c2); // Manhattan distance
+    }
+
+    public static List<int[]> findPath(int[][] grid, int[] start, int[] target) {
+        int rows = grid.length, cols = grid[0].length;
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        int[][] gScore = new int[rows][cols];
+        for (int[] row : gScore) Arrays.fill(row, Integer.MAX_VALUE);
+
+        gScore[start[0]][start[1]] = 0;
+        pq.add(new Node(start[0], start[1], 0, heuristic(start[0], start[1], target[0], target[1])));
+
+        int[][] dirs = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+
+        while (!pq.isEmpty()) {
+            Node curr = pq.poll();
+            if (curr.r == target[0] && curr.c == target[1]) return new ArrayList<>(); // Reconstruct path
+
+            for (int[] d : dirs) {
+                int nr = curr.r + d[0], nc = curr.c + d[1];
+                if (nr >= 0 && nr < rows && nc >= 0 && nc < cols && grid[nr][nc] == 0) {
+                    int tentativeG = curr.g + 1;
+                    if (tentativeG < gScore[nr][nc]) {
+                        gScore[nr][nc] = tentativeG;
+                        pq.add(new Node(nr, nc, tentativeG, heuristic(nr, nc, target[0], target[1])));
+                    }
+                }
+            }
+        }
+        return Collections.emptyList();
+    }
+}`,
+    python: `# A* Search in Python
+import heapq
+
+def astar(grid, start, target):
+    def h(pos): return abs(pos[0] - target[0]) + abs(pos[1] - target[1])
+    pq = [(h(start), 0, start, [start])]
+    visited = set()
+    while pq:
+        f, g, curr, path = heapq.heappop(pq)
+        if curr == target: return path
+        if curr in visited: continue
+        visited.add(curr)
+        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            nr, nc = curr[0] + dr, curr[1] + dc
+            if 0 <= nr < len(grid) and 0 <= nc < len(grid[0]) and grid[nr][nc] == 0:
+                if (nr, nc) not in visited:
+                    heapq.heappush(pq, (g + 1 + h((nr, nc)), g + 1, (nr, nc), path + [(nr, nc)]))
+    return None`,
+    cpp: `// A* Search in C++
+struct Cell {
+    int r, c, g, f;
+    bool operator>(const Cell& o) const { return f > o.f; }
+};`
+  },
+
+  'dijkstra': {
+    java: `// Dijkstra's Shortest Path in Java: Guaranteed shortest path for non-negative weights
+import java.util.*;
+
+public class Dijkstra {
+    static class Node implements Comparable<Node> {
+        int id, dist;
+        Node(int id, int dist) { this.id = id; this.dist = dist; }
+        public int compareTo(Node o) { return Integer.compare(this.dist, o.dist); }
+    }
+
+    public static int[] dijkstra(int start, List<List<Node>> adj, int n) {
+        int[] dist = new int[n];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+
+        dist[start] = 0;
+        pq.add(new Node(start, 0));
+
+        while (!pq.isEmpty()) {
+            Node curr = pq.poll();
+            int u = curr.id, d = curr.dist;
+            if (d > dist[u]) continue;
+
+            for (Node edge : adj.get(u)) {
+                if (dist[u] + edge.dist < dist[edge.id]) {
+                    dist[edge.id] = dist[u] + edge.dist;
+                    pq.add(new Node(edge.id, dist[edge.id]));
+                }
+            }
+        }
+        return dist;
+    }
+}`,
+    python: `# Dijkstra's Algorithm in Python
+import heapq
+
+def dijkstra(start, adj, n):
+    dist = [float('inf')] * n
+    dist[start] = 0
+    pq = [(0, start)]
+    while pq:
+        d, u = heapq.heappop(pq)
+        if d > dist[u]: continue
+        for v, weight in adj[u]:
+            if dist[u] + weight < dist[v]:
+                dist[v] = dist[u] + weight
+                heapq.heappush(pq, (dist[v], v))
+    return dist`,
+    cpp: `// Dijkstra's Algorithm in C++
+vector<int> dijkstra(int start, const vector<vector<pair<int, int>>>& adj, int n) {
+    vector<int> dist(n, 1e9);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
+    dist[start] = 0;
+    pq.push({0, start});
+    while (!pq.empty()) {
+        auto [d, u] = pq.top(); pq.pop();
+        if (d > dist[u]) continue;
+        for (auto [v, w] : adj[u]) {
+            if (dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+                pq.push({dist[v], v});
+            }
+        }
+    }
+    return dist;
+}`
+  },
+
+  'bfs': {
+    java: `// Breadth-First Search (BFS) in Java: Unweighted Shortest Path using Queue
+import java.util.*;
+
+public class BFS {
+    public static void bfs(int start, List<List<Integer>> adj, int n) {
+        boolean[] visited = new boolean[n];
+        Queue<Integer> queue = new LinkedList<>();
+
+        visited[start] = true;
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+            int curr = queue.poll();
+            // Process current node
+            for (int neighbor : adj.get(curr)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.add(neighbor);
+                }
+            }
+        }
+    }
+}`,
+    python: `# BFS in Python
+from collections import deque
+
+def bfs(start, adj):
+    visited = {start}
+    queue = deque([start])
+    while queue:
+        u = queue.popleft()
+        for v in adj[u]:
+            if v not in visited:
+                visited.add(v)
+                queue.append(v)`,
+    cpp: `// BFS in C++
+void bfs(int start, const vector<vector<int>>& adj, int n) {
+    vector<bool> visited(n, false);
+    queue<int> q;
+    visited[start] = true;
+    q.push(start);
+    while (!q.empty()) {
+        int u = q.front(); q.pop();
+        for (int v : adj[u]) {
+            if (!visited[v]) {
+                visited[v] = true;
+                q.push(v);
+            }
+        }
+    }
+}`
+  },
+
+  'dfs': {
+    java: `// Depth-First Search (DFS) in Java: Recursive traversal
+import java.util.*;
+
+public class DFS {
+    public static void dfs(int u, boolean[] visited, List<List<Integer>> adj) {
+        visited[u] = true;
+        // Process node u
+        for (int v : adj.get(u)) {
+            if (!visited[v]) {
+                dfs(v, visited, adj);
+            }
+        }
+    }
+}`,
+    python: `# DFS in Python
+def dfs(u, visited, adj):
+    visited.add(u)
+    for v in adj[u]:
+        if v not in visited:
+            dfs(v, visited, adj)`,
+    cpp: `// DFS in C++
+void dfs(int u, vector<bool>& visited, const vector<vector<int>>& adj) {
+    visited[u] = true;
+    for (int v : adj[u]) {
+        if (!visited[v]) dfs(v, visited, adj);
+    }
+}`
+  },
+
+  'greedy-bfs': {
+    java: `// Greedy Best-First Search in Java: Expands nodes closest to target according to heuristic
+import java.util.*;
+
+public class GreedyBFS {
+    static class Node implements Comparable<Node> {
+        int r, c, h;
+        Node(int r, int c, int h) { this.r = r; this.c = c; this.h = h; }
+        public int compareTo(Node o) { return Integer.compare(this.h, o.h); }
+    }
+}`,
+    python: `# Greedy Best-First Search in Python
+import heapq
+
+def greedy_bfs(grid, start, target):
+    def h(p): return abs(p[0] - target[0]) + abs(p[1] - target[1])
+    pq = [(h(start), start)]
+    visited = {start}
+    while pq:
+        _, curr = heapq.heappop(pq)
+        if curr == target: return True
+        # expand neighbors
+    return False`,
+    cpp: `// Greedy BFS in C++
+struct Node {
+    int r, c, h;
+    bool operator>(const Node& o) const { return h > o.h; }
+};`
+  },
+
+  // =========================================================================
+  // 4. TREES & BALANCED BST
+  // =========================================================================
+  'avl': {
+    java: `// AVL Tree with Self-Balancing Rotations in Java
+class AVLTree {
+    static class Node {
+        int key, height;
+        Node left, right;
+        Node(int key) { this.key = key; this.height = 1; }
+    }
+
+    int height(Node N) { return N == null ? 0 : N.height; }
+    int getBalance(Node N) { return N == null ? 0 : height(N.left) - height(N.right); }
+
+    // Right Rotation (LL Case)
+    Node rightRotate(Node y) {
+        Node x = y.left;
+        Node T2 = x.right;
+        x.right = y;
+        y.left = T2;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        return x;
+    }
+
+    // Left Rotation (RR Case)
+    Node leftRotate(Node x) {
+        Node y = x.right;
+        Node T2 = y.left;
+        y.left = x;
+        x.right = T2;
+        x.height = Math.max(height(x.left), height(x.right)) + 1;
+        y.height = Math.max(height(y.left), height(y.right)) + 1;
+        return y;
+    }
+
+    // Self-balancing AVL insert in O(log N)
+    Node insert(Node node, int key) {
+        if (node == null) return new Node(key);
+        if (key < node.key) node.left = insert(node.left, key);
+        else if (key > node.key) node.right = insert(node.right, key);
+        else return node;
+
+        node.height = 1 + Math.max(height(node.left), height(node.right));
+        int balance = getBalance(node);
+
+        // LL, RR, LR, RL Rotations
+        if (balance > 1 && key < node.left.key) return rightRotate(node);
+        if (balance < -1 && key > node.right.key) return leftRotate(node);
+        if (balance > 1 && key > node.left.key) {
+            node.left = leftRotate(node.left);
+            return rightRotate(node);
+        }
+        if (balance < -1 && key < node.right.key) {
+            node.right = rightRotate(node.right);
+            return leftRotate(node);
+        }
+        return node;
+    }
+}`,
+    python: `# AVL Tree in Python
+class AVLNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+        self.height = 1`,
+    cpp: `// AVL Tree in C++
+struct AVLNode {
+    int val, height;
+    AVLNode *left, *right;
+    AVLNode(int v) : val(v), height(1), left(nullptr), right(nullptr) {}
+};`
+  },
+
+  'bst': {
+    java: `// Binary Search Tree (BST) in Java
+class BST {
+    static class Node {
+        int key;
+        Node left, right;
+        Node(int item) { key = item; }
+    }
+
+    Node root;
+
+    public void insert(int key) { root = insertRec(root, key); }
+    private Node insertRec(Node root, int key) {
+        if (root == null) return new Node(key);
+        if (key < root.key) root.left = insertRec(root.left, key);
+        else if (key > root.key) root.right = insertRec(root.right, key);
+        return root;
+    }
+
+    public boolean search(Node root, int key) {
+        if (root == null) return false;
+        if (root.key == key) return true;
+        return key < root.key ? search(root.left, key) : search(root.right, key);
+    }
+}`,
+    python: `# BST in Python
+class BSTNode:
+    def __init__(self, key):
+        self.key = key
+        self.left = None
+        self.right = None`,
+    cpp: `// BST in C++
+struct BSTNode {
+    int key;
+    BSTNode *left, *right;
+    BSTNode(int k) : key(k), left(nullptr), right(nullptr) {}
+};`
+  },
+
+  'tree-traversal': {
+    java: `// Binary Tree Traversals in Java (Inorder, Preorder, Postorder)
+class TreeTraversals {
+    static class Node {
+        int val;
+        Node left, right;
+        Node(int v) { val = v; }
+    }
+
+    // Inorder: Left -> Root -> Right (Sorted order in BST)
+    public static void inOrder(Node node) {
+        if (node == null) return;
+        inOrder(node.left);
+        System.out.print(node.val + " ");
+        inOrder(node.right);
+    }
+
+    // Preorder: Root -> Left -> Right
+    public static void preOrder(Node node) {
+        if (node == null) return;
+        System.out.print(node.val + " ");
+        preOrder(node.left);
+        preOrder(node.right);
+    }
+
+    // Postorder: Left -> Right -> Root
+    public static void postOrder(Node node) {
+        if (node == null) return;
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.print(node.val + " ");
+    }
+}`,
+    python: `# Tree Traversals in Python
+def inorder(node):
+    if not node: return
+    inorder(node.left)
+    print(node.val, end=" ")
+    inorder(node.right)`,
+    cpp: `// Tree Traversals in C++
+void inOrder(Node* node) {
+    if (!node) return;
+    inOrder(node->left);
+    cout << node->val << " ";
+    inOrder(node->right);
+}`
+  },
+
+  // =========================================================================
+  // 5. DYNAMIC PROGRAMMING
+  // =========================================================================
+  'n-queens': {
+    java: `// N-Queens Backtracking in Java
+import java.util.*;
+
+public class NQueens {
+    public static List<List<String>> solveNQueens(int n) {
+        List<List<String>> result = new ArrayList<>();
+        int[] queens = new int[n]; // queens[r] = column index of queen in row r
+        solve(0, queens, n, result);
+        return result;
+    }
+
+    private static void solve(int row, int[] queens, int n, List<List<String>> res) {
+        if (row == n) {
+            // All queens placed safely
+            return;
+        }
+        for (int col = 0; col < n; col++) {
+            if (isValid(row, col, queens)) {
+                queens[row] = col;
+                solve(row + 1, queens, n, res);
+            }
+        }
+    }
+
+    private static boolean isValid(int row, int col, int[] queens) {
+        for (int r = 0; r < row; r++) {
+            int c = queens[r];
+            // Check same column or diagonal conflicts
+            if (c == col || Math.abs(c - col) == Math.abs(r - row)) return false;
+        }
+        return true;
+    }
+}`,
+    python: `# N-Queens Backtracking in Python
+def solve_n_queens(n):
+    res = []
+    def backtrack(r, cols, diag1, diag2, board):
+        if r == n:
+            res.append(["".join(row) for row in board])
+            return
+        for c in range(n):
+            if c in cols or (r - c) in diag1 or (r + c) in diag2:
+                continue
+            cols.add(c); diag1.add(r - c); diag2.add(r + c)
+            board[r][c] = "Q"
+            backtrack(r + 1, cols, diag1, diag2, board)
+            board[r][c] = "."
+            cols.remove(c); diag1.remove(r - c); diag2.remove(r + c)
+    board = [["."] * n for _ in range(n)]
+    backtrack(0, set(), set(), set(), board)
+    return res`,
+    cpp: `// N-Queens in C++
+vector<vector<string>> solveNQueens(int n) {
+    vector<vector<string>> solutions;
+    vector<string> board(n, string(n, '.'));
+    // backtracking solver
+    return solutions;
+}`
+  },
+
+  'knapsack': {
+    java: `// 0/1 Knapsack Problem in Java using Dynamic Programming
+public class Knapsack {
+    public static int knapSack(int W, int[] wt, int[] val, int n) {
+        int[][] dp = new int[n + 1][W + 1];
+
+        // Build table dp[][] in bottom-up manner
+        for (int i = 0; i <= n; i++) {
+            for (int w = 0; w <= W; w++) {
+                if (i == 0 || w == 0) {
+                    dp[i][w] = 0;
+                } else if (wt[i - 1] <= w) {
+                    // Maximum of including item (i - 1) or excluding it
+                    dp[i][w] = Math.max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
+                } else {
+                    dp[i][w] = dp[i - 1][w];
+                }
+            }
+        }
+        return dp[n][W];
+    }
+}`,
+    python: `# 0/1 Knapsack in Python
+def knapsack(W, wt, val, n):
+    dp = [[0] * (W + 1) for _ in range(n + 1)]
+    for i in range(1, n + 1):
+        for w in range(1, W + 1):
+            if wt[i - 1] <= w:
+                dp[i][w] = max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w])
+            else:
+                dp[i][w] = dp[i - 1][w]
+    return dp[n][W]`,
+    cpp: `// 0/1 Knapsack in C++
+int knapsack(int W, const vector<int>& wt, const vector<int>& val, int n) {
+    vector<vector<int>> dp(n + 1, vector<int>(W + 1, 0));
+    for (int i = 1; i <= n; i++) {
+        for (int w = 1; w <= W; w++) {
+            if (wt[i - 1] <= w)
+                dp[i][w] = max(val[i - 1] + dp[i - 1][w - wt[i - 1]], dp[i - 1][w]);
+            else
+                dp[i][w] = dp[i - 1][w];
+        }
+    }
+    return dp[n][W];
+}`
+  },
+
+  'lcs': {
+    java: `// Longest Common Subsequence (LCS) in Java
+public class LCS {
+    public static int lcs(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        int[][] dp = new int[m + 1][n + 1];
+
+        // Compute LCS table
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (s1.charAt(i - 1) == s2.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+}`,
+    python: `# LCS in Python
+def lcs(s1, s2):
+    m, n = len(s1), len(s2)
+    dp = [[0] * (n + 1) for _ in range(m + 1)]
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if s1[i - 1] == s2[j - 1]:
+                dp[i][j] = 1 + dp[i - 1][j - 1]
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    return dp[m][n]`,
+    cpp: `// LCS in C++
+int lcs(const string& s1, const string& s2) {
+    int m = s1.size(), n = s2.size();
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    for (int i = 1; i <= m; i++) {
+        for (int j = 1; j <= n; j++) {
+            if (s1[i - 1] == s2[j - 1]) dp[i][j] = 1 + dp[i - 1][j - 1];
+            else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+        }
+    }
+    return dp[m][n];
+}`
+  },
+
+  // =========================================================================
+  // 6. SEARCHING ALGORITHMS
   // =========================================================================
   'binary-search': {
     java: `// Binary Search in Java: O(log N) lookup in sorted arrays
@@ -866,8 +1612,7 @@ public class BinarySearch {
         int high = arr.length - 1;
 
         while (low <= high) {
-            // Avoid integer overflow with low + (high - low) / 2
-            int mid = low + (high - low) / 2;
+            int mid = low + (high - low) / 2; // Avoid integer overflow
 
             if (arr[mid] == target) {
                 return mid; // Target found at index mid
@@ -900,6 +1645,33 @@ int binarySearch(const vector<int>& arr, int target) {
         if (arr[mid] == target) return mid;
         if (arr[mid] < target) low = mid + 1;
         else high = mid - 1;
+    }
+    return -1;
+}`
+  },
+
+  'linear-search': {
+    java: `// Linear Search in Java: Sequential scanning in O(N) time
+public class LinearSearch {
+    public static int linearSearch(int[] arr, int target) {
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == target) {
+                return i; // Element found at index i
+            }
+        }
+        return -1; // Element not found
+    }
+}`,
+    python: `# Linear Search in Python
+def linear_search(arr, target):
+    for i, val in enumerate(arr):
+        if val == target:
+            return i
+    return -1`,
+    cpp: `// Linear Search in C++
+int linearSearch(const vector<int>& arr, int target) {
+    for (int i = 0; i < (int)arr.size(); i++) {
+        if (arr[i] == target) return i;
     }
     return -1;
 }`

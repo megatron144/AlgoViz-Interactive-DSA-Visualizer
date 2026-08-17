@@ -1,6 +1,5 @@
 import React from 'react';
 import { 
-  Code2, 
   Layers, 
   Volume2, 
   VolumeX, 
@@ -16,9 +15,7 @@ export default function Navbar({
   activeTab, 
   setActiveTab, 
   soundEnabled, 
-  setSoundEnabled,
-  onOpenCodeDrawer,
-  showCodeDrawer
+  setSoundEnabled
 }) {
   const tabs = [
     { id: 'advanced', label: 'Advanced CP', icon: Cpu, badge: 'PRO' },
@@ -91,20 +88,6 @@ export default function Navbar({
             }`}
           >
             {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-          </button>
-
-          {/* Toggle Synchronized Code Panel - Subtle & Clean */}
-          <button
-            onClick={onOpenCodeDrawer}
-            title="Inspect Code"
-            className={`flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-mono font-medium border whitespace-nowrap transition-all duration-200 ${
-              showCodeDrawer
-                ? 'bg-zinc-800 text-white border-white/30 shadow-[0_0_12px_rgba(255,255,255,0.08)]'
-                : 'bg-zinc-900/80 text-zinc-400 border-white/10 hover:border-white/25 hover:text-zinc-200 hover:bg-zinc-800/80'
-            }`}
-          >
-            <Code2 className="w-4 h-4 text-zinc-300" />
-            <span className="hidden sm:inline">Code</span>
           </button>
         </div>
       </div>

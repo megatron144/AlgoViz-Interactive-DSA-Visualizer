@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -8,18 +9,18 @@ import TreeVisualizer from './components/tree/TreeVisualizer';
 import DPVisualizer from './components/dp/DPVisualizer';
 import SearchVisualizer from './components/search/SearchVisualizer';
 import CodeViewer from './components/common/CodeViewer';
-import { 
-  Sparkles, 
-  Cpu, 
-  Layers, 
-  Compass, 
-  GitBranch, 
-  Grid, 
-  Search, 
-  Code2, 
-  BookOpen, 
-  Zap, 
-  X 
+import {
+  Sparkles,
+  Cpu,
+  Layers,
+  Compass,
+  GitBranch,
+  Grid,
+  Search,
+  Code2,
+  BookOpen,
+  Zap,
+  X
 } from 'lucide-react';
 
 export default function App() {
