@@ -43,42 +43,11 @@ export default function App() {
         setActiveTab={setActiveTab}
         soundEnabled={soundEnabled}
         setSoundEnabled={setSoundEnabled}
+        onOpenCode={() => setShowCodeDrawer(true)}
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-5 sm:space-y-8">
-        {/* Sole Heading: AlgoViz */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/10 pb-4 sm:pb-6">
-          <div>
-            <h1 className="text-2xl sm:text-4xl font-display font-black text-white tracking-tight">
-              Algo<span className="text-zinc-400">Viz</span>
-            </h1>
-            <p className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-zinc-400 mt-1 sm:mt-1.5 flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              <span>Interactive DSA Visualiser</span>
-              <span className="text-zinc-600 hidden sm:inline">—</span>
-              <span className="text-zinc-300 w-full sm:w-auto">
-                {activeTab === 'datastructures' && 'Stacks, Queues & Binary Heaps'}
-                {activeTab === 'advanced' && 'Advanced Data Structures & CP Trees'}
-                {activeTab === 'sorting' && 'High-Performance Sorting Algorithms'}
-                {activeTab === 'pathfinding' && 'Graph & Grid Pathfinding Engines'}
-                {activeTab === 'tree' && 'Self-Balancing BST & Tree Traversal'}
-                {activeTab === 'dp' && 'Dynamic Programming & Backtracking'}
-                {activeTab === 'search' && 'Searching Algorithms & Pointer Mechanics'}
-              </span>
-            </p>
-          </div>
-
-          {/* Quick Code Drawer Toggle Button */}
-          <button
-            onClick={() => setShowCodeDrawer(true)}
-            className="spring-button flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900/90 text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/30 hover:text-white shadow-sm cursor-pointer select-none self-end sm:self-auto touch-manipulation"
-          >
-            <Code2 className="w-3.5 h-3.5 text-white" />
-            <span>Open Code Panel</span>
-          </button>
-        </div>
-
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-3 sm:py-6 space-y-4 sm:space-y-6">
         {/* Active Visualizer Tab Content */}
         <div className="w-full">
           {activeTab === 'datastructures' && (

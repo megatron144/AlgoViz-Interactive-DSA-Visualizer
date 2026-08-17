@@ -78,48 +78,42 @@ export default function SearchVisualizer({ onActiveLineChange }) {
     description: ''
   };
 
+  const subTabs = [
+    { id: 'binary-search', label: 'Binary Search O(log N)' },
+    { id: 'linear-search', label: 'Linear Search O(N)' },
+  ];
+
   return (
     <div className="space-y-6">
-      {/* Configuration Header */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Searching Techniques</span>
-            <h2 className="text-xl font-display font-black text-white">Linear & Binary Search Visualizer</h2>
-          </div>
+      {/* Standalone Sub-Navigation Track Bar at Top */}
+      <div className="dock-track-bar scrollbar-none shadow-2xl touch-scroll">
+        {subTabs.map(tab => {
+          const isActive = selectedAlgo === tab.id;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => {
+                setSelectedAlgo(tab.id);
+                setSteps([]);
+                setCurrentStepIdx(0);
+                setIsPlaying(false);
+              }}
+              className={`dock-pill ${isActive ? 'active' : ''}`}
+            >
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
 
-          {/* Algorithm Mode Switcher */}
-          <div className="flex items-center gap-1 bg-zinc-900 p-1 rounded-xl border border-white/10">
-            <button
-              onClick={() => {
-                setSelectedAlgo('binary-search');
-                setSteps([]);
-                setCurrentStepIdx(0);
-                setIsPlaying(false);
-              }}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all ${
-                selectedAlgo === 'binary-search'
-                  ? 'bg-white text-black font-bold'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              Binary Search O(log N)
-            </button>
-            <button
-              onClick={() => {
-                setSelectedAlgo('linear-search');
-                setSteps([]);
-                setCurrentStepIdx(0);
-                setIsPlaying(false);
-              }}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono transition-all ${
-                selectedAlgo === 'linear-search'
-                  ? 'bg-white text-black font-bold'
-                  : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              Linear Search O(N)
-            </button>
+      {/* Main Configuration Card */}
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
+          <div>
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Searching Techniques</span>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">
+              {subTabs.find(t => t.id === selectedAlgo)?.label || 'Search'} Visualizer
+            </h2>
           </div>
         </div>
 

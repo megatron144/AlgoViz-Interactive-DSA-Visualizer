@@ -8,7 +8,8 @@ import {
   GitBranch, 
   Cpu, 
   Search, 
-  Grid
+  Grid,
+  Code2
 } from 'lucide-react';
 import { soundPlayer } from '../../utils/audio';
 import LogoIcon from '../common/LogoIcon';
@@ -17,7 +18,8 @@ export default function Navbar({
   activeTab, 
   setActiveTab, 
   soundEnabled, 
-  setSoundEnabled
+  setSoundEnabled,
+  onOpenCode
 }) {
   const tabs = [
     { id: 'datastructures', label: 'Data Structures', icon: Database },
@@ -35,24 +37,63 @@ export default function Navbar({
   };
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-2xl bg-black/85 border-b border-white/10 px-3 sm:px-6 lg:px-8 py-2.5 sm:py-3.5 transition-colors duration-200 overflow-visible">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 sm:gap-4 overflow-visible">
-        {/* Brand Logo with macOS Dock Spring Effect */}
+    <header className="sticky top-0 z-50 backdrop-blur-2xl bg-black/90 border-b border-white/10 px-3 sm:px-6 lg:px-8 pt-3.5 pb-3 sm:pt-6 sm:pb-4 transition-colors duration-200 space-y-4 sm:space-y-5">
+      {/* 1. Dedicated Grand Top Section: Logo & AlgoViz as topmost, spacious tagline just below */}
+      <div className="max-w-7xl mx-auto relative flex items-center justify-center min-h-[64px] sm:min-h-[80px] px-1 sm:px-2">
+        {/* Centered Brand Logo & Name stacked with spacious subtitle directly below */}
         <div 
           onClick={() => setActiveTab('datastructures')}
-          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer group select-none dock-nav-item touch-manipulation"
+          className="flex flex-col items-center gap-1.5 sm:gap-2 cursor-pointer group select-none touch-manipulation text-center py-1"
         >
-          <div className="relative">
-            <div className="absolute -inset-1.5 bg-white/25 rounded-full blur-md group-hover:bg-white/60 transition duration-300"></div>
-            <LogoIcon className="relative w-7 h-7 sm:w-9 sm:h-9" />
+          {/* Topmost Element: Logo & AlgoViz */}
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="relative">
+              <div className="absolute -inset-2 bg-white/20 rounded-full blur-lg group-hover:bg-white/50 transition duration-300"></div>
+              <LogoIcon className="relative w-9 h-9 sm:w-12 sm:h-12 md:w-14 md:h-14" />
+            </div>
+            <span className="font-display font-black text-3xl sm:text-4xl md:text-5xl tracking-tight text-white group-hover:text-white transition-colors leading-none">
+              Algo<span className="text-zinc-400">Viz</span>
+            </span>
           </div>
-          <span className="font-display font-black text-base sm:text-lg tracking-tight text-white group-hover:text-white transition-colors">
-            Algo<span className="text-zinc-400">Viz</span>
-          </span>
+
+          {/* Just below it: Interactive DSA Visualiser (Bigger, Bolder, with generous tracking) */}
+          <p className="text-xs sm:text-base font-mono font-bold text-zinc-300 uppercase tracking-[0.2em] sm:tracking-[0.28em] leading-none mt-1 sm:mt-1.5">
+            Interactive DSA Visualiser
+          </p>
         </div>
 
-        {/* Tab Navigation with macOS Dock Spring Magnification & Dynamic Expanding Pills for Desktop */}
-        <nav className="!hidden lg:!flex dock-track-bar shadow-2xl backdrop-blur-xl">
+        {/* Quick Action Buttons (Right-Pinned) */}
+        <div className="absolute right-0 flex items-center gap-2 sm:gap-2.5">
+          {/* Quick Code Drawer Toggle Button */}
+          {onOpenCode && (
+            <button
+              onClick={onOpenCode}
+              title="Open Interactive Code Inspector"
+              className="flex items-center gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-900/90 text-xs sm:text-sm font-mono text-zinc-200 border border-white/10 hover:border-white/30 hover:text-white shadow-sm select-none touch-manipulation transition-all"
+            >
+              <Code2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-white flex-shrink-0" />
+              <span className="hidden md:inline font-medium">Code Panel</span>
+            </button>
+          )}
+
+          {/* Audio Synthesizer Toggle */}
+          <button
+            onClick={handleSoundToggle}
+            title={soundEnabled ? 'Mute Audio Synthesizer' : 'Enable Audio Synthesizer'}
+            className={`p-2 sm:p-2.5 rounded-xl border select-none touch-manipulation transition-all ${
+              soundEnabled
+                ? 'bg-zinc-900 text-zinc-100 border-white/20 hover:border-white/40 hover:text-white shadow-sm'
+                : 'bg-zinc-900/40 text-zinc-500 border-zinc-800 hover:text-zinc-300'
+            }`}
+          >
+            {soundEnabled ? <Volume2 className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-white" /> : <VolumeX className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-zinc-400" />}
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Dedicated Navigation Dock Section with Generous Space Above */}
+      <div className="max-w-7xl mx-auto flex items-center justify-start lg:justify-center overflow-x-auto scrollbar-none touch-scroll pt-1 sm:pt-2">
+        <nav className="dock-track-bar shadow-2xl backdrop-blur-xl mx-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -62,50 +103,12 @@ export default function Navbar({
                 onClick={() => setActiveTab(tab.id)}
                 className={`dock-pill ${isActive ? 'active' : ''}`}
               >
-                <Icon className={`w-3.5 h-3.5 transition-colors ${isActive ? 'text-black' : 'text-zinc-400 group-hover:text-white'}`} />
+                <Icon className={`w-3.5 h-3.5 transition-colors flex-shrink-0 ${isActive ? 'text-black' : 'text-zinc-400 group-hover:text-white'}`} />
                 <span className="whitespace-nowrap">{tab.label}</span>
               </button>
             );
           })}
         </nav>
-
-        {/* Quick Action Buttons */}
-        <div className="flex items-center gap-2 overflow-visible">
-          {/* Audio Synthesizer Toggle */}
-          <button
-            onClick={handleSoundToggle}
-            title={soundEnabled ? 'Mute Audio Synthesizer' : 'Enable Audio Synthesizer'}
-            className={`dock-nav-item p-2 sm:p-2.5 rounded-xl border select-none touch-manipulation ${
-              soundEnabled
-                ? 'bg-zinc-900/90 text-zinc-100 border-white/20 hover:border-white/40 hover:text-white shadow-sm'
-                : 'bg-zinc-900/40 text-zinc-500 border-zinc-800 hover:text-zinc-300'
-            }`}
-          >
-            {soundEnabled ? <Volume2 className="w-4 h-4 text-white" /> : <VolumeX className="w-4 h-4" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile/Tablet Horizontal Dock Scrollbar with Touch Momentum */}
-      <div className="!flex lg:!hidden items-center gap-1.5 overflow-x-auto pt-2.5 pb-1 px-0.5 scrollbar-none border-t border-white/5 mt-2 overflow-y-visible touch-scroll">
-        {tabs.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-mono transition-all touch-manipulation ${
-                isActive
-                  ? 'bg-white text-black border border-white font-bold shadow-md shadow-white/20 scale-[1.02]'
-                  : 'bg-zinc-900/90 text-zinc-400 border border-white/10 hover:text-white hover:bg-zinc-800'
-              }`}
-            >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-black' : 'text-zinc-400'}`} />
-              <span className="whitespace-nowrap">{tab.label}</span>
-            </button>
-          );
-        })}
       </div>
     </header>
   );

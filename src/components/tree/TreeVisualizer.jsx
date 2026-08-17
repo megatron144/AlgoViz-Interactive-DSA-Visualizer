@@ -123,40 +123,41 @@ export default function TreeVisualizer({ onActiveLineChange }) {
   const treeNodes = getTreeLayout(treeModel.root);
   const treeEdges = getTreeEdges(treeModel.root);
 
+  const subTabs = [
+    { id: 'avl', label: 'AVL Tree (Self-Balancing)' },
+    { id: 'bst', label: 'Standard Binary Search Tree (BST)' },
+  ];
+
   return (
     <div className="space-y-6">
+      {/* Standalone Sub-Navigation Track Bar at Top */}
+      <div className="dock-track-bar scrollbar-none shadow-2xl touch-scroll">
+        {subTabs.map(tab => {
+          const isActive = tab.id === 'avl' ? isAVL : !isAVL;
+          return (
+            <button
+              key={tab.id}
+              onClick={() => {
+                const newIsAvl = tab.id === 'avl';
+                setIsAVL(newIsAvl);
+                handleReset(newIsAvl);
+              }}
+              className={`dock-pill ${isActive ? 'active' : ''}`}
+            >
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
       {/* Configuration Header */}
       <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
             <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Self-Balancing & Binary Trees</span>
-            <h2 className="text-lg sm:text-xl font-display font-black text-white">BST & AVL Tree Visualizer</h2>
-          </div>
-
-          {/* AVL vs Standard BST toggle */}
-          <div className="flex items-center gap-1 bg-zinc-900 p-1 rounded-xl border border-white/10">
-            <button
-              onClick={() => {
-                setIsAVL(true);
-                handleReset(true);
-              }}
-              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-mono transition-all touch-manipulation ${
-                isAVL ? 'bg-white text-black font-bold' : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              AVL (Balancing)
-            </button>
-            <button
-              onClick={() => {
-                setIsAVL(false);
-                handleReset(false);
-              }}
-              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-mono transition-all touch-manipulation ${
-                !isAVL ? 'bg-white text-black font-bold' : 'text-zinc-400 hover:text-white'
-              }`}
-            >
-              Standard BST
-            </button>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">
+              {isAVL ? 'AVL Self-Balancing Tree' : 'Standard Binary Search Tree'} Visualizer
+            </h2>
           </div>
         </div>
 
