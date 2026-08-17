@@ -151,36 +151,36 @@ export default function DSUVisualizer() {
   return (
     <div className="space-y-6">
       {/* Control Panel */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Forest & Graph Structures</span>
-            <h2 className="text-xl font-display font-black text-white">
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Forest & Graph Structures</span>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">
               Disjoint Set Union (DSU / Union-Find)
             </h2>
           </div>
 
           {/* Component Count Metric */}
           <div className="flex items-center gap-2 font-mono text-xs">
-            <span className="px-3 py-1.5 rounded-xl bg-zinc-900 border border-white/10 text-zinc-300">
-              Connected Sets: <strong className="text-white">{componentCount}</strong> / {NODE_COUNT}
+            <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-zinc-900 border border-white/10 text-zinc-300 text-[11px] sm:text-xs">
+              Connected: <strong className="text-white">{componentCount}</strong> / {NODE_COUNT}
             </span>
-            <span className="px-3 py-1.5 rounded-xl bg-zinc-900 border border-white/10 text-emerald-400 font-semibold flex items-center gap-1">
+            <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-zinc-900 border border-white/10 text-emerald-400 font-semibold flex items-center gap-1 text-[11px] sm:text-xs">
               <ShieldCheck className="w-3.5 h-3.5" />
-              <span>O(α(N)) Time</span>
+              <span>O(α(N))</span>
             </span>
           </div>
         </div>
 
         {/* Input & Operations */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
           {/* Union Controls */}
-          <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400 pl-2">Union:</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-zinc-900 p-1 sm:p-1.5 rounded-xl border border-white/10 flex-wrap sm:flex-nowrap">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 pl-1 sm:pl-2">Union:</span>
             <select
               value={nodeU}
               onChange={(e) => setNodeU(Number(e.target.value))}
-              className="bg-black text-white text-xs font-mono px-2 py-1 rounded-lg border border-white/15 cursor-pointer"
+              className="bg-black text-white text-xs font-mono px-1.5 sm:px-2 py-1 rounded-lg border border-white/15 cursor-pointer"
             >
               {Array.from({ length: NODE_COUNT }, (_, i) => (
                 <option key={i} value={i}>Node {i}</option>
@@ -190,7 +190,7 @@ export default function DSUVisualizer() {
             <select
               value={nodeV}
               onChange={(e) => setNodeV(Number(e.target.value))}
-              className="bg-black text-white text-xs font-mono px-2 py-1 rounded-lg border border-white/15 cursor-pointer"
+              className="bg-black text-white text-xs font-mono px-1.5 sm:px-2 py-1 rounded-lg border border-white/15 cursor-pointer"
             >
               {Array.from({ length: NODE_COUNT }, (_, i) => (
                 <option key={i} value={i}>Node {i}</option>
@@ -199,7 +199,7 @@ export default function DSUVisualizer() {
             <button
               onClick={handleUnion}
               disabled={animating}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all disabled:opacity-40 shadow-sm"
+              className="flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all disabled:opacity-40 shadow-sm touch-manipulation"
             >
               <GitMerge className="w-3.5 h-3.5" />
               <span>Union</span>
@@ -207,12 +207,12 @@ export default function DSUVisualizer() {
           </div>
 
           {/* Find Controls */}
-          <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400 pl-2">Find:</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-zinc-900 p-1 sm:p-1.5 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 pl-1 sm:pl-2">Find:</span>
             <select
               value={findNode}
               onChange={(e) => setFindNode(Number(e.target.value))}
-              className="bg-black text-white text-xs font-mono px-2 py-1 rounded-lg border border-white/15 cursor-pointer"
+              className="bg-black text-white text-xs font-mono px-1.5 sm:px-2 py-1 rounded-lg border border-white/15 cursor-pointer"
             >
               {Array.from({ length: NODE_COUNT }, (_, i) => (
                 <option key={i} value={i}>Node {i}</option>
@@ -221,7 +221,7 @@ export default function DSUVisualizer() {
             <button
               onClick={handleFind}
               disabled={animating}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-200 hover:text-white text-xs font-mono border border-white/10 transition-all disabled:opacity-40"
+              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-200 hover:text-white text-xs font-mono border border-white/10 transition-all disabled:opacity-40 touch-manipulation"
             >
               <Search className="w-3.5 h-3.5" />
               <span>Find Root</span>
@@ -231,16 +231,16 @@ export default function DSUVisualizer() {
           <button
             onClick={handleRandomUnion}
             disabled={animating}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all"
+            className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all touch-manipulation"
           >
             <Shuffle className="w-3.5 h-3.5" />
-            <span>Random Union</span>
+            <span>Random</span>
           </button>
 
           <button
             onClick={handleReset}
             disabled={animating}
-            className="p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-white/10 hover:border-rose-900/40 transition-all"
+            className="p-1.5 sm:p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-white/10 hover:border-rose-900/40 transition-all touch-manipulation"
             title="Reset DSU"
           >
             <RotateCcw className="w-4 h-4" />
@@ -248,26 +248,26 @@ export default function DSUVisualizer() {
         </div>
 
         {/* Dynamic Log Bar */}
-        <div className="p-2.5 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs text-zinc-300 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          <span>{log}</span>
+        <div className="p-2 sm:p-2.5 rounded-xl bg-zinc-950 border border-white/5 font-mono text-[11px] sm:text-xs text-zinc-300 flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
+          <span className="leading-relaxed">{log}</span>
         </div>
       </div>
 
       {/* Visualizer Display Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Disjoint Sets Forest Canvas (Col 1-2) */}
-        <div className="lg:col-span-2 glass-card rounded-2xl p-6 border border-white/10 space-y-4 min-h-[360px] flex flex-col justify-between">
-          <div className="flex items-center justify-between text-xs font-mono text-zinc-400">
+        <div className="lg:col-span-2 glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-4 min-h-[320px] sm:min-h-[360px] flex flex-col justify-between">
+          <div className="flex items-center justify-between text-[11px] sm:text-xs font-mono text-zinc-400">
             <span className="flex items-center gap-2 text-white font-bold">
               <Network className="w-4 h-4" />
-              <span>Connected Component Sets</span>
+              <span>Connected Components</span>
             </span>
-            <span>Path Compression & Union-By-Rank</span>
+            <span className="hidden sm:inline">Path Compression & Rank</span>
           </div>
 
           {/* Forest Clusters */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 py-2">
             {Object.entries(componentsMap).map(([rootKey, members]) => {
               const rootId = Number(rootKey);
               const isRootHighlighted = highlightNodes.includes(rootId);

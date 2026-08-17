@@ -109,12 +109,12 @@ export default function CodeViewer({ algoKey, onClose }) {
   return (
     <div className="glass-card rounded-2xl border border-white/10 overflow-hidden flex flex-col h-full shadow-2xl">
       {/* Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 bg-zinc-900/95 border-b border-white/10">
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <Code2 className="w-4 h-4 text-white" />
-            <span className="text-xs font-mono font-bold text-white tracking-wider uppercase hidden sm:inline">
-              Code Inspector
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 p-3 sm:px-4 sm:py-3 bg-zinc-900/95 border-b border-white/10">
+        <div className="flex items-center justify-between sm:justify-start gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <Code2 className="w-4 h-4 text-white flex-shrink-0" />
+            <span className="text-xs font-mono font-bold text-white tracking-wider uppercase">
+              Inspector
             </span>
           </div>
 
@@ -122,7 +122,7 @@ export default function CodeViewer({ algoKey, onClose }) {
           <select
             value={selectedAlgo}
             onChange={(e) => setSelectedAlgo(e.target.value)}
-            className="bg-black text-white text-xs font-mono px-3 py-1.5 rounded-xl border border-white/20 focus:outline-none focus:border-white transition-all cursor-pointer"
+            className="flex-1 sm:flex-initial bg-black text-white text-xs font-mono px-2.5 py-1.5 rounded-xl border border-white/20 focus:outline-none focus:border-white transition-all cursor-pointer truncate max-w-[200px] sm:max-w-none"
           >
             {ALGORITHM_GROUPS.map((grp) => (
               <optgroup key={grp.category} label={grp.category} className="bg-zinc-900 text-zinc-400">
@@ -136,16 +136,16 @@ export default function CodeViewer({ algoKey, onClose }) {
           </select>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end gap-2">
           {/* Language Selector */}
           <div className="flex items-center gap-1 bg-black/80 p-1 rounded-xl border border-white/10">
             {languages.map((l) => (
               <button
                 key={l.id}
                 onClick={() => setLang(l.id)}
-                className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all ${
+                className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-[11px] font-mono transition-all touch-manipulation ${
                   lang === l.id
-                    ? 'bg-white text-black font-bold'
+                    ? 'bg-white text-black font-bold shadow-sm'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
@@ -158,7 +158,7 @@ export default function CodeViewer({ algoKey, onClose }) {
           <button
             onClick={handleCopy}
             title="Copy Code"
-            className="p-1.5 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 transition-all"
+            className="p-1.5 sm:p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 transition-all touch-manipulation flex items-center justify-center"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-white" /> : <Copy className="w-3.5 h-3.5" />}
           </button>
@@ -168,7 +168,7 @@ export default function CodeViewer({ algoKey, onClose }) {
             <button
               onClick={onClose}
               title="Close Panel"
-              className="p-1.5 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 transition-all"
+              className="p-1.5 sm:p-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white border border-white/10 transition-all touch-manipulation flex items-center justify-center"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -176,19 +176,19 @@ export default function CodeViewer({ algoKey, onClose }) {
         </div>
       </div>
 
-      {/* Code Text Area without distracting line highlights */}
-      <div className="flex-1 overflow-auto p-3 font-mono text-xs leading-5 bg-black/90 select-text max-h-[500px]">
+      {/* Code Text Area with touch momentum scrolling */}
+      <div className="flex-1 overflow-auto p-2.5 sm:p-3 font-mono text-[11px] sm:text-xs leading-5 bg-black/90 select-text touch-scroll">
         {lines.map((lineContent, idx) => {
           const lineNum = idx + 1;
           return (
             <div
               key={lineNum}
-              className="flex items-center gap-3 py-0.5 px-2 rounded font-mono text-zinc-300 hover:bg-white/5 transition-colors duration-150"
+              className="flex items-start gap-2.5 sm:gap-3 py-0.5 px-1.5 sm:px-2 rounded font-mono text-zinc-300 hover:bg-white/5 transition-colors duration-150"
             >
-              <span className="w-6 text-right select-none text-[10px] text-zinc-600 font-mono">
+              <span className="w-5 sm:w-6 text-right select-none text-[9px] sm:text-[10px] text-zinc-600 font-mono flex-shrink-0 pt-0.5">
                 {lineNum}
               </span>
-              <span className="flex-1 font-mono whitespace-pre">
+              <span className="flex-1 font-mono whitespace-pre overflow-x-auto scrollbar-none">
                 {lineContent || ' '}
               </span>
             </div>

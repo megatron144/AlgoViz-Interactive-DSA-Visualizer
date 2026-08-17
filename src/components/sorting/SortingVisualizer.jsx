@@ -129,22 +129,18 @@ export default function SortingVisualizer({ onActiveLineChange }) {
           </button>
         </div>
 
-        {/* Algorithm Tabs */}
+        {/* Algorithm Select Pills Track */}
         {!isDuelMode && (
-          <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 bg-zinc-900/90 rounded-2xl border border-white/10 scrollbar-none">
-            {sortingOptions.map(opt => {
+          <div className="dock-track-bar scrollbar-none shadow-inner touch-scroll">
+            {algoOptions.map((opt) => {
               const isActive = selectedAlgo === opt.id;
               return (
                 <button
                   key={opt.id}
                   onClick={() => setSelectedAlgo(opt.id)}
-                  className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all ${
-                    isActive
-                      ? 'bg-white text-black font-bold shadow-md'
-                      : 'text-zinc-400 hover:text-white'
-                  }`}
+                  className={`dock-pill ${isActive ? 'active' : ''}`}
                 >
-                  {opt.label}
+                  <span>{opt.label}</span>
                 </button>
               );
             })}
@@ -152,10 +148,10 @@ export default function SortingVisualizer({ onActiveLineChange }) {
         )}
 
         {/* Controls: Size slider & Presets */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-4 pt-1 sm:pt-2">
           {/* Presets */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-zinc-400">Presets:</span>
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Presets:</span>
             {[
               { id: 'random', label: 'Random' },
               { id: 'reversed', label: 'Inverted' },
@@ -165,7 +161,7 @@ export default function SortingVisualizer({ onActiveLineChange }) {
               <button
                 key={p.id}
                 onClick={() => generateArray(arraySize, p.id)}
-                className="px-2.5 py-1 rounded-lg bg-zinc-900 text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/30 hover:text-white transition-all"
+                className="px-2 sm:px-2.5 py-1 rounded-lg bg-zinc-900 text-[10px] sm:text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/30 hover:text-white transition-all touch-manipulation"
               >
                 {p.label}
               </button>
@@ -173,8 +169,8 @@ export default function SortingVisualizer({ onActiveLineChange }) {
           </div>
 
           {/* Array Size Slider */}
-          <div className="flex items-center gap-3">
-            <span className="text-xs font-mono text-zinc-400">Size: {arraySize}</span>
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-start">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Size: {arraySize}</span>
             <input
               type="range"
               min="10"
@@ -182,7 +178,7 @@ export default function SortingVisualizer({ onActiveLineChange }) {
               value={arraySize}
               onChange={e => setArraySize(Number(e.target.value))}
               disabled={isPlaying}
-              className="w-28 h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-white"
+              className="w-24 sm:w-28 h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-white touch-manipulation"
             />
           </div>
         </div>
@@ -192,11 +188,11 @@ export default function SortingVisualizer({ onActiveLineChange }) {
       {isDuelMode ? (
         <SortingDuel baseArray={array} />
       ) : (
-        <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-4">
+        <div className="glass-card rounded-2xl p-3.5 sm:p-6 border border-white/10 space-y-3 sm:space-y-4">
           {/* Step Description */}
-          <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+          <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex items-center justify-between text-[11px] sm:text-xs font-mono">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
               <span className="text-white font-medium">
                 {currentStep.description || 'Click Play to begin sorting visualization.'}
               </span>
@@ -210,7 +206,7 @@ export default function SortingVisualizer({ onActiveLineChange }) {
             swapping={currentStep.swapping}
             pivot={currentStep.pivot}
             sorted={currentStep.sorted}
-            height={340}
+            height={300}
             showLabels={array.length <= 32}
           />
 

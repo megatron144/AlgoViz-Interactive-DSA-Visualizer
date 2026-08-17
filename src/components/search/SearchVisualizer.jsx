@@ -124,50 +124,50 @@ export default function SearchVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Input Parameters */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center gap-2 bg-zinc-900/90 p-2 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400">Search Target:</span>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-zinc-900/90 p-1.5 sm:p-2 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Target:</span>
             <input
               type="number"
               value={target}
               onChange={e => setTarget(Number(e.target.value))}
-              className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+              className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center"
             />
             <button
               onClick={() => handleStartSearch(selectedAlgo, target)}
-              className="px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 flex items-center gap-1.5"
+              className="px-3 sm:px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 flex items-center gap-1.5 touch-manipulation"
             >
-              <Search className="w-3.5 h-3.5" /> Start Search
+              <Search className="w-3.5 h-3.5" /> Start
             </button>
           </div>
 
           <button
             onClick={generateNewArray}
-            className="px-3 py-2.5 rounded-xl bg-zinc-900 text-zinc-300 font-mono text-xs border border-white/10 hover:text-white transition-all flex items-center gap-1.5"
+            className="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-zinc-300 font-mono text-xs border border-white/10 hover:text-white transition-all flex items-center gap-1.5 touch-manipulation"
           >
-            <Shuffle className="w-3.5 h-3.5" /> Randomize Array
+            <Shuffle className="w-3.5 h-3.5" /> Randomize
           </button>
         </div>
       </div>
 
       {/* Main Search Stage */}
-      <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6">
+      <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-4 sm:space-y-6">
         {/* Description Banner */}
-        <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+        <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
             <span className="text-white font-medium">
               {currentStep.description || 'Enter a target value and click Start Search.'}
             </span>
           </div>
-          <div className="bg-zinc-900 px-3 py-1 rounded-lg border border-white/10 text-white font-bold">
+          <div className="bg-zinc-900 px-2.5 sm:px-3 py-1 rounded-lg border border-white/10 text-white font-bold text-xs">
             Comparisons: {currentStep.comparisons || 0}
           </div>
         </div>
 
         {/* Search Array Elements Visualizer */}
         <div className="space-y-4">
-          <div className="flex items-center justify-center gap-2 flex-wrap p-6 bg-black/95 rounded-2xl border border-white/10">
+          <div className="flex items-center justify-start sm:justify-center gap-1.5 sm:gap-2 overflow-x-auto p-3 sm:p-6 bg-black/95 rounded-2xl border border-white/10 touch-scroll">
             {array.map((val, idx) => {
               const isCurrent = currentStep.currentIndex === idx;
               const isMid = currentStep.mid === idx;
@@ -177,23 +177,23 @@ export default function SearchVisualizer({ onActiveLineChange }) {
               const isOutRange = (currentStep.low !== null && currentStep.high !== null) && (idx < currentStep.low || idx > currentStep.high);
 
               return (
-                <div key={idx} className="flex flex-col items-center gap-1">
+                <div key={idx} className="flex flex-col items-center gap-1 flex-shrink-0">
                   {/* Top Pointer Badge */}
                   <div className="h-5 flex items-center">
                     {isFound ? (
-                      <span className="text-[10px] font-mono font-black text-black bg-white px-1 rounded">MATCH</span>
+                      <span className="text-[8px] sm:text-[10px] font-mono font-black text-black bg-white px-1 rounded">MATCH</span>
                     ) : isMid ? (
-                      <span className="text-[10px] font-mono font-bold text-white bg-zinc-700 px-1 rounded border border-white">MID</span>
+                      <span className="text-[8px] sm:text-[10px] font-mono font-bold text-white bg-zinc-700 px-1 rounded border border-white">MID</span>
                     ) : isLow ? (
-                      <span className="text-[9px] font-mono text-zinc-400">LOW</span>
+                      <span className="text-[8px] sm:text-[9px] font-mono text-zinc-400">LOW</span>
                     ) : isHigh ? (
-                      <span className="text-[9px] font-mono text-zinc-400">HIGH</span>
+                      <span className="text-[8px] sm:text-[9px] font-mono text-zinc-400">HIGH</span>
                     ) : null}
                   </div>
 
                   {/* Element Box */}
                   <div
-                    className={`w-12 h-14 rounded-xl border flex flex-col items-center justify-center font-mono transition-all duration-150 ${
+                    className={`w-9 h-11 xs:w-10 xs:h-12 sm:w-12 sm:h-14 rounded-xl border flex flex-col items-center justify-center font-mono transition-all duration-150 ${
                       isFound
                         ? 'bg-white text-black font-black border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] scale-110'
                         : isMid || isCurrent
@@ -203,11 +203,11 @@ export default function SearchVisualizer({ onActiveLineChange }) {
                         : 'bg-zinc-900 text-zinc-300 border-white/15'
                     }`}
                   >
-                    <span className="text-sm font-bold">{val}</span>
+                    <span className="text-xs sm:text-sm font-bold">{val}</span>
                   </div>
 
                   {/* Bottom Index Tag */}
-                  <span className="text-[9px] font-mono text-zinc-500">[{idx}]</span>
+                  <span className="text-[8px] sm:text-[9px] font-mono text-zinc-500">[{idx}]</span>
                 </div>
               );
             })}

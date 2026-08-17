@@ -126,11 +126,11 @@ export default function TreeVisualizer({ onActiveLineChange }) {
   return (
     <div className="space-y-6">
       {/* Configuration Header */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Self-Balancing & Binary Trees</span>
-            <h2 className="text-xl font-display font-black text-white">BST & AVL Tree Balancing Visualizer</h2>
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Self-Balancing & Binary Trees</span>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">BST & AVL Tree Visualizer</h2>
           </div>
 
           {/* AVL vs Standard BST toggle */}
@@ -140,18 +140,18 @@ export default function TreeVisualizer({ onActiveLineChange }) {
                 setIsAVL(true);
                 handleReset(true);
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-mono transition-all touch-manipulation ${
                 isAVL ? 'bg-white text-black font-bold' : 'text-zinc-400 hover:text-white'
               }`}
             >
-              AVL (Self-Balancing)
+              AVL (Balancing)
             </button>
             <button
               onClick={() => {
                 setIsAVL(false);
                 handleReset(false);
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[11px] sm:text-xs font-mono transition-all touch-manipulation ${
                 !isAVL ? 'bg-white text-black font-bold' : 'text-zinc-400 hover:text-white'
               }`}
             >
@@ -161,37 +161,37 @@ export default function TreeVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Action Controls */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center gap-2 bg-zinc-900/90 p-2 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400">Node Value:</span>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-zinc-900/90 p-1 sm:p-1.5 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 pl-1">Value:</span>
             <input
               type="number"
               value={inputValue}
               onChange={e => setInputValue(Number(e.target.value))}
-              className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+              className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center"
             />
             <button
               onClick={handleInsert}
-              className="px-3 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 flex items-center gap-1"
+              className="px-2.5 sm:px-3 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 flex items-center gap-1 touch-manipulation"
             >
               <Plus className="w-3.5 h-3.5" /> Insert
             </button>
             <button
               onClick={handleSearch}
-              className="px-3 py-1.5 rounded-lg bg-zinc-800 text-white font-mono text-xs hover:bg-zinc-700 transition-all border border-white/10 flex items-center gap-1"
+              className="px-2.5 sm:px-3 py-1.5 rounded-lg bg-zinc-800 text-white font-mono text-xs hover:bg-zinc-700 transition-all border border-white/10 flex items-center gap-1 touch-manipulation"
             >
               <Search className="w-3.5 h-3.5" /> Search
             </button>
           </div>
 
           {/* Traversals */}
-          <div className="flex items-center gap-1.5 bg-zinc-900/80 p-1.5 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400 px-1">Traversals:</span>
+          <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 bg-zinc-900/80 p-1 sm:p-1.5 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 px-1">Traversals:</span>
             {['inorder', 'preorder', 'postorder', 'bfs'].map(t => (
               <button
                 key={t}
                 onClick={() => handleTraversal(t)}
-                className="px-2.5 py-1 rounded-lg bg-black text-xs font-mono text-zinc-300 border border-white/10 hover:text-white transition-all"
+                className="px-2 sm:px-2.5 py-1 rounded-lg bg-black text-[10px] sm:text-xs font-mono text-zinc-300 border border-white/10 hover:text-white transition-all touch-manipulation"
               >
                 {t.toUpperCase()}
               </button>
@@ -201,11 +201,11 @@ export default function TreeVisualizer({ onActiveLineChange }) {
       </div>
 
       {/* Main Visualizer Stage */}
-      <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-3 sm:space-y-4">
         {/* Description Banner */}
-        <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+        <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex items-center justify-between text-[11px] sm:text-xs font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
             <span className="text-white font-medium">
               {currentStep?.description || 'Insert a value or select a traversal to watch rotations and search paths.'}
             </span>
@@ -214,11 +214,11 @@ export default function TreeVisualizer({ onActiveLineChange }) {
 
         {/* Traversal Output Strip */}
         {currentStep?.sequence && (
-          <div className="flex items-center gap-2 bg-zinc-900/90 p-3 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400">Sequence:</span>
-            <div className="flex items-center gap-1.5 overflow-x-auto">
+          <div className="flex items-center gap-2 bg-zinc-900/90 p-2.5 sm:p-3 rounded-xl border border-white/10 touch-scroll">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Sequence:</span>
+            <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto">
               {currentStep.sequence.map((val, idx) => (
-                <span key={idx} className="px-2.5 py-0.5 rounded bg-white text-black font-mono font-bold text-xs shadow">
+                <span key={idx} className="px-2 sm:px-2.5 py-0.5 rounded bg-white text-black font-mono font-bold text-xs shadow">
                   {val}
                 </span>
               ))}
@@ -227,8 +227,8 @@ export default function TreeVisualizer({ onActiveLineChange }) {
         )}
 
         {/* Tree SVG Canvas */}
-        <div className="w-full h-[360px] bg-black/95 rounded-xl border border-white/10 overflow-hidden relative flex items-center justify-center">
-          <svg className="w-full h-full" viewBox="0 0 800 340">
+        <div className="w-full h-[280px] sm:h-[360px] bg-black/95 rounded-xl border border-white/10 overflow-x-auto touch-scroll relative flex items-center justify-start sm:justify-center">
+          <svg className="w-full min-w-[560px] sm:min-w-[700px] h-full" viewBox="0 0 800 340">
             {/* Edges */}
             {treeEdges.map((e, idx) => (
               <line

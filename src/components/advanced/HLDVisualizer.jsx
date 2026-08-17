@@ -74,14 +74,14 @@ export default function HLDVisualizer({ onActiveLineChange }) {
           </div>
         </div>
 
-        {/* Path Query Controls */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-zinc-400">Path from Node:</span>
+        {/* Action Controls */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Path from:</span>
             <select
               value={nodeU}
               onChange={e => setNodeU(Number(e.target.value))}
-              className="bg-black border border-white/15 rounded-lg px-3 py-1 text-xs font-mono text-white"
+              className="bg-black border border-white/15 rounded-lg px-2 sm:px-3 py-1 text-xs font-mono text-white"
             >
               {Array.from({ length: 11 }, (_, i) => i + 1).map(n => (
                 <option key={n} value={n}>Node {n} (Head: {model.head[n]})</option>
@@ -89,14 +89,14 @@ export default function HLDVisualizer({ onActiveLineChange }) {
             </select>
           </div>
 
-          <span className="text-zinc-500 font-mono">➔</span>
+          <span className="text-zinc-500 font-mono text-xs">➔</span>
 
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-zinc-400">To Node:</span>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">To:</span>
             <select
               value={nodeV}
               onChange={e => setNodeV(Number(e.target.value))}
-              className="bg-black border border-white/15 rounded-lg px-3 py-1 text-xs font-mono text-white"
+              className="bg-black border border-white/15 rounded-lg px-2 sm:px-3 py-1 text-xs font-mono text-white"
             >
               {Array.from({ length: 11 }, (_, i) => i + 1).map(n => (
                 <option key={n} value={n}>Node {n} (Head: {model.head[n]})</option>
@@ -106,7 +106,7 @@ export default function HLDVisualizer({ onActiveLineChange }) {
 
           <button
             onClick={handleStartQuery}
-            className="px-5 py-1.5 rounded-xl bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10"
+            className="px-4 sm:px-5 py-1.5 rounded-xl bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 touch-manipulation"
           >
             Decompose Path
           </button>
@@ -114,20 +114,20 @@ export default function HLDVisualizer({ onActiveLineChange }) {
       </div>
 
       {/* Main Layout: Tree SVG and Heavy Chain Segments */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Left Tree SVG */}
-        <div className="lg:col-span-8 glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-          <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+        <div className="lg:col-span-8 glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+          <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex items-center justify-between text-[11px] sm:text-xs font-mono">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
               <span className="text-white font-medium">
                 {currentStep?.description || 'Select path nodes u and v, then click Decompose Path.'}
               </span>
             </div>
           </div>
 
-          <div className="w-full h-[360px] bg-black/95 rounded-xl border border-white/10 overflow-hidden relative flex items-center justify-center">
-            <svg className="w-full h-full" viewBox="0 0 760 340">
+          <div className="w-full h-[280px] sm:h-[360px] bg-black/95 rounded-xl border border-white/10 overflow-x-auto touch-scroll relative flex items-center justify-start sm:justify-center">
+            <svg className="w-full min-w-[500px] sm:min-w-[650px] md:min-w-[760px] h-full" viewBox="0 0 760 340">
               {/* Render Tree Edges */}
               {Object.keys(model.adj).map(uStr => {
                 const u = Number(uStr);

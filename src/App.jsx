@@ -46,18 +46,18 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-5 sm:space-y-8">
         {/* Sole Heading: AlgoViz */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 border-b border-white/10 pb-4 sm:pb-6">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight">
+            <h1 className="text-2xl sm:text-4xl font-display font-black text-white tracking-tight">
               Algo<span className="text-zinc-400">Viz</span>
             </h1>
-            <p className="text-xs font-mono uppercase tracking-widest text-zinc-400 mt-1.5 flex flex-wrap items-center gap-2">
+            <p className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-zinc-400 mt-1 sm:mt-1.5 flex flex-wrap items-center gap-1.5 sm:gap-2">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               <span>Interactive DSA Visualiser</span>
-              <span className="text-zinc-600">—</span>
-              <span className="text-zinc-300">
+              <span className="text-zinc-600 hidden sm:inline">—</span>
+              <span className="text-zinc-300 w-full sm:w-auto">
                 {activeTab === 'datastructures' && 'Stacks, Queues & Binary Heaps'}
                 {activeTab === 'advanced' && 'Advanced Data Structures & CP Trees'}
                 {activeTab === 'sorting' && 'High-Performance Sorting Algorithms'}
@@ -72,9 +72,9 @@ export default function App() {
           {/* Quick Code Drawer Toggle Button */}
           <button
             onClick={() => setShowCodeDrawer(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900/80 text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/25 hover:text-white transition-all shadow-sm"
+            className="spring-button flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900/90 text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/30 hover:text-white shadow-sm cursor-pointer select-none self-end sm:self-auto touch-manipulation"
           >
-            <Code2 className="w-3.5 h-3.5" />
+            <Code2 className="w-3.5 h-3.5 text-white" />
             <span>Open Code Panel</span>
           </button>
         </div>
@@ -107,8 +107,8 @@ export default function App() {
 
       {/* Floating / Slide-Over Synchronized Code Inspector Modal */}
       {showCodeDrawer && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-wave-grow">
-          <div className="w-full max-w-3xl max-h-[85vh] h-[550px] shadow-2xl relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-md animate-wave-grow">
+          <div className="w-full max-w-3xl h-[88vh] sm:h-[550px] max-h-[90vh] shadow-2xl relative">
             <CodeViewer
               algoKey={getAlgoKeyForTab()}
               activeLine={activeLine}

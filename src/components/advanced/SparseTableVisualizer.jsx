@@ -83,10 +83,10 @@ export default function SparseTableVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Range Query Form */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center gap-2 bg-zinc-900/90 p-2 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400 flex items-center gap-1">
-              <Search className="w-3.5 h-3.5" /> Query Range [L, R]:
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 bg-zinc-900/90 p-1.5 sm:p-2 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 flex items-center gap-1">
+              <Search className="w-3.5 h-3.5" /> Range [L, R]:
             </span>
             <input
               type="number"
@@ -94,22 +94,22 @@ export default function SparseTableVisualizer({ onActiveLineChange }) {
               max={array.length - 1}
               value={queryL}
               onChange={e => setQueryL(Number(e.target.value))}
-              className="w-14 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+              className="w-12 sm:w-14 bg-black border border-white/15 rounded-lg px-1.5 py-1 text-xs font-mono text-white text-center"
               placeholder="L"
             />
-            <span className="text-zinc-500 font-mono">to</span>
+            <span className="text-zinc-500 font-mono text-xs">to</span>
             <input
               type="number"
               min="0"
               max={array.length - 1}
               value={queryR}
               onChange={e => setQueryR(Number(e.target.value))}
-              className="w-14 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+              className="w-12 sm:w-14 bg-black border border-white/15 rounded-lg px-1.5 py-1 text-xs font-mono text-white text-center"
               placeholder="R"
             />
             <button
               onClick={handleRunQuery}
-              className="px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10"
+              className="px-3 sm:px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 touch-manipulation"
             >
               Execute O(1) RMQ
             </button>
@@ -118,26 +118,26 @@ export default function SparseTableVisualizer({ onActiveLineChange }) {
       </div>
 
       {/* Main Grid: Array Strip on top, 2D Sparse Table matrix below */}
-      <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6">
+      <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-4 sm:space-y-6">
         {/* Step Description */}
-        <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+        <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
             <span className="text-white font-medium">
               {currentStep?.description || 'Click "Visualize Precomputation" or "Execute O(1) RMQ" to start.'}
             </span>
           </div>
           {currentStep?.result !== undefined && (
-            <div className="bg-white text-black font-display font-black text-sm px-3 py-1 rounded-lg">
+            <div className="bg-white text-black font-display font-black text-xs sm:text-sm px-2.5 sm:px-3 py-1 rounded-lg">
               Min = {currentStep.result}
             </div>
           )}
         </div>
 
         {/* Input Array Strip */}
-        <div className="space-y-2">
-          <span className="text-xs font-mono text-zinc-400">Array Elements:</span>
-          <div className="flex items-center gap-2 overflow-x-auto pb-2">
+        <div className="space-y-1.5 sm:space-y-2">
+          <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Array Elements:</span>
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 touch-scroll">
             {array.map((val, idx) => {
               const inQuery = currentStep?.L !== undefined && idx >= currentStep.L && idx <= currentStep.R;
               const inBlock1 = currentStep?.block1 && idx >= currentStep.block1.L && idx <= currentStep.block1.R;
@@ -146,7 +146,7 @@ export default function SparseTableVisualizer({ onActiveLineChange }) {
               return (
                 <div
                   key={idx}
-                  className={`flex flex-col items-center justify-center min-w-[50px] p-2.5 rounded-xl border font-mono transition-all ${
+                  className={`flex flex-col items-center justify-center min-w-[42px] sm:min-w-[50px] p-2 sm:p-2.5 rounded-xl border font-mono transition-all ${
                     inBlock1 && inBlock2
                       ? 'bg-white text-black font-black border-white shadow-lg'
                       : inBlock1 || inBlock2
@@ -156,8 +156,8 @@ export default function SparseTableVisualizer({ onActiveLineChange }) {
                       : 'bg-black/60 text-zinc-400 border-white/5'
                   }`}
                 >
-                  <span className="text-sm font-bold">{val}</span>
-                  <span className="text-[10px] text-zinc-500 mt-0.5">[{idx}]</span>
+                  <span className="text-xs sm:text-sm font-bold">{val}</span>
+                  <span className="text-[9px] sm:text-[10px] text-zinc-500 mt-0.5">[{idx}]</span>
                 </div>
               );
             })}
@@ -165,14 +165,14 @@ export default function SparseTableVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* 2D Sparse Table Matrix ST[i][j] */}
-        <div className="space-y-2">
+        <div className="space-y-1.5 sm:space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-mono text-zinc-400 flex items-center gap-1.5">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 flex items-center gap-1.5">
               <Table className="w-3.5 h-3.5" /> Sparse Table Matrix ST[i][j] (interval length 2^j)
             </span>
           </div>
 
-          <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/90 p-3">
+          <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/90 p-2.5 sm:p-3 touch-scroll">
             <table className="w-full text-center text-xs font-mono border-collapse">
               <thead>
                 <tr className="border-b border-white/10 text-zinc-400 text-[11px]">

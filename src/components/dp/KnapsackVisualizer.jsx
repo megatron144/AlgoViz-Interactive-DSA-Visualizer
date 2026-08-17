@@ -59,18 +59,18 @@ export default function KnapsackVisualizer({ onActiveLineChange }) {
 
   return (
     <div className="space-y-6">
-      {/* Configuration Header */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* Top Header & Capacity Selector */}
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">2D Dynamic Programming</span>
-            <h2 className="text-xl font-display font-black text-white">0/1 Knapsack Problem Visualizer</h2>
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Dynamic Programming</span>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">0/1 Knapsack Problem</h2>
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2 bg-zinc-900/90 p-1.5 rounded-xl border border-white/10">
-              <span className="text-xs font-mono text-zinc-400 px-1">Max Capacity W:</span>
-              {[5, 6, 7, 8, 9].map(w => (
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            {/* Capacity Selector */}
+            <div className="flex items-center gap-1 bg-zinc-900/90 p-1 rounded-xl border border-white/10">
+              {[5, 6, 7, 8].map(w => (
                 <button
                   key={w}
                   onClick={() => {
@@ -79,7 +79,7 @@ export default function KnapsackVisualizer({ onActiveLineChange }) {
                     setCurrentStepIdx(0);
                     setIsPlaying(false);
                   }}
-                  className={`px-2.5 py-1 rounded-lg text-xs font-mono transition-all ${
+                  className={`px-2 sm:px-2.5 py-1 rounded-lg text-[10px] sm:text-xs font-mono transition-all touch-manipulation ${
                     capacity === w
                       ? 'bg-white text-black font-bold'
                       : 'text-zinc-400 hover:text-white'
@@ -92,7 +92,7 @@ export default function KnapsackVisualizer({ onActiveLineChange }) {
 
             <button
               onClick={handleStartKnapsack}
-              className="px-5 py-2 rounded-xl bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10"
+              className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-xl bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 touch-manipulation"
             >
               Solve DP Matrix
             </button>
@@ -100,12 +100,12 @@ export default function KnapsackVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Item List Display */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 pt-1 sm:pt-2">
           {items.map((item, idx) => (
-            <div key={idx} className="bg-zinc-900/90 p-2.5 rounded-xl border border-white/10 flex items-center justify-between text-xs font-mono">
+            <div key={idx} className="bg-zinc-900/90 p-2 sm:p-2.5 rounded-xl border border-white/10 flex items-center justify-between text-xs font-mono">
               <span className="font-bold text-white">{item.name}</span>
-              <div className="text-zinc-400">
-                <span>wt: <b className="text-white">{item.weight}</b></span> | <span>val: <b className="text-white">{item.value}</b></span>
+              <div className="text-zinc-400 text-[11px] sm:text-xs">
+                <span>wt: <b className="text-white">{item.weight}</b></span> | <span>val: <b className="text-white">${item.value}</b></span>
               </div>
             </div>
           ))}
@@ -113,30 +113,30 @@ export default function KnapsackVisualizer({ onActiveLineChange }) {
       </div>
 
       {/* Main DP Table Matrix */}
-      <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-3 sm:space-y-4">
         {/* Description Banner */}
-        <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+        <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
             <span className="text-white font-medium">
               {currentStep.description || 'Click Solve DP Matrix to begin table filling.'}
             </span>
           </div>
           {currentStep.maxValue !== undefined && (
-            <div className="bg-white text-black font-mono font-black text-xs px-3 py-1 rounded-lg">
+            <div className="bg-white text-black font-mono font-black text-xs px-2.5 sm:px-3 py-1 rounded-lg">
               Max Value = ${currentStep.maxValue}
             </div>
           )}
         </div>
 
         {/* 2D DP Table */}
-        <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/90 p-3">
+        <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/90 p-2.5 sm:p-3 touch-scroll">
           <table className="w-full text-center text-xs font-mono border-collapse">
             <thead>
-              <tr className="border-b border-white/10 text-zinc-400 text-[11px]">
-                <th className="py-2 px-3 text-left">i / Item</th>
+              <tr className="border-b border-white/10 text-zinc-400 text-[10px] sm:text-[11px]">
+                <th className="py-2 px-2 sm:px-3 text-left">i / Item</th>
                 {Array.from({ length: capacity + 1 }, (_, w) => (
-                  <th key={w} className="py-2 px-2">
+                  <th key={w} className="py-2 px-1.5 sm:px-2">
                     w={w}
                   </th>
                 ))}

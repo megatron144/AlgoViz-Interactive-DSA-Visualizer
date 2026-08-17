@@ -14,7 +14,7 @@ export default function SortingBarChart({
 
   return (
     <div 
-      className="w-full flex items-end justify-center gap-1.5 px-3 py-6 bg-black/95 rounded-2xl border border-white/10 overflow-hidden relative"
+      className="w-full flex items-end justify-center gap-0.5 sm:gap-1.5 px-2 sm:px-3 py-3 sm:py-6 bg-black/95 rounded-2xl border border-white/10 overflow-hidden relative touch-scroll"
       style={{ height: `${height}px` }}
     >
       {array.map((val, idx) => {
@@ -44,24 +44,24 @@ export default function SortingBarChart({
         return (
           <div
             key={idx}
-            className="flex-1 flex flex-col items-center justify-end h-full min-w-[6px] max-w-[40px] transition-all duration-100 ease-out"
+            className="flex-1 flex flex-col items-center justify-end h-full min-w-[3px] sm:min-w-[6px] max-w-[40px] transition-all duration-100 ease-out"
           >
             {/* Value Label above bar */}
-            {showLabels && array.length <= 32 && (
-              <span className={`text-[10px] font-mono mb-1 select-none transition-colors ${textGlow}`}>
+            {showLabels && array.length <= 24 && (
+              <span className={`text-[8px] sm:text-[10px] font-mono mb-0.5 sm:mb-1 select-none transition-colors ${textGlow} hidden xs:inline`}>
                 {val}
               </span>
             )}
 
             {/* Bar Body */}
             <div
-              className={`w-full rounded-t-lg border transition-all duration-100 ${barBg}`}
+              className={`w-full rounded-t-sm sm:rounded-t-lg border transition-all duration-100 ${barBg}`}
               style={{ height: `${heightPercent}%` }}
             />
 
             {/* Index Label below bar */}
-            {showLabels && array.length <= 20 && (
-              <span className="text-[9px] font-mono text-zinc-600 mt-1 select-none">
+            {showLabels && array.length <= 16 && (
+              <span className="text-[8px] sm:text-[9px] font-mono text-zinc-600 mt-0.5 sm:mt-1 select-none hidden sm:inline">
                 {idx}
               </span>
             )}

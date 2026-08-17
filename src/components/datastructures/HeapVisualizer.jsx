@@ -192,11 +192,11 @@ export default function HeapVisualizer() {
   return (
     <div className="space-y-6">
       {/* Control Bar */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Priority Queue & Tree Structures</span>
-            <h2 className="text-xl font-display font-black text-white">
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Priority Queue & Tree Structures</span>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">
               Binary {heapType === 'max' ? 'Max-Heap' : 'Min-Heap'} Visualizer
             </h2>
           </div>
@@ -206,7 +206,7 @@ export default function HeapVisualizer() {
             <button
               onClick={() => handleSwitchType('max')}
               disabled={isProcessing}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+              className={`px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-lg text-xs font-mono font-bold transition-all touch-manipulation ${
                 heapType === 'max'
                   ? 'bg-white text-black shadow-md'
                   : 'text-zinc-400 hover:text-white'
@@ -217,7 +217,7 @@ export default function HeapVisualizer() {
             <button
               onClick={() => handleSwitchType('min')}
               disabled={isProcessing}
-              className={`px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+              className={`px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-lg text-xs font-mono font-bold transition-all touch-manipulation ${
                 heapType === 'min'
                   ? 'bg-white text-black shadow-md'
                   : 'text-zinc-400 hover:text-white'
@@ -229,19 +229,19 @@ export default function HeapVisualizer() {
         </div>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400 pl-2">Value:</span>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-zinc-900 p-1 sm:p-1.5 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 pl-1 sm:pl-2">Value:</span>
             <input
               type="number"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center focus:outline-none focus:border-white"
+              className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center focus:outline-none focus:border-white"
             />
             <button
               onClick={handleInsert}
               disabled={heap.length >= MAX_HEAP_CAPACITY || isProcessing}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all disabled:opacity-40 shadow-sm"
+              className="flex items-center gap-1 px-3 sm:px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all disabled:opacity-40 shadow-sm touch-manipulation"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Insert</span>
@@ -251,7 +251,7 @@ export default function HeapVisualizer() {
           <button
             onClick={handleExtractRoot}
             disabled={heap.length === 0 || isProcessing}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-zinc-900 text-zinc-200 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono font-medium transition-all disabled:opacity-40"
+            className="flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-zinc-900 text-zinc-200 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono font-medium transition-all disabled:opacity-40 touch-manipulation"
           >
             <ArrowUpCircle className="w-4 h-4 text-emerald-400" />
             <span>Extract {heapType === 'max' ? 'Max' : 'Min'} Root</span>
@@ -260,7 +260,7 @@ export default function HeapVisualizer() {
           <button
             onClick={handleBuildRandom}
             disabled={isProcessing}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all"
+            className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all touch-manipulation"
           >
             <Shuffle className="w-3.5 h-3.5" />
             <span>Random Heap</span>
@@ -269,7 +269,7 @@ export default function HeapVisualizer() {
           <button
             onClick={() => { setHeap([]); setHighlightIdxs([]); setLog('Heap cleared.'); }}
             disabled={heap.length === 0 || isProcessing}
-            className="p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-white/10 hover:border-rose-900/40 transition-all disabled:opacity-40"
+            className="p-1.5 sm:p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-white/10 hover:border-rose-900/40 transition-all disabled:opacity-40 touch-manipulation"
             title="Clear Heap"
           >
             <Trash2 className="w-4 h-4" />
@@ -277,17 +277,17 @@ export default function HeapVisualizer() {
         </div>
 
         {/* Dynamic Log Bar */}
-        <div className="p-2.5 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs text-zinc-300 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          <span>{log}</span>
+        <div className="p-2 sm:p-2.5 rounded-xl bg-zinc-950 border border-white/5 font-mono text-[11px] sm:text-xs text-zinc-300 flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
+          <span className="leading-relaxed">{log}</span>
         </div>
       </div>
 
       {/* Visualizer Dual View Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Tree View (Col 1-2) */}
-        <div className="lg:col-span-2 glass-card rounded-2xl p-6 border border-white/10 flex flex-col items-center justify-center min-h-[360px] overflow-x-auto">
-          <div className="w-full text-left text-xs font-mono text-zinc-400 mb-4 flex items-center gap-2">
+        <div className="lg:col-span-2 glass-card rounded-2xl p-4 sm:p-6 border border-white/10 flex flex-col items-center justify-center min-h-[320px] sm:min-h-[360px] overflow-x-auto touch-scroll">
+          <div className="w-full text-left text-xs font-mono text-zinc-400 mb-3 sm:mb-4 flex items-center gap-2">
             <GitFork className="w-4 h-4 text-white" />
             <span>Binary Tree Visualization</span>
           </div>
@@ -297,7 +297,7 @@ export default function HeapVisualizer() {
               Heap is empty. Insert elements to construct the binary tree.
             </div>
           ) : (
-            <div className="flex flex-col items-center gap-6 w-full py-4 select-none">
+            <div className="flex flex-col items-center gap-4 sm:gap-6 w-full min-w-[280px] py-3 sm:py-4 select-none">
               {/* Level 0: Root */}
               {heap.length > 0 && (
                 <div className="flex justify-center">
@@ -307,7 +307,7 @@ export default function HeapVisualizer() {
 
               {/* Level 1: [1, 2] */}
               {heap.length > 1 && (
-                <div className="flex justify-center gap-20 sm:gap-28">
+                <div className="flex justify-center gap-12 sm:gap-24 md:gap-28">
                   {heap[1] !== undefined && <HeapNode idx={1} val={heap[1]} isHighlighted={highlightIdxs.includes(1)} />}
                   {heap[2] !== undefined && <HeapNode idx={2} val={heap[2]} isHighlighted={highlightIdxs.includes(2)} />}
                 </div>
@@ -315,7 +315,7 @@ export default function HeapVisualizer() {
 
               {/* Level 2: [3, 4, 5, 6] */}
               {heap.length > 3 && (
-                <div className="flex justify-center gap-8 sm:gap-12">
+                <div className="flex justify-center gap-4 sm:gap-8 md:gap-12">
                   {heap[3] !== undefined && <HeapNode idx={3} val={heap[3]} isHighlighted={highlightIdxs.includes(3)} />}
                   {heap[4] !== undefined && <HeapNode idx={4} val={heap[4]} isHighlighted={highlightIdxs.includes(4)} />}
                   {heap[5] !== undefined && <HeapNode idx={5} val={heap[5]} isHighlighted={highlightIdxs.includes(5)} />}
@@ -325,7 +325,7 @@ export default function HeapVisualizer() {
 
               {/* Level 3: [7..14] */}
               {heap.length > 7 && (
-                <div className="flex justify-center gap-3 sm:gap-4 overflow-x-auto max-w-full">
+                <div className="flex justify-center gap-1.5 sm:gap-3 md:gap-4 overflow-x-auto max-w-full touch-scroll pb-1">
                   {[7, 8, 9, 10, 11, 12, 13, 14].map(i => (
                     heap[i] !== undefined && (
                       <HeapNode key={i} idx={i} val={heap[i]} isHighlighted={highlightIdxs.includes(i)} isSmall />
@@ -338,18 +338,18 @@ export default function HeapVisualizer() {
         </div>
 
         {/* Array Representation (Col 3) */}
-        <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-4 flex flex-col justify-between">
+        <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-4 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 text-xs font-mono text-zinc-400 mb-3">
               <Layers className="w-4 h-4 text-white" />
               <span>Array Memory Representation</span>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {heap.map((val, idx) => (
                 <div
                   key={idx}
-                  className={`w-12 h-14 rounded-xl border flex flex-col items-center justify-center font-mono transition-all ${
+                  className={`w-10 h-12 sm:w-12 sm:h-14 rounded-xl border flex flex-col items-center justify-center font-mono transition-all ${
                     highlightIdxs.includes(idx)
                       ? 'bg-white text-black border-white scale-105 shadow-md shadow-white/30 font-bold'
                       : idx === 0
@@ -357,7 +357,7 @@ export default function HeapVisualizer() {
                       : 'bg-zinc-900 text-zinc-300 border-white/10'
                   }`}
                 >
-                  <span className="text-[9px] text-zinc-500 font-mono">[{idx}]</span>
+                  <span className="text-[8px] sm:text-[9px] text-zinc-500 font-mono">[{idx}]</span>
                   <span className="text-xs font-bold">{val}</span>
                 </div>
               ))}
@@ -365,7 +365,7 @@ export default function HeapVisualizer() {
           </div>
 
           {/* Index Math formulas */}
-          <div className="p-3.5 rounded-xl bg-zinc-950/80 border border-white/5 font-mono text-xs space-y-1.5 text-zinc-400">
+          <div className="p-3 sm:p-3.5 rounded-xl bg-zinc-950/80 border border-white/5 font-mono text-[11px] sm:text-xs space-y-1 sm:space-y-1.5 text-zinc-400">
             <div className="text-[10px] uppercase font-bold text-white">Index Invariants:</div>
             <div>Parent(i) = <code className="text-zinc-200">floor((i - 1) / 2)</code></div>
             <div>Left Child(i) = <code className="text-zinc-200">2*i + 1</code></div>
