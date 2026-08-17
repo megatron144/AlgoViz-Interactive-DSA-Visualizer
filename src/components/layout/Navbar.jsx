@@ -57,19 +57,19 @@ export default function Navbar({
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-white text-black dark:bg-white dark:text-black flex items-center justify-center font-display font-extrabold text-xl shadow-[0_0_20px_rgba(255,255,255,0.4)] tracking-tighter">
-            //A
+            AV
           </div>
           <div>
             <div className="flex items-center gap-2">
               <span className="font-display font-black text-xl tracking-tight text-white dark:text-white">
-                ALGO<span className="text-zinc-400">.LAB</span>
+                Algo<span className="text-zinc-400">Viz</span>
               </span>
               <span className="text-[10px] uppercase font-mono tracking-widest px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">
                 v2.0 Noir
               </span>
             </div>
             <p className="text-[11px] text-zinc-400 hidden sm:block font-mono">
-              Interactive Algorithm & CP Visualizer
+              Interactive DSA Visualiser
             </p>
           </div>
         </div>
