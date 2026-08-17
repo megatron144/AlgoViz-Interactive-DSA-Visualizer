@@ -498,6 +498,411 @@ public:
 };`
   },
 
+  'deque': {
+    java: `// Circular Array Deque (Double-Ended Queue) in Java
+public class Deque {
+    private int[] arr;
+    private int front, rear, size, capacity;
+
+    public Deque(int cap) {
+        this.capacity = cap;
+        this.arr = new int[cap];
+        this.front = -1;
+        this.rear = 0;
+        this.size = 0;
+    }
+
+    // Insert element at Front: O(1)
+    public void pushFront(int val) {
+        if (isFull()) throw new IllegalStateException("Deque Overflow");
+        if (front == -1) {
+            front = 0;
+            rear = 0;
+        } else if (front == 0) {
+            front = capacity - 1;
+        } else {
+            front--;
+        }
+        arr[front] = val;
+        size++;
+    }
+
+    // Insert element at Back: O(1)
+    public void pushBack(int val) {
+        if (isFull()) throw new IllegalStateException("Deque Overflow");
+        if (front == -1) {
+            front = 0;
+            rear = 0;
+        } else if (rear == capacity - 1) {
+            rear = 0;
+        } else {
+            rear++;
+        }
+        arr[rear] = val;
+        size++;
+    }
+
+    // Remove element from Front: O(1)
+    public int popFront() {
+        if (isEmpty()) throw new IllegalStateException("Deque Underflow");
+        int val = arr[front];
+        if (front == rear) {
+            front = -1;
+            rear = -1;
+        } else if (front == capacity - 1) {
+            front = 0;
+        } else {
+            front++;
+        }
+        size--;
+        return val;
+    }
+
+    // Remove element from Back: O(1)
+    public int popBack() {
+        if (isEmpty()) throw new IllegalStateException("Deque Underflow");
+        int val = arr[rear];
+        if (front == rear) {
+            front = -1;
+            rear = -1;
+        } else if (rear == 0) {
+            rear = capacity - 1;
+        } else {
+            rear--;
+        }
+        size--;
+        return val;
+    }
+
+    public int peekFront() {
+        if (isEmpty()) throw new IllegalStateException("Deque is empty");
+        return arr[front];
+    }
+
+    public int peekBack() {
+        if (isEmpty()) throw new IllegalStateException("Deque is empty");
+        return arr[rear];
+    }
+
+    public boolean isFull() { return size == capacity; }
+    public boolean isEmpty() { return size == 0; }
+    public int size() { return size; }
+}`,
+    python: `# Double-Ended Queue (Deque) in Python
+from collections import deque
+
+class Deque:
+    def __init__(self, capacity=100):
+        self.capacity = capacity
+        self.items = deque()
+
+    # O(1) operations
+    def push_front(self, val):
+        if len(self.items) >= self.capacity: raise OverflowError("Deque Full")
+        self.items.appendleft(val)
+
+    def push_back(self, val):
+        if len(self.items) >= self.capacity: raise OverflowError("Deque Full")
+        self.items.append(val)
+
+    def pop_front(self):
+        if not self.items: raise IndexError("Deque Empty")
+        return self.items.popleft()
+
+    def pop_back(self):
+        if not self.items: raise IndexError("Deque Empty")
+        return self.items.pop()
+
+    def peek_front(self): return self.items[0] if self.items else None
+    def peek_back(self): return self.items[-1] if self.items else None
+    def is_empty(self): return len(self.items) == 0
+    def size(self): return len(self.items)`,
+    cpp: `// Double-Ended Queue (Deque) in C++
+#include <vector>
+#include <stdexcept>
+using namespace std;
+
+template<typename T>
+class Deque {
+private:
+    vector<T> arr;
+    int front, rear, size, capacity;
+
+public:
+    Deque(int cap = 100) : capacity(cap), front(-1), rear(0), size(0), arr(cap) {}
+
+    void pushFront(T val) {
+        if (size == capacity) throw runtime_error("Deque Overflow");
+        if (front == -1) front = 0, rear = 0;
+        else if (front == 0) front = capacity - 1;
+        else front--;
+        arr[front] = val;
+        size++;
+    }
+
+    void pushBack(T val) {
+        if (size == capacity) throw runtime_error("Deque Overflow");
+        if (front == -1) front = 0, rear = 0;
+        else if (rear == capacity - 1) rear = 0;
+        else rear++;
+        arr[rear] = val;
+        size++;
+    }
+
+    T popFront() {
+        if (size == 0) throw runtime_error("Deque Underflow");
+        T val = arr[front];
+        if (front == rear) front = -1, rear = -1;
+        else if (front == capacity - 1) front = 0;
+        else front++;
+        size--;
+        return val;
+    }
+
+    T popBack() {
+        if (size == 0) throw runtime_error("Deque Underflow");
+        T val = arr[rear];
+        if (front == rear) front = -1, rear = -1;
+        else if (rear == 0) rear = capacity - 1;
+        else rear--;
+        size--;
+        return val;
+    }
+};`
+  },
+
+  'priority-queue': {
+    java: `// Priority Queue in Java using Max-Heap ordering
+import java.util.*;
+
+public class PriorityQueueEngine<T> {
+    public static class Task implements Comparable<Task> {
+        String name;
+        int priority;
+
+        public Task(String name, int priority) {
+            this.name = name;
+            this.priority = priority;
+        }
+
+        // Higher priority integer executes first
+        @Override
+        public int compareTo(Task other) {
+            return Integer.compare(other.priority, this.priority);
+        }
+    }
+
+    private PriorityQueue<Task> pq = new PriorityQueue<>();
+
+    // Insert task in O(log N)
+    public void enqueue(String name, int priority) {
+        pq.offer(new Task(name, priority));
+    }
+
+    // Serve highest priority task in O(log N)
+    public Task dequeue() {
+        if (pq.isEmpty()) throw new NoSuchElementException("Priority Queue Empty");
+        return pq.poll();
+    }
+
+    public Task peek() { return pq.peek(); }
+    public boolean isEmpty() { return pq.isEmpty(); }
+    public int size() { return pq.size(); }
+}`,
+    python: `# Priority Queue in Python using heapq
+import heapq
+
+class PriorityQueue:
+    def __init__(self):
+        self._heap = []
+        self._index = 0
+
+    # Insert with custom priority in O(log N)
+    def enqueue(self, item, priority):
+        # Negate priority for Max-Priority ordering
+        heapq.heappush(self._heap, (-priority, self._index, item))
+        self._index += 1
+
+    # Extract top priority in O(log N)
+    def dequeue(self):
+        if not self._heap: raise IndexError("Priority Queue Empty")
+        priority, _, item = heapq.heappop(self._heap)
+        return item, -priority
+
+    def peek(self):
+        if not self._heap: return None
+        return self._heap[0][2], -self._heap[0][0]
+
+    def is_empty(self): return len(self._heap) == 0
+    def size(self): return len(self._heap)`,
+    cpp: `// Priority Queue in C++
+#include <queue>
+#include <string>
+using namespace std;
+
+struct Task {
+    string name;
+    int priority;
+
+    bool operator<(const Task& other) const {
+        return priority < other.priority; // Max-Priority
+    }
+};
+
+class PriorityQueueEngine {
+private:
+    priority_queue<Task> pq;
+
+public:
+    void enqueue(string name, int priority) {
+        pq.push({name, priority});
+    }
+
+    Task dequeue() {
+        if (pq.empty()) throw runtime_error("Priority Queue is Empty");
+        Task t = pq.top();
+        pq.pop();
+        return t;
+    }
+
+    Task peek() const { return pq.top(); }
+    bool isEmpty() const { return pq.empty(); }
+    int size() const { return pq.size(); }
+};`
+  },
+
+  'dsu': {
+    java: `// Disjoint Set Union (DSU / Union-Find) in Java
+// Optimized with Path Compression and Union by Rank: O(alpha(N)) per operation
+public class DSU {
+    private int[] parent;
+    private int[] rank;
+    private int components;
+
+    public DSU(int n) {
+        this.parent = new int[n];
+        this.rank = new int[n];
+        this.components = n;
+        for (int i = 0; i < n; i++) {
+            parent[i] = i; // Each node starts as its own representative root
+            rank[i] = 0;
+        }
+    }
+
+    // Find Root with Path Compression: O(alpha(N))
+    public int find(int i) {
+        if (parent[i] != i) {
+            // Path Compression: point directly to root
+            parent[i] = find(parent[i]);
+        }
+        return parent[i];
+    }
+
+    // Union by Rank: O(alpha(N))
+    public boolean union(int u, int v) {
+        int rootU = find(u);
+        int rootV = find(v);
+
+        if (rootU == rootV) return false; // Already in same set (cycle detected)
+
+        // Attach smaller rank tree under larger rank tree
+        if (rank[rootU] < rank[rootV]) {
+            parent[rootU] = rootV;
+        } else if (rank[rootU] > rank[rootV]) {
+            parent[rootV] = rootU;
+        } else {
+            parent[rootV] = rootU;
+            rank[rootU]++;
+        }
+        components--;
+        return true;
+    }
+
+    // Check if two elements belong to the same component
+    public boolean isConnected(int u, int v) {
+        return find(u) == find(v);
+    }
+
+    public int getComponentCount() { return components; }
+}`,
+    python: `# Disjoint Set Union (DSU / Union-Find) in Python
+class DSU:
+    def __init__(self, n):
+        self.parent = list(range(n))
+        self.rank = [0] * n
+        self.components = n
+
+    # Find root with Path Compression
+    def find(self, i):
+        if self.parent[i] != i:
+            self.parent[i] = self.find(self.parent[i])
+        return self.parent[i]
+
+    # Union by Rank
+    def union(self, u, v):
+        root_u, root_v = self.find(u), self.find(v)
+        if root_u == root_v: return False # Cycle
+        
+        if self.rank[root_u] < self.rank[root_v]:
+            self.parent[root_u] = root_v
+        elif self.rank[root_u] > self.rank[root_v]:
+            self.parent[root_v] = root_u
+        else:
+            self.parent[root_v] = root_u
+            self.rank[root_u] += 1
+        self.components -= 1
+        return True
+
+    def is_connected(self, u, v):
+        return self.find(u) == self.find(v)`,
+    cpp: `// Disjoint Set Union (DSU / Union-Find) in C++
+#include <vector>
+#include <numeric>
+using namespace std;
+
+class DSU {
+private:
+    vector<int> parent;
+    vector<int> rank;
+    int components;
+
+public:
+    DSU(int n) : parent(n), rank(n, 0), components(n) {
+        iota(parent.begin(), parent.end(), 0);
+    }
+
+    // Find with Path Compression: O(alpha(N))
+    int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]);
+    }
+
+    // Union by Rank: O(alpha(N))
+    bool unionSets(int u, int v) {
+        int rootU = find(u);
+        int rootV = find(v);
+        if (rootU == rootV) return false;
+
+        if (rank[rootU] < rank[rootV]) {
+            parent[rootU] = rootV;
+        } else if (rank[rootU] > rank[rootV]) {
+            parent[rootV] = rootU;
+        } else {
+            parent[rootV] = rootU;
+            rank[rootU]++;
+        }
+        components--;
+        return true;
+    }
+
+    bool isConnected(int u, int v) {
+        return find(u) == find(v);
+    }
+
+    int count() const { return components; }
+};`
+  },
+
   // =========================================================================
   // 1. ADVANCED DATA STRUCTURES & COMPETITIVE PROGRAMMING
   // =========================================================================

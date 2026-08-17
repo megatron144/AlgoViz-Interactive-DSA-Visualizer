@@ -220,6 +220,169 @@ export const ALGO_DETAILS = {
     ]
   },
 
+  'deque': {
+    name: 'Deque (Double-Ended Queue)',
+    category: 'Linear Data Structure',
+    timeComplexity: {
+      best: 'O(1)',
+      average: 'O(1)',
+      worst: 'O(1)',
+      pushFront: 'O(1)',
+      pushBack: 'O(1)',
+      popFront: 'O(1)',
+      popBack: 'O(1)'
+    },
+    spaceComplexity: 'O(N)',
+    description: 'A generalized queue that supports insertion and deletion from both ends (front and rear) in constant O(1) time. Can function simultaneously as a Stack and a Queue.',
+    keyPoints: [
+      'Bidirectional O(1) push and pop operations',
+      'Implemented using circular dynamic buffer or doubly linked list',
+      'Core component for sliding window maximum algorithms (Monotonic Deque) and 0-1 BFS graph traversal'
+    ],
+    practiceProblems: [
+      {
+        title: 'LeetCode 239 - Sliding Window Maximum (Monotonic Deque)',
+        platform: 'LeetCode',
+        difficulty: 'Hard',
+        url: 'https://leetcode.com/problems/sliding-window-maximum/'
+      },
+      {
+        title: 'LeetCode 641 - Design Circular Deque',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/design-circular-deque/'
+      },
+      {
+        title: 'LeetCode 950 - Reveal Cards In Increasing Order',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/reveal-cards-in-increasing-order/'
+      },
+      {
+        title: 'Codeforces 1579E1 - Permutation Minimization by Deque',
+        platform: 'Codeforces',
+        difficulty: 'Easy',
+        url: 'https://codeforces.com/problemset/problem/1579/E1'
+      },
+      {
+        title: 'Codeforces 1579E2 - Array Optimization by DEX',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/1579/E2'
+      }
+    ]
+  },
+
+  'priority-queue': {
+    name: 'Priority Queue (Scheduling Engine)',
+    category: 'Tree & Priority Structure',
+    timeComplexity: {
+      best: 'O(1)',
+      average: 'O(log N)',
+      worst: 'O(log N)',
+      enqueue: 'O(log N)',
+      dequeue: 'O(log N)',
+      peek: 'O(1)'
+    },
+    spaceComplexity: 'O(N)',
+    description: 'An abstract data type similar to a regular queue or stack, but where each element additionally has a priority associated with it. An element with high priority is served before an element with low priority.',
+    keyPoints: [
+      'Backed by Binary Heap or Fibonacci Heap for O(log N) operations',
+      'Supports custom comparator predicates (Max-Priority / Min-Priority)',
+      'Underpins CPU process scheduling, Dijkstra Shortest Path, Prim MST, and A* Search'
+    ],
+    practiceProblems: [
+      {
+        title: 'LeetCode 215 - Kth Largest Element in an Array',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/kth-largest-element-in-an-array/'
+      },
+      {
+        title: 'LeetCode 373 - Find K Pairs with Smallest Sums',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/find-k-pairs-with-smallest-sums/'
+      },
+      {
+        title: 'LeetCode 253 - Meeting Rooms II',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/meeting-rooms-ii/'
+      },
+      {
+        title: 'Codeforces 1353D - Constructing the Array',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/1353/D'
+      },
+      {
+        title: 'Codeforces 1140C - Playlist',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/1140/C'
+      }
+    ]
+  },
+
+  'dsu': {
+    name: 'Disjoint Set Union (DSU / Union-Find)',
+    category: 'Graph & Forest Structure',
+    timeComplexity: {
+      best: 'O(1)',
+      average: 'O(α(N))',
+      worst: 'O(α(N))',
+      find: 'O(α(N))',
+      union: 'O(α(N))'
+    },
+    spaceComplexity: 'O(N)',
+    description: 'A data structure that stores a collection of disjoint (non-overlapping) sets. Supports two principal operations: Find (determine which set a particular element belongs to) and Union (merge two sets into a single set). With Path Compression and Union by Rank, amortized cost per operation is nearly constant O(α(N)).',
+    keyPoints: [
+      'Path Compression flattens the tree so find() takes almost O(1) subsequent time',
+      'Union by Rank attaches shallower tree under deeper tree root',
+      'Combined time complexity is O(alpha(N)) where alpha is the Inverse Ackermann function (<= 4 for all practical universe sizes)',
+      'Essential for Kruskal Minimum Spanning Tree (MST), dynamic connectivity, and cycle detection'
+    ],
+    practiceProblems: [
+      {
+        title: 'LeetCode 684 - Redundant Connection (Cycle Detection)',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/redundant-connection/'
+      },
+      {
+        title: 'LeetCode 547 - Number of Provinces (Connected Components)',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/number-of-provinces/'
+      },
+      {
+        title: 'LeetCode 128 - Longest Consecutive Sequence',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/longest-consecutive-sequence/'
+      },
+      {
+        title: 'Codeforces 25D - Roads not only in Berland',
+        platform: 'Codeforces',
+        difficulty: 'Hard',
+        url: 'https://codeforces.com/problemset/problem/25/D'
+      },
+      {
+        title: 'Codeforces 1609D - Social Network',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/1609/D'
+      },
+      {
+        title: 'CSES 1676 - Road Construction',
+        platform: 'CSES',
+        difficulty: 'Medium',
+        url: 'https://cses.fi/problemset/task/1676'
+      }
+    ]
+  },
+
   // =========================================================================
   // 1. ADVANCED DATA STRUCTURES & COMPETITIVE PROGRAMMING
   // =========================================================================

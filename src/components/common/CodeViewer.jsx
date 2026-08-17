@@ -8,8 +8,11 @@ const ALGORITHM_GROUPS = [
     items: [
       { id: 'stack', label: 'Stack (LIFO)' },
       { id: 'queue', label: 'Queue (FIFO)' },
+      { id: 'deque', label: 'Deque (Double-Ended)' },
+      { id: 'priority-queue', label: 'Priority Queue' },
       { id: 'max-heap', label: 'Binary Max-Heap' },
       { id: 'min-heap', label: 'Binary Min-Heap' },
+      { id: 'dsu', label: 'Disjoint Set Union (DSU)' },
     ]
   },
   {
