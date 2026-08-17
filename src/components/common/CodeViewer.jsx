@@ -4,6 +4,15 @@ import { Copy, Check, Code2, Terminal, X, ChevronDown } from 'lucide-react';
 
 const ALGORITHM_GROUPS = [
   {
+    category: 'Fundamental Data Structures',
+    items: [
+      { id: 'stack', label: 'Stack (LIFO)' },
+      { id: 'queue', label: 'Queue (FIFO)' },
+      { id: 'max-heap', label: 'Binary Max-Heap' },
+      { id: 'min-heap', label: 'Binary Min-Heap' },
+    ]
+  },
+  {
     category: 'Sorting Algorithms',
     items: [
       { id: 'quick-sort', label: 'Quick Sort' },

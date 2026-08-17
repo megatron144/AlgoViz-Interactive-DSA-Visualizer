@@ -1,5 +1,504 @@
 export const CODE_SNIPPETS = {
   // =========================================================================
+  // 0. FUNDAMENTAL DATA STRUCTURES (Stack, Queue, Heaps)
+  // =========================================================================
+  'stack': {
+    java: `// Stack (LIFO - Last In, First Out) Implementation in Java
+public class Stack {
+    private int maxSize;
+    private int[] stackArray;
+    private int top; // Index of top element
+
+    public Stack(int size) {
+        this.maxSize = size;
+        this.stackArray = new int[maxSize];
+        this.top = -1; // Empty stack indicator
+    }
+
+    // Push: Inserts an element on top of the stack in O(1)
+    public void push(int value) {
+        if (isFull()) {
+            throw new IllegalStateException("Stack Overflow: Stack is full.");
+        }
+        stackArray[++top] = value;
+    }
+
+    // Pop: Removes and returns the top element in O(1)
+    public int pop() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack Underflow: Stack is empty.");
+        }
+        return stackArray[top--];
+    }
+
+    // Peek: Returns top element without removing it in O(1)
+    public int peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty.");
+        }
+        return stackArray[top];
+    }
+
+    public boolean isEmpty() { return top == -1; }
+    public boolean isFull() { return top == maxSize - 1; }
+    public int size() { return top + 1; }
+}`,
+    python: `# Stack (LIFO) in Python
+class Stack:
+    def __init__(self, max_size=100):
+        self.max_size = max_size
+        self.stack = []
+
+    # Push in O(1)
+    def push(self, value):
+        if len(self.stack) >= self.max_size:
+            raise OverflowError("Stack Overflow")
+        self.stack.append(value)
+
+    # Pop in O(1)
+    def pop(self):
+        if not self.stack:
+            raise IndexError("Stack Underflow: pop from empty stack")
+        return self.stack.pop()
+
+    # Peek in O(1)
+    def peek(self):
+        if not self.stack:
+            raise IndexError("Stack is empty")
+        return self.stack[-1]
+
+    def is_empty(self): return len(self.stack) == 0
+    def is_full(self): return len(self.stack) >= self.max_size
+    def size(self): return len(self.stack)`,
+    cpp: `// Stack (LIFO) in C++
+template<typename T>
+class Stack {
+private:
+    vector<T> elements;
+    int maxSize;
+
+public:
+    Stack(int size = 100) : maxSize(size) {}
+
+    void push(T val) {
+        if (elements.size() >= maxSize) throw runtime_error("Stack Overflow");
+        elements.push_back(val);
+    }
+
+    T pop() {
+        if (elements.empty()) throw runtime_error("Stack Underflow");
+        T val = elements.back();
+        elements.pop_back();
+        return val;
+    }
+
+    T peek() const {
+        if (elements.empty()) throw runtime_error("Stack is empty");
+        return elements.back();
+    }
+
+    bool isEmpty() const { return elements.empty(); }
+    bool isFull() const { return elements.size() >= maxSize; }
+    int size() const { return elements.size(); }
+};`
+  },
+
+  'queue': {
+    java: `// Circular Queue (FIFO - First In, First Out) Implementation in Java
+public class Queue {
+    private int capacity;
+    private int[] queueArray;
+    private int front;
+    private int rear;
+    private int count;
+
+    public Queue(int capacity) {
+        this.capacity = capacity;
+        this.queueArray = new int[capacity];
+        this.front = 0;
+        this.rear = -1;
+        this.count = 0;
+    }
+
+    // Enqueue: Inserts element at the REAR in O(1)
+    public void enqueue(int item) {
+        if (isFull()) {
+            throw new IllegalStateException("Queue Overflow: Queue is full.");
+        }
+        rear = (rear + 1) % capacity;
+        queueArray[rear] = item;
+        count++;
+    }
+
+    // Dequeue: Removes and returns element from the FRONT in O(1)
+    public int dequeue() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue Underflow: Queue is empty.");
+        }
+        int item = queueArray[front];
+        front = (front + 1) % capacity;
+        count--;
+        return item;
+    }
+
+    // Peek: Returns front element in O(1)
+    public int peekFront() {
+        if (isEmpty()) throw new IllegalStateException("Queue is empty.");
+        return queueArray[front];
+    }
+
+    public boolean isEmpty() { return count == 0; }
+    public boolean isFull() { return count == capacity; }
+    public int size() { return count; }
+}`,
+    python: `# Queue (FIFO) in Python
+class Queue:
+    def __init__(self, capacity=100):
+        self.capacity = capacity
+        self.queue = []
+
+    # Enqueue in O(1)
+    def enqueue(self, item):
+        if len(self.queue) >= self.capacity:
+            raise OverflowError("Queue Overflow")
+        self.queue.append(item)
+
+    # Dequeue in O(1)
+    def dequeue(self):
+        if not self.queue:
+            raise IndexError("Queue Underflow: dequeue from empty queue")
+        return self.queue.pop(0)
+
+    # Peek in O(1)
+    def peek(self):
+        if not self.queue:
+            raise IndexError("Queue is empty")
+        return self.queue[0]
+
+    def is_empty(self): return len(self.queue) == 0
+    def is_full(self): return len(self.queue) >= self.capacity
+    def size(self): return len(self.queue)`,
+    cpp: `// Circular Queue (FIFO) in C++
+template<typename T>
+class Queue {
+private:
+    vector<T> arr;
+    int front, rear, count, capacity;
+
+public:
+    Queue(int cap = 100) : capacity(cap), front(0), rear(-1), count(0), arr(cap) {}
+
+    void enqueue(T item) {
+        if (count >= capacity) throw runtime_error("Queue Overflow");
+        rear = (rear + 1) % capacity;
+        arr[rear] = item;
+        count++;
+    }
+
+    T dequeue() {
+        if (count == 0) throw runtime_error("Queue Underflow");
+        T item = arr[front];
+        front = (front + 1) % capacity;
+        count--;
+        return item;
+    }
+
+    T peek() const {
+        if (count == 0) throw runtime_error("Queue is empty");
+        return arr[front];
+    }
+
+    bool isEmpty() const { return count == 0; }
+    bool isFull() const { return count == capacity; }
+    int size() const { return count; }
+};`
+  },
+
+  'max-heap': {
+    java: `// Binary Max-Heap Implementation in Java
+import java.util.*;
+
+public class MaxHeap {
+    private ArrayList<Integer> heap = new ArrayList<>();
+
+    // Insert new element into Max-Heap: O(log N)
+    public void insert(int val) {
+        heap.add(val);
+        siftUp(heap.size() - 1);
+    }
+
+    // Extract maximum root element: O(log N)
+    public int extractMax() {
+        if (heap.isEmpty()) throw new NoSuchElementException("Heap is empty.");
+        int maxVal = heap.get(0);
+        int lastVal = heap.remove(heap.size() - 1);
+        if (!heap.isEmpty()) {
+            heap.set(0, lastVal);
+            siftDown(0);
+        }
+        return maxVal;
+    }
+
+    // Restore heap invariant upwards
+    private void siftUp(int i) {
+        while (i > 0) {
+            int parent = (i - 1) / 2;
+            if (heap.get(i) > heap.get(parent)) {
+                Collections.swap(heap, i, parent);
+                i = parent;
+            } else break;
+        }
+    }
+
+    // Restore heap invariant downwards
+    private void siftDown(int i) {
+        int n = heap.size();
+        while (i < n) {
+            int largest = i;
+            int l = 2 * i + 1, r = 2 * i + 2;
+            if (l < n && heap.get(l) > heap.get(largest)) largest = l;
+            if (r < n && heap.get(r) > heap.get(largest)) largest = r;
+            if (largest != i) {
+                Collections.swap(heap, i, largest);
+                i = largest;
+            } else break;
+        }
+    }
+
+    public int peekMax() {
+        if (heap.isEmpty()) throw new NoSuchElementException("Heap is empty.");
+        return heap.get(0);
+    }
+
+    public int size() { return heap.size(); }
+    public boolean isEmpty() { return heap.isEmpty(); }
+}`,
+    python: `# Max-Heap in Python
+class MaxHeap:
+    def __init__(self):
+        self.heap = []
+
+    def insert(self, val):
+        self.heap.append(val)
+        self._sift_up(len(self.heap) - 1)
+
+    def extract_max(self):
+        if not self.heap: raise IndexError("Heap is empty")
+        max_val = self.heap[0]
+        last_val = self.heap.pop()
+        if self.heap:
+            self.heap[0] = last_val
+            self._sift_down(0)
+        return max_val
+
+    def _sift_up(self, i):
+        while i > 0:
+            parent = (i - 1) // 2
+            if self.heap[i] > self.heap[parent]:
+                self.heap[i], self.heap[parent] = self.heap[parent], self.heap[i]
+                i = parent
+            else: break
+
+    def _sift_down(self, i):
+        n = len(self.heap)
+        while i < n:
+            largest = i
+            l, r = 2 * i + 1, 2 * i + 2
+            if l < n and self.heap[l] > self.heap[largest]: largest = l
+            if r < n and self.heap[r] > self.heap[largest]: largest = r
+            if largest != i:
+                self.heap[i], self.heap[largest] = self.heap[largest], self.heap[i]
+                i = largest
+            else: break`,
+    cpp: `// Max-Heap in C++
+class MaxHeap {
+private:
+    vector<int> heap;
+
+    void siftUp(int i) {
+        while (i > 0) {
+            int p = (i - 1) / 2;
+            if (heap[i] > heap[p]) {
+                swap(heap[i], heap[p]);
+                i = p;
+            } else break;
+        }
+    }
+
+    void siftDown(int i) {
+        int n = heap.size();
+        while (i < n) {
+            int largest = i;
+            int l = 2 * i + 1, r = 2 * i + 2;
+            if (l < n && heap[l] > heap[largest]) largest = l;
+            if (r < n && heap[r] > heap[largest]) largest = r;
+            if (largest != i) {
+                swap(heap[i], heap[largest]);
+                i = largest;
+            } else break;
+        }
+    }
+
+public:
+    void insert(int val) {
+        heap.push_back(val);
+        siftUp(heap.size() - 1);
+    }
+
+    int extractMax() {
+        if (heap.empty()) throw runtime_error("Empty heap");
+        int maxVal = heap[0];
+        heap[0] = heap.back();
+        heap.pop_back();
+        if (!heap.empty()) siftDown(0);
+        return maxVal;
+    }
+};`
+  },
+
+  'min-heap': {
+    java: `// Binary Min-Heap Implementation in Java
+import java.util.*;
+
+public class MinHeap {
+    private ArrayList<Integer> heap = new ArrayList<>();
+
+    // Insert new element into Min-Heap: O(log N)
+    public void insert(int val) {
+        heap.add(val);
+        siftUp(heap.size() - 1);
+    }
+
+    // Extract minimum root element: O(log N)
+    public int extractMin() {
+        if (heap.isEmpty()) throw new NoSuchElementException("Heap is empty.");
+        int minVal = heap.get(0);
+        int lastVal = heap.remove(heap.size() - 1);
+        if (!heap.isEmpty()) {
+            heap.set(0, lastVal);
+            siftDown(0);
+        }
+        return minVal;
+    }
+
+    // Restore heap invariant upwards
+    private void siftUp(int i) {
+        while (i > 0) {
+            int parent = (i - 1) / 2;
+            if (heap.get(i) < heap.get(parent)) {
+                Collections.swap(heap, i, parent);
+                i = parent;
+            } else break;
+        }
+    }
+
+    // Restore heap invariant downwards
+    private void siftDown(int i) {
+        int n = heap.size();
+        while (i < n) {
+            int smallest = i;
+            int l = 2 * i + 1, r = 2 * i + 2;
+            if (l < n && heap.get(l) < heap.get(smallest)) smallest = l;
+            if (r < n && heap.get(r) < heap.get(smallest)) smallest = r;
+            if (smallest != i) {
+                Collections.swap(heap, i, smallest);
+                i = smallest;
+            } else break;
+        }
+    }
+
+    public int peekMin() {
+        if (heap.isEmpty()) throw new NoSuchElementException("Heap is empty.");
+        return heap.get(0);
+    }
+
+    public int size() { return heap.size(); }
+    public boolean isEmpty() { return heap.isEmpty(); }
+}`,
+    python: `# Min-Heap in Python
+class MinHeap:
+    def __init__(self):
+        self.heap = []
+
+    def insert(self, val):
+        self.heap.append(val)
+        self._sift_up(len(self.heap) - 1)
+
+    def extract_min(self):
+        if not self.heap: raise IndexError("Heap is empty")
+        min_val = self.heap[0]
+        last_val = self.heap.pop()
+        if self.heap:
+            self.heap[0] = last_val
+            self._sift_down(0)
+        return min_val
+
+    def _sift_up(self, i):
+        while i > 0:
+            parent = (i - 1) // 2
+            if self.heap[i] < self.heap[parent]:
+                self.heap[i], self.heap[parent] = self.heap[parent], self.heap[i]
+                i = parent
+            else: break
+
+    def _sift_down(self, i):
+        n = len(self.heap)
+        while i < n:
+            smallest = i
+            l, r = 2 * i + 1, 2 * i + 2
+            if l < n and self.heap[l] < self.heap[smallest]: smallest = l
+            if r < n and self.heap[r] < self.heap[smallest]: smallest = r
+            if smallest != i:
+                self.heap[i], self.heap[smallest] = self.heap[smallest], self.heap[i]
+                i = smallest
+            else: break`,
+    cpp: `// Min-Heap in C++
+class MinHeap {
+private:
+    vector<int> heap;
+
+    void siftUp(int i) {
+        while (i > 0) {
+            int p = (i - 1) / 2;
+            if (heap[i] < heap[p]) {
+                swap(heap[i], heap[p]);
+                i = p;
+            } else break;
+        }
+    }
+
+    void siftDown(int i) {
+        int n = heap.size();
+        while (i < n) {
+            int smallest = i;
+            int l = 2 * i + 1, r = 2 * i + 2;
+            if (l < n && heap[l] < heap[smallest]) smallest = l;
+            if (r < n && heap[r] < heap[smallest]) smallest = r;
+            if (smallest != i) {
+                swap(heap[i], heap[smallest]);
+                i = smallest;
+            } else break;
+        }
+    }
+
+public:
+    void insert(int val) {
+        heap.push_back(val);
+        siftUp(heap.size() - 1);
+    }
+
+    int extractMin() {
+        if (heap.empty()) throw runtime_error("Empty heap");
+        int minVal = heap[0];
+        heap[0] = heap.back();
+        heap.pop_back();
+        if (!heap.empty()) siftDown(0);
+        return minVal;
+    }
+};`
+  },
+
+  // =========================================================================
   // 1. ADVANCED DATA STRUCTURES & COMPETITIVE PROGRAMMING
   // =========================================================================
   'segment-tree': {

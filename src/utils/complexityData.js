@@ -1,5 +1,226 @@
 export const ALGO_DETAILS = {
   // =========================================================================
+  // 0. FUNDAMENTAL DATA STRUCTURES (Stack, Queue, Heaps)
+  // =========================================================================
+  'stack': {
+    name: 'Stack (LIFO - Last In, First Out)',
+    category: 'Linear Data Structure',
+    timeComplexity: {
+      best: 'O(1)',
+      average: 'O(1)',
+      worst: 'O(1)',
+      push: 'O(1)',
+      pop: 'O(1)',
+      peek: 'O(1)'
+    },
+    spaceComplexity: 'O(N)',
+    description: 'A linear data structure that follows the Last In, First Out (LIFO) principle. Elements can only be added (push) and removed (pop) from the top of the stack.',
+    keyPoints: [
+      'LIFO (Last In First Out) discipline',
+      'O(1) constant time push, pop, and peek operations',
+      'Foundation for DFS, expression evaluation, syntax parsing, and browser history'
+    ],
+    practiceProblems: [
+      {
+        title: 'LeetCode 20 - Valid Parentheses',
+        platform: 'LeetCode',
+        difficulty: 'Easy',
+        url: 'https://leetcode.com/problems/valid-parentheses/'
+      },
+      {
+        title: 'LeetCode 155 - Min Stack',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/min-stack/'
+      },
+      {
+        title: 'LeetCode 739 - Daily Temperatures (Monotonic Stack)',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/daily-temperatures/'
+      },
+      {
+        title: 'LeetCode 84 - Largest Rectangle in Histogram',
+        platform: 'LeetCode',
+        difficulty: 'Hard',
+        url: 'https://leetcode.com/problems/largest-rectangle-in-histogram/'
+      },
+      {
+        title: 'Codeforces 5C - Longest Regular Bracket Sequence',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/5/C'
+      },
+      {
+        title: 'Codeforces 343B - Alternating Current',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/343/B'
+      }
+    ]
+  },
+
+  'queue': {
+    name: 'Queue (FIFO - First In, First Out)',
+    category: 'Linear Data Structure',
+    timeComplexity: {
+      best: 'O(1)',
+      average: 'O(1)',
+      worst: 'O(1)',
+      enqueue: 'O(1)',
+      dequeue: 'O(1)',
+      peek: 'O(1)'
+    },
+    spaceComplexity: 'O(N)',
+    description: 'A linear data structure following the First In, First Out (FIFO) order. Elements enter at the rear (enqueue) and exit from the front (dequeue).',
+    keyPoints: [
+      'FIFO (First In First Out) ordering',
+      'O(1) enqueue and dequeue when implemented with circular buffer or linked list',
+      'Essential for Breadth-First Search (BFS), task schedulers, and buffer pipelines'
+    ],
+    practiceProblems: [
+      {
+        title: 'LeetCode 232 - Implement Queue using Stacks',
+        platform: 'LeetCode',
+        difficulty: 'Easy',
+        url: 'https://leetcode.com/problems/implement-queue-using-stacks/'
+      },
+      {
+        title: 'LeetCode 622 - Design Circular Queue',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/design-circular-queue/'
+      },
+      {
+        title: 'LeetCode 239 - Sliding Window Maximum (Monotonic Queue)',
+        platform: 'LeetCode',
+        difficulty: 'Hard',
+        url: 'https://leetcode.com/problems/sliding-window-maximum/'
+      },
+      {
+        title: 'LeetCode 933 - Number of Recent Calls',
+        platform: 'LeetCode',
+        difficulty: 'Easy',
+        url: 'https://leetcode.com/problems/number-of-recent-calls/'
+      },
+      {
+        title: 'Codeforces 1512D - Corrupted Array',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/1512/D'
+      }
+    ]
+  },
+
+  'max-heap': {
+    name: 'Binary Max-Heap',
+    category: 'Tree & Priority Queue',
+    timeComplexity: {
+      best: 'O(1)',
+      average: 'O(log N)',
+      worst: 'O(log N)',
+      peekMax: 'O(1)',
+      insert: 'O(log N)',
+      extractMax: 'O(log N)',
+      heapify: 'O(N)'
+    },
+    spaceComplexity: 'O(N)',
+    description: 'A complete binary tree where the key at root is the maximum among all keys present in the binary heap, and the same property recursively holds for all subtrees.',
+    keyPoints: [
+      'Complete binary tree stored compactly in contiguous array: parent=(i-1)/2, left=2i+1, right=2i+2',
+      'O(1) maximum element lookup at root',
+      'O(log N) insertion with siftUp and extraction with siftDown',
+      'Linear O(N) bottom-up heap construction'
+    ],
+    practiceProblems: [
+      {
+        title: 'LeetCode 215 - Kth Largest Element in an Array',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/kth-largest-element-in-an-array/'
+      },
+      {
+        title: 'LeetCode 1046 - Last Stone Weight',
+        platform: 'LeetCode',
+        difficulty: 'Easy',
+        url: 'https://leetcode.com/problems/last-stone-weight/'
+      },
+      {
+        title: 'LeetCode 295 - Find Median from Data Stream (Two Heaps)',
+        platform: 'LeetCode',
+        difficulty: 'Hard',
+        url: 'https://leetcode.com/problems/find-median-from-data-stream/'
+      },
+      {
+        title: 'Codeforces 1353D - Constructing the Array',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/1353/D'
+      },
+      {
+        title: 'Codeforces 1140C - Playlist',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/1140/C'
+      }
+    ]
+  },
+
+  'min-heap': {
+    name: 'Binary Min-Heap',
+    category: 'Tree & Priority Queue',
+    timeComplexity: {
+      best: 'O(1)',
+      average: 'O(log N)',
+      worst: 'O(log N)',
+      peekMin: 'O(1)',
+      insert: 'O(log N)',
+      extractMin: 'O(log N)',
+      heapify: 'O(N)'
+    },
+    spaceComplexity: 'O(N)',
+    description: 'A complete binary tree where the key at root is the minimum among all keys in the heap, with parent <= children holding true across all nodes.',
+    keyPoints: [
+      'O(1) instant lookup of minimum key',
+      'O(log N) insert and extract-min',
+      'Core engine for Dijkstra shortest path, Prim MST, and Huffman Coding',
+      'Array indexing allows zero memory overhead pointer storage'
+    ],
+    practiceProblems: [
+      {
+        title: 'LeetCode 23 - Merge k Sorted Lists',
+        platform: 'LeetCode',
+        difficulty: 'Hard',
+        url: 'https://leetcode.com/problems/merge-k-sorted-lists/'
+      },
+      {
+        title: 'LeetCode 703 - Kth Largest Element in a Stream',
+        platform: 'LeetCode',
+        difficulty: 'Easy',
+        url: 'https://leetcode.com/problems/kth-largest-element-in-a-stream/'
+      },
+      {
+        title: 'LeetCode 347 - Top K Frequent Elements',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/top-k-frequent-elements/'
+      },
+      {
+        title: 'Codeforces 1106D - Lunar New Year and a Wander',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/1106/D'
+      },
+      {
+        title: 'CSES 1671 - Shortest Routes I (Priority Queue)',
+        platform: 'CSES',
+        difficulty: 'Medium',
+        url: 'https://cses.fi/problemset/task/1671'
+      }
+    ]
+  },
+
+  // =========================================================================
   // 1. ADVANCED DATA STRUCTURES & COMPETITIVE PROGRAMMING
   // =========================================================================
   'segment-tree': {
