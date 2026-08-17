@@ -1,16 +1,69 @@
-# React + Vite
+# AlgoViz - Interactive DSA Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+An interactive, modern web application that visualizes data structures and algorithms step-by-step, making complex computer science concepts intuitive and engaging through real-time animations, sound effects, and code inspection.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+- **Sorting Visualizer**: Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, Heap Sort, Radix Sort, Shell Sort, and Bogo Sort.
+- **Pathfinding Visualizer**: Dijkstra's Algorithm, A* Search, Breadth-First Search (BFS), Depth-First Search (DFS), Greedy Best-First Search, Bidirectional Search, and Random Maze Generation.
+- **Tree & Graph Visualizer**: Binary Search Tree (BST), AVL Tree (with auto-rotations), Red-Black Tree, B-Tree, and Graph Traversals.
+- **Dynamic Programming (DP)**: N-Queens Problem, Fibonacci (Memoization & Tabulation), 0/1 Knapsack, Longest Common Subsequence (LCS), and Matrix Chain Multiplication.
+- **Search Visualizer**: Linear Search, Binary Search, Jump Search, and Exponential Search.
+- **Advanced Data Structures**: Segment Tree, Fenwick Tree (Binary Indexed Tree), Trie, Disjoint Set Union (DSU), and LRU Cache.
+- **Live Code Viewer**: Step-through pseudocode and syntax highlighting in sync with visualization steps.
+- **Audio Feedback**: Synthesized Web Audio tones corresponding to data values during operations.
+- **Modern UI**: Dark-mode-first aesthetic with Tailwind CSS v4, sleek glassmorphism, and responsive controls.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the Oxlint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- **Framework**: [React 19](https://react.dev/)
+- **Bundler & Dev Server**: [Vite 8](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Animations / FX**: [Canvas Confetti](https://www.kirilv.com/canvas-confetti/), Web Audio API
+- **Linter**: [Oxlint](https://oxc.rs/)
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- npm or yarn
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone <YOUR_REPO_URL>
+   cd AlgoViz-Interactive-DSA-Visualizer
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+---
+
+## 📜 Available Scripts
+
+- `npm run dev`: Starts the local development server.
+- `npm run build`: Compiles the project for production.
+- `npm run preview`: Previews the production build locally.
+- `npm run lint`: Runs Oxlint for code quality checks.
+
+---
+
+## 📄 License
+This project is open source and available under the [MIT License](LICENSE).

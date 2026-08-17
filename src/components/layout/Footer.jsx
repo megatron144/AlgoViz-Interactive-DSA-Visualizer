@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="flex items-center gap-3">
           <span className="w-2 h-2 rounded-full bg-white animate-ping" />
           <p>
-            ALGO.LAB // Developed with <span className="text-white font-semibold">React, Tailwind CSS & JavaScript</span>
+            AlgoViz - Interactive DSA Visualiser // Developed with <span className="text-white font-semibold">React, Tailwind CSS & JavaScript</span>
           </p>
         </div>
 

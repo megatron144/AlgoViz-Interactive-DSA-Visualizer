@@ -68,7 +68,7 @@ export default function App() {
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
               <span className="text-xs font-mono uppercase tracking-widest text-zinc-400">
-                Algorithms & Competitive Programming Lab
+                AlgoViz - Interactive DSA Visualiser
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-display font-black text-white mt-1 tracking-tight">
