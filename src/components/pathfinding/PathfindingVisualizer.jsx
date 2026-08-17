@@ -178,12 +178,33 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
 
   return (
     <div className="space-y-6">
-      {/* Top Header & Algo Selector */}
+      {/* Standalone Sub-Navigation Track Bar at Top */}
+      <div className="dock-track-bar scrollbar-none shadow-2xl touch-scroll">
+        {algoOptions.map(opt => {
+          const isActive = selectedAlgo === opt.id;
+          return (
+            <button
+              key={opt.id}
+              onClick={() => {
+                setSelectedAlgo(opt.id);
+                clearSearchVisuals();
+              }}
+              className={`dock-pill ${isActive ? 'active' : ''}`}
+            >
+              <span>{opt.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Main Configuration Card */}
       <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
             <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Graph & Grid Traversal</span>
-            <h2 className="text-lg sm:text-xl font-display font-black text-white">Pathfinding & Maze Visualizer</h2>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">
+              {algoOptions.find(o => o.id === selectedAlgo)?.label || 'Pathfinding'} Visualizer
+            </h2>
           </div>
 
           {/* Action Button */}
@@ -196,29 +217,6 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
               Find Shortest Path
             </button>
           </div>
-        </div>
-
-        {/* Algorithm Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto p-1 sm:p-1.5 bg-zinc-900/90 rounded-2xl border border-white/10 scrollbar-none touch-scroll">
-          {algoOptions.map(opt => {
-            const isActive = selectedAlgo === opt.id;
-            return (
-              <button
-                key={opt.id}
-                onClick={() => {
-                  setSelectedAlgo(opt.id);
-                  clearSearchVisuals();
-                }}
-                className={`flex-shrink-0 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-[11px] sm:text-xs font-mono transition-all touch-manipulation ${
-                  isActive
-                    ? 'bg-white text-black font-bold shadow-md'
-                    : 'text-zinc-400 hover:text-white'
-                }`}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
         </div>
 
         {/* Tools and Maze Generators */}

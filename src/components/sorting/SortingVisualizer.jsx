@@ -94,58 +94,56 @@ export default function SortingVisualizer({ onActiveLineChange }) {
     description: ''
   };
 
-  const algoOptions = [
+  const subTabs = [
+    { id: 'quick-sort', label: 'Quick Sort' },
+    { id: 'merge-sort', label: 'Merge Sort' },
+    { id: 'heap-sort', label: 'Heap Sort' },
     { id: 'bubble-sort', label: 'Bubble Sort' },
     { id: 'selection-sort', label: 'Selection Sort' },
     { id: 'insertion-sort', label: 'Insertion Sort' },
-    { id: 'merge-sort', label: 'Merge Sort' },
-    { id: 'quick-sort', label: 'Quick Sort' },
-    { id: 'heap-sort', label: 'Heap Sort' },
     { id: 'shell-sort', label: 'Shell Sort' },
     { id: 'radix-sort', label: 'Radix Sort' },
+    { id: 'duel', label: 'Duel Arena ⚔️' },
   ];
 
   return (
     <div className="space-y-6">
-      {/* Top Header & Algo Selector */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* Standalone Sub-Navigation Track Bar at Top */}
+      <div className="dock-track-bar scrollbar-none shadow-2xl touch-scroll">
+        {subTabs.map((tab) => {
+          const isDuelTab = tab.id === 'duel';
+          const isActive = isDuelTab ? isDuelMode : (!isDuelMode && selectedAlgo === tab.id);
+          return (
+            <button
+              key={tab.id}
+              onClick={() => {
+                if (isDuelTab) {
+                  setIsDuelMode(true);
+                } else {
+                  setIsDuelMode(false);
+                  setSelectedAlgo(tab.id);
+                }
+              }}
+              className={`dock-pill ${isActive ? 'active' : ''}`}
+            >
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Main Configuration Card */}
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Foundational & Hybrid Sorting</span>
-            <h2 className="text-xl font-display font-black text-white">Interactive Sorting Visualizer</h2>
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">
+              {isDuelMode ? 'Real-Time Benchmark' : 'Foundational & Hybrid Sorting'}
+            </span>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">
+              {isDuelMode ? 'Algorithm Duel Arena' : `${subTabs.find(t => t.id === selectedAlgo)?.label || 'Sorting'} Visualizer`}
+            </h2>
           </div>
-
-          {/* Duel Mode Toggle */}
-          <button
-            onClick={() => setIsDuelMode(!isDuelMode)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold border transition-all ${
-              isDuelMode
-                ? 'bg-white text-black border-white shadow-[0_0_15px_rgba(255,255,255,0.4)]'
-                : 'bg-zinc-900 text-zinc-300 border-white/10 hover:border-white/30'
-            }`}
-          >
-            <Swords className="w-3.5 h-3.5" />
-            <span>Duel Mode</span>
-          </button>
         </div>
-
-        {/* Algorithm Select Pills Track */}
-        {!isDuelMode && (
-          <div className="dock-track-bar scrollbar-none shadow-inner touch-scroll">
-            {algoOptions.map((opt) => {
-              const isActive = selectedAlgo === opt.id;
-              return (
-                <button
-                  key={opt.id}
-                  onClick={() => setSelectedAlgo(opt.id)}
-                  className={`dock-pill ${isActive ? 'active' : ''}`}
-                >
-                  <span>{opt.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        )}
 
         {/* Controls: Size slider & Presets */}
         <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-4 pt-1 sm:pt-2">
