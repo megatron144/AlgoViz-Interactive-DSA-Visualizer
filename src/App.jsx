@@ -59,32 +59,34 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Dynamic Category Hero Tagline */}
+        {/* Sole Heading: AlgoViz */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-              <span className="text-xs font-mono uppercase tracking-widest text-zinc-400">
-                AlgoViz - Interactive DSA Visualiser
-              </span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-display font-black text-white mt-1 tracking-tight">
-              {activeTab === 'advanced' && 'Advanced Data Structures & CP Trees'}
-              {activeTab === 'sorting' && 'High-Performance Sorting Algorithms'}
-              {activeTab === 'pathfinding' && 'Graph & Grid Pathfinding Engines'}
-              {activeTab === 'tree' && 'Self-Balancing BST & Tree Traversal'}
-              {activeTab === 'dp' && 'Dynamic Programming & Backtracking'}
-              {activeTab === 'search' && 'Searching Algorithms & Pointer Mechanics'}
+            <h1 className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight">
+              Algo<span className="text-zinc-400">Viz</span>
             </h1>
+            <p className="text-xs font-mono uppercase tracking-widest text-zinc-400 mt-1.5 flex flex-wrap items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span>Interactive DSA Visualiser</span>
+              <span className="text-zinc-600">—</span>
+              <span className="text-zinc-300">
+                {activeTab === 'advanced' && 'Advanced Data Structures & CP Trees'}
+                {activeTab === 'sorting' && 'High-Performance Sorting Algorithms'}
+                {activeTab === 'pathfinding' && 'Graph & Grid Pathfinding Engines'}
+                {activeTab === 'tree' && 'Self-Balancing BST & Tree Traversal'}
+                {activeTab === 'dp' && 'Dynamic Programming & Backtracking'}
+                {activeTab === 'search' && 'Searching Algorithms & Pointer Mechanics'}
+              </span>
+            </p>
           </div>
 
           {/* Quick Code Drawer Toggle Button */}
           <button
             onClick={() => setShowCodeDrawer(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-zinc-900 text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/30 hover:text-white transition-all shadow-sm"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-zinc-900/80 text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/25 hover:text-white transition-all shadow-sm"
           >
             <Code2 className="w-3.5 h-3.5" />
-            <span>Open Synchronized Code Panel</span>
+            <span>Open Code Panel</span>
           </button>
         </div>
 
