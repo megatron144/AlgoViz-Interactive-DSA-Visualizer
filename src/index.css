@@ -84,55 +84,57 @@ body {
   background-size: 24px 24px;
 }
 
-/* Glowing Glass Card */
-.glass-card {
-  background: rgba(9, 9, 11, 0.82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
-}
+@layer components {
+  /* Glowing Glass Card */
+  .glass-card {
+    background: rgba(9, 9, 11, 0.82);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  }
 
-.light .glass-card {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
-}
+  .light .glass-card {
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.06);
+  }
 
-.glow-border {
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.12);
-}
+  .glow-border {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.12);
+  }
 
-.glow-text {
-  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
-}
+  .glow-text {
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+  }
 
-/* Spacious Dock Track Bar with bigger height */
-.dock-track-bar {
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 8px;
-  border-radius: 18px;
-  background: rgba(9, 9, 11, 0.88);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.45);
-  overflow-x: auto;
-  overflow-y: visible;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-x: contain;
-}
-
-@media (min-width: 640px) {
+  /* Spacious Dock Track Bar with bigger height */
   .dock-track-bar {
-    min-height: 56px;
-    gap: 8px;
-    padding: 6px 10px;
-    border-radius: 20px;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 8px;
+    border-radius: 18px;
+    background: rgba(9, 9, 11, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 8px 32px rgba(0, 0, 0, 0.45);
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+  }
+
+  @media (min-width: 640px) {
+    .dock-track-bar {
+      min-height: 56px;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 20px;
+    }
   }
 }
 

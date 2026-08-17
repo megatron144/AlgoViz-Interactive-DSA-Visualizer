@@ -94,7 +94,7 @@ export default function SortingVisualizer({ onActiveLineChange }) {
     description: ''
   };
 
-  const sortingOptions = [
+  const algoOptions = [
     { id: 'bubble-sort', label: 'Bubble Sort' },
     { id: 'selection-sort', label: 'Selection Sort' },
     { id: 'insertion-sort', label: 'Insertion Sort' },
