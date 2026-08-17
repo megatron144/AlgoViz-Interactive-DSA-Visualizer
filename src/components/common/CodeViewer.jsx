@@ -77,23 +77,16 @@ export default function CodeViewer({ algoKey, activeLine = 1, onClose }) {
         </div>
       </div>
 
-      {/* Code Text Area with Line Highlighting */}
+      {/* Code Text Area without distracting line highlights */}
       <div className="flex-1 overflow-auto p-3 font-mono text-xs leading-5 bg-black/90 select-text max-h-[500px]">
         {lines.map((lineContent, idx) => {
           const lineNum = idx + 1;
-          const isActive = lineNum === activeLine;
           return (
             <div
               key={lineNum}
-              className={`flex items-center gap-3 py-0.5 px-2 rounded font-mono transition-colors duration-150 ${
-                isActive
-                  ? 'bg-white/15 text-white font-bold border-l-2 border-white'
-                  : 'text-zinc-400 hover:bg-white/5 hover:text-zinc-200'
-              }`}
+              className="flex items-center gap-3 py-0.5 px-2 rounded font-mono text-zinc-300 hover:bg-white/5 transition-colors duration-150"
             >
-              <span className={`w-6 text-right select-none text-[10px] ${
-                isActive ? 'text-white font-bold' : 'text-zinc-600'
-              }`}>
+              <span className="w-6 text-right select-none text-[10px] text-zinc-600 font-mono">
                 {lineNum}
               </span>
               <span className="flex-1 font-mono whitespace-pre">
