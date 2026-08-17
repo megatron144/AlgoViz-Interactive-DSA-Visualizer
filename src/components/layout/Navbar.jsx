@@ -11,6 +11,7 @@ import {
   Grid
 } from 'lucide-react';
 import { soundPlayer } from '../../utils/audio';
+import LogoIcon from '../common/LogoIcon';
 
 export default function Navbar({ 
   activeTab, 
@@ -38,8 +39,9 @@ export default function Navbar({
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-white text-black flex items-center justify-center font-display font-extrabold text-lg shadow-[0_0_20px_rgba(255,255,255,0.35)] tracking-tighter">
-            AV
+          <div className="relative group cursor-pointer">
+            <div className="absolute -inset-0.5 bg-white/20 rounded-full blur group-hover:bg-white/40 transition duration-300"></div>
+            <LogoIcon className="relative w-9 h-9 transform group-hover:scale-105 transition-transform duration-200" />
           </div>
           <div className="flex items-center gap-2">
             <span className="font-display font-black text-lg tracking-tight text-white">
