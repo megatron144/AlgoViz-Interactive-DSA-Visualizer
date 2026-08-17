@@ -52,7 +52,7 @@ export default function Navbar({
         </div>
 
         {/* Tab Navigation with macOS Dock Spring Magnification & Dynamic Expanding Pills for Desktop */}
-        <nav className="hidden lg:flex dock-track-bar shadow-2xl backdrop-blur-xl">
+        <nav className="!hidden lg:!flex dock-track-bar shadow-2xl backdrop-blur-xl">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -87,7 +87,7 @@ export default function Navbar({
       </div>
 
       {/* Mobile/Tablet Horizontal Dock Scrollbar with Touch Momentum */}
-      <div className="flex lg:hidden items-center gap-1.5 overflow-x-auto pt-2.5 pb-1 px-0.5 scrollbar-none border-t border-white/5 mt-2 overflow-y-visible touch-scroll">
+      <div className="!flex lg:!hidden items-center gap-1.5 overflow-x-auto pt-2.5 pb-1 px-0.5 scrollbar-none border-t border-white/5 mt-2 overflow-y-visible touch-scroll">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
