@@ -19,8 +19,8 @@ export default function Navbar({
   setSoundEnabled
 }) {
   const tabs = [
-    { id: 'datastructures', label: 'Data Structures', icon: Database, badge: 'NEW' },
-    { id: 'advanced', label: 'Advanced CP', icon: Cpu, badge: 'PRO' },
+    { id: 'datastructures', label: 'Data Structures', icon: Database },
+    { id: 'advanced', label: 'Advanced CP', icon: Cpu },
     { id: 'sorting', label: 'Sorting & Duel', icon: Layers },
     { id: 'pathfinding', label: 'Pathfinding & Mazes', icon: Compass },
     { id: 'tree', label: 'Trees & AVL', icon: GitBranch },

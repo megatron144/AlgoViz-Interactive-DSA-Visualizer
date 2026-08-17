@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import StackVisualizer from './StackVisualizer';
 import QueueVisualizer from './QueueVisualizer';
+import DequeVisualizer from './DequeVisualizer';
+import PriorityQueueVisualizer from './PriorityQueueVisualizer';
 import HeapVisualizer from './HeapVisualizer';
-import { Layers, Database, GitFork, ArrowDownUp } from 'lucide-react';
+import DSUVisualizer from './DSUVisualizer';
+import { 
+  Layers, 
+  ArrowDownUp, 
+  ArrowLeftRight, 
+  Flame, 
+  GitFork, 
+  Network 
+} from 'lucide-react';
 
 export default function DataStructuresVisualizer() {
   const [subTab, setSubTab] = useState('stack');
@@ -10,7 +20,10 @@ export default function DataStructuresVisualizer() {
   const subTabs = [
     { id: 'stack', label: 'Stack (LIFO)', icon: Layers },
     { id: 'queue', label: 'Queue (FIFO)', icon: ArrowDownUp },
+    { id: 'deque', label: 'Deque (Double-Ended)', icon: ArrowLeftRight },
+    { id: 'priority-queue', label: 'Priority Queue', icon: Flame },
     { id: 'heap', label: 'Binary Heaps (Max/Min)', icon: GitFork },
+    { id: 'dsu', label: 'Disjoint Set Union (DSU)', icon: Network },
   ];
 
   return (
@@ -24,7 +37,7 @@ export default function DataStructuresVisualizer() {
             <button
               key={tab.id}
               onClick={() => setSubTab(tab.id)}
-              className={`flex-shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all ${
+              className={`flex-shrink-0 flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-medium transition-all ${
                 isActive
                   ? 'bg-white text-black font-bold shadow-md scale-[1.02]'
                   : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
@@ -40,7 +53,10 @@ export default function DataStructuresVisualizer() {
       {/* SubTab Views */}
       {subTab === 'stack' && <StackVisualizer />}
       {subTab === 'queue' && <QueueVisualizer />}
+      {subTab === 'deque' && <DequeVisualizer />}
+      {subTab === 'priority-queue' && <PriorityQueueVisualizer />}
       {subTab === 'heap' && <HeapVisualizer />}
+      {subTab === 'dsu' && <DSUVisualizer />}
     </div>
   );
 }
