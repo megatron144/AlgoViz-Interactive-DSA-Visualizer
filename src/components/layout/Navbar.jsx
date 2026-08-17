@@ -1,5 +1,6 @@
 import React from 'react';
 import { 
+  Database,
   Layers, 
   Volume2, 
   VolumeX, 
@@ -18,6 +19,7 @@ export default function Navbar({
   setSoundEnabled
 }) {
   const tabs = [
+    { id: 'datastructures', label: 'Data Structures', icon: Database, badge: 'NEW' },
     { id: 'advanced', label: 'Advanced CP', icon: Cpu, badge: 'PRO' },
     { id: 'sorting', label: 'Sorting & Duel', icon: Layers },
     { id: 'pathfinding', label: 'Pathfinding & Mazes', icon: Compass },

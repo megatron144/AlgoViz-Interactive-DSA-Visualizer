@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import DataStructuresVisualizer from './components/datastructures/DataStructuresVisualizer';
 import AdvancedVisualizer from './components/advanced/AdvancedVisualizer';
 import SortingVisualizer from './components/sorting/SortingVisualizer';
 import PathfindingVisualizer from './components/pathfinding/PathfindingVisualizer';
@@ -9,22 +9,10 @@ import TreeVisualizer from './components/tree/TreeVisualizer';
 import DPVisualizer from './components/dp/DPVisualizer';
 import SearchVisualizer from './components/search/SearchVisualizer';
 import CodeViewer from './components/common/CodeViewer';
-import {
-  Sparkles,
-  Cpu,
-  Layers,
-  Compass,
-  GitBranch,
-  Grid,
-  Search,
-  Code2,
-  BookOpen,
-  Zap,
-  X
-} from 'lucide-react';
+import { Code2 } from 'lucide-react';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('advanced');
+  const [activeTab, setActiveTab] = useState('datastructures');
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showCodeDrawer, setShowCodeDrawer] = useState(false);
   const [activeLine, setActiveLine] = useState(1);
@@ -32,13 +20,14 @@ export default function App() {
   // Map active category to default algorithm key for code inspector
   const getAlgoKeyForTab = () => {
     switch (activeTab) {
+      case 'datastructures': return 'stack';
       case 'advanced': return 'segment-tree';
       case 'sorting': return 'quick-sort';
       case 'pathfinding': return 'astar';
       case 'tree': return 'avl';
       case 'dp': return 'n-queens';
       case 'search': return 'binary-search';
-      default: return 'quick-sort';
+      default: return 'stack';
     }
   };
 
@@ -54,8 +43,6 @@ export default function App() {
         setActiveTab={setActiveTab}
         soundEnabled={soundEnabled}
         setSoundEnabled={setSoundEnabled}
-        onOpenCodeDrawer={() => setShowCodeDrawer(!showCodeDrawer)}
-        showCodeDrawer={showCodeDrawer}
       />
 
       {/* Main Content Area */}
@@ -71,6 +58,7 @@ export default function App() {
               <span>Interactive DSA Visualiser</span>
               <span className="text-zinc-600">—</span>
               <span className="text-zinc-300">
+                {activeTab === 'datastructures' && 'Stacks, Queues & Binary Heaps'}
                 {activeTab === 'advanced' && 'Advanced Data Structures & CP Trees'}
                 {activeTab === 'sorting' && 'High-Performance Sorting Algorithms'}
                 {activeTab === 'pathfinding' && 'Graph & Grid Pathfinding Engines'}
@@ -93,6 +81,9 @@ export default function App() {
 
         {/* Active Visualizer Tab Content */}
         <div className="w-full">
+          {activeTab === 'datastructures' && (
+            <DataStructuresVisualizer />
+          )}
           {activeTab === 'advanced' && (
             <AdvancedVisualizer onActiveLineChange={setActiveLine} />
           )}
