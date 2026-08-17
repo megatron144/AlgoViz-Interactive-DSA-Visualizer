@@ -145,69 +145,69 @@ export default function SegmentTreeVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Action Trigger Panels */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3 pt-1 sm:pt-2">
           {/* Range Query Panel */}
-          <div className="bg-zinc-900/90 p-3.5 rounded-xl border border-white/10 space-y-2">
+          <div className="bg-zinc-900/90 p-3 sm:p-3.5 rounded-xl border border-white/10 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold text-white flex items-center gap-1.5">
-                <Search className="w-3.5 h-3.5" /> Range Sum Query [L, R]
+                <Search className="w-3.5 h-3.5" /> Range Sum [L, R]
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <input
                 type="number"
                 min="0"
                 max={array.length - 1}
                 value={queryL}
                 onChange={e => setQueryL(parseInt(e.target.value, 10) || 0)}
-                className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+                className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center"
                 placeholder="L"
               />
-              <span className="text-zinc-500 font-mono">to</span>
+              <span className="text-zinc-500 font-mono text-xs">to</span>
               <input
                 type="number"
                 min="0"
                 max={array.length - 1}
                 value={queryR}
                 onChange={e => setQueryR(parseInt(e.target.value, 10) || 0)}
-                className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+                className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center"
                 placeholder="R"
               />
               <button
                 onClick={handleStartQuery}
-                className="flex-1 px-3 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10"
+                className="flex-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 touch-manipulation"
               >
-                Query Sum
+                Query
               </button>
             </div>
           </div>
 
           {/* Point Update Panel */}
-          <div className="bg-zinc-900/90 p-3.5 rounded-xl border border-white/10 space-y-2">
+          <div className="bg-zinc-900/90 p-3 sm:p-3.5 rounded-xl border border-white/10 space-y-2">
             <span className="text-xs font-mono font-bold text-white flex items-center gap-1.5">
-              <Edit3 className="w-3.5 h-3.5" /> Point Update arr[idx] = val
+              <Edit3 className="w-3.5 h-3.5" /> Point Update arr[i]=v
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <input
                 type="number"
                 min="0"
                 max={array.length - 1}
                 value={updateIdx}
                 onChange={e => setUpdateIdx(parseInt(e.target.value, 10) || 0)}
-                className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+                className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center"
                 placeholder="idx"
               />
-              <span className="text-zinc-500 font-mono">➔</span>
+              <span className="text-zinc-500 font-mono text-xs">➔</span>
               <input
                 type="number"
                 value={updateVal}
                 onChange={e => setUpdateVal(parseInt(e.target.value, 10) || 0)}
-                className="w-20 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+                className="w-16 sm:w-20 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center"
                 placeholder="newVal"
               />
               <button
                 onClick={handleStartUpdate}
-                className="flex-1 px-3 py-1.5 rounded-lg bg-zinc-800 text-white border border-white/20 font-display font-bold text-xs hover:bg-zinc-700 transition-all"
+                className="flex-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-zinc-800 text-white border border-white/20 font-display font-bold text-xs hover:bg-zinc-700 transition-all touch-manipulation"
               >
                 Update
               </button>
@@ -215,21 +215,21 @@ export default function SegmentTreeVisualizer({ onActiveLineChange }) {
           </div>
 
           {/* Custom Array Input */}
-          <div className="bg-zinc-900/90 p-3.5 rounded-xl border border-white/10 space-y-2">
+          <div className="bg-zinc-900/90 p-3 sm:p-3.5 rounded-xl border border-white/10 space-y-2">
             <span className="text-xs font-mono font-bold text-white flex items-center gap-1.5">
               <RefreshCw className="w-3.5 h-3.5" /> Custom Array
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2">
               <input
                 type="text"
                 value={customArrayInput}
                 onChange={e => setCustomArrayInput(e.target.value)}
-                className="flex-1 bg-black border border-white/15 rounded-lg px-2.5 py-1 text-xs font-mono text-white"
+                className="flex-1 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white"
                 placeholder="e.g. 3, 1, 5, 7, 2"
               />
               <button
                 onClick={handleApplyCustomArray}
-                className="px-3 py-1.5 rounded-lg bg-zinc-800 text-white border border-white/20 font-mono text-xs hover:bg-zinc-700 transition-all"
+                className="px-2.5 sm:px-3 py-1.5 rounded-lg bg-zinc-800 text-white border border-white/20 font-mono text-xs hover:bg-zinc-700 transition-all touch-manipulation"
               >
                 Apply
               </button>
@@ -239,26 +239,26 @@ export default function SegmentTreeVisualizer({ onActiveLineChange }) {
       </div>
 
       {/* Main Visualizer Stage */}
-      <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-3 sm:space-y-4">
         {/* Step Description Banner */}
-        <div className="min-h-[50px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2 text-xs font-mono">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+        <div className="min-h-[45px] sm:min-h-[50px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex flex-wrap items-center justify-between gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 text-[11px] sm:text-xs font-mono">
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
             <span className="text-white font-medium">
               {currentStep?.description || 'Select an operation above (Query or Update) to begin step-by-step visualization.'}
             </span>
           </div>
           {currentStep?.currentSum !== undefined && (
-            <div className="flex items-center gap-2 bg-zinc-900 px-3 py-1 rounded-lg border border-white/20">
-              <span className="text-[11px] font-mono text-zinc-400">Sum Accumulator:</span>
-              <span className="text-sm font-display font-black text-white">{currentStep.currentSum}</span>
+            <div className="flex items-center gap-2 bg-zinc-900 px-2.5 sm:px-3 py-1 rounded-lg border border-white/20">
+              <span className="text-[10px] sm:text-[11px] font-mono text-zinc-400">Sum:</span>
+              <span className="text-xs sm:text-sm font-display font-black text-white">{currentStep.currentSum}</span>
             </div>
           )}
         </div>
 
         {/* Interactive SVG Tree Canvas */}
-        <div className="w-full h-[380px] bg-black/95 rounded-xl border border-white/10 overflow-hidden relative flex items-center justify-center">
-          <svg className="w-full h-full" viewBox="0 0 800 360">
+        <div className="w-full h-[300px] sm:h-[380px] bg-black/95 rounded-xl border border-white/10 overflow-x-auto touch-scroll relative flex items-center justify-start sm:justify-center">
+          <svg className="w-full min-w-[560px] sm:min-w-[700px] h-full" viewBox="0 0 800 360">
             {/* Edges */}
             {nodeCoords.map(node => {
               if (node.start === node.end) return null;

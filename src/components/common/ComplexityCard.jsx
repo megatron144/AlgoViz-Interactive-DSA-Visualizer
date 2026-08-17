@@ -39,58 +39,58 @@ export default function ComplexityCard({ algoKey }) {
   };
 
   return (
-    <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6">
+    <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-4 sm:space-y-6">
       {/* Title & Category */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-4">
+      <div className="flex items-center justify-between border-b border-white/10 pb-3 sm:pb-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-wider">
               {details.category || 'Algorithm Theory'}
             </span>
           </div>
-          <h3 className="text-xl font-display font-black text-white mt-0.5">
+          <h3 className="text-lg sm:text-xl font-display font-black text-white mt-0.5">
             {details.name}
           </h3>
         </div>
-        <div className="p-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white">
-          <BookOpen className="w-5 h-5" />
+        <div className="p-2 sm:p-2.5 rounded-xl bg-zinc-900 border border-white/10 text-white flex-shrink-0">
+          <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
         </div>
       </div>
 
       {/* Complexity Matrix Table */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-zinc-900/90 p-3 rounded-xl border border-white/5">
-          <span className="text-[10px] uppercase font-mono text-zinc-400">Best Time</span>
-          <p className="text-sm font-mono font-bold text-white mt-1">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+        <div className="bg-zinc-900/90 p-2.5 sm:p-3 rounded-xl border border-white/5">
+          <span className="text-[9px] sm:text-[10px] uppercase font-mono text-zinc-400">Best Time</span>
+          <p className="text-xs sm:text-sm font-mono font-bold text-white mt-0.5 sm:mt-1 truncate">
             {details.timeComplexity?.best || '-'}
           </p>
         </div>
 
-        <div className="bg-zinc-900/90 p-3 rounded-xl border border-white/5">
-          <span className="text-[10px] uppercase font-mono text-zinc-400">Average Time</span>
-          <p className="text-sm font-mono font-bold text-white mt-1">
+        <div className="bg-zinc-900/90 p-2.5 sm:p-3 rounded-xl border border-white/5">
+          <span className="text-[9px] sm:text-[10px] uppercase font-mono text-zinc-400">Average Time</span>
+          <p className="text-xs sm:text-sm font-mono font-bold text-white mt-0.5 sm:mt-1 truncate">
             {details.timeComplexity?.average || '-'}
           </p>
         </div>
 
-        <div className="bg-zinc-900/90 p-3 rounded-xl border border-white/5">
-          <span className="text-[10px] uppercase font-mono text-zinc-400">Worst Time</span>
-          <p className="text-sm font-mono font-bold text-white mt-1">
+        <div className="bg-zinc-900/90 p-2.5 sm:p-3 rounded-xl border border-white/5">
+          <span className="text-[9px] sm:text-[10px] uppercase font-mono text-zinc-400">Worst Time</span>
+          <p className="text-xs sm:text-sm font-mono font-bold text-white mt-0.5 sm:mt-1 truncate">
             {details.timeComplexity?.worst || '-'}
           </p>
         </div>
 
-        <div className="bg-zinc-900/90 p-3 rounded-xl border border-white/5">
-          <span className="text-[10px] uppercase font-mono text-zinc-400">Aux Space</span>
-          <p className="text-sm font-mono font-bold text-white mt-1">
+        <div className="bg-zinc-900/90 p-2.5 sm:p-3 rounded-xl border border-white/5">
+          <span className="text-[9px] sm:text-[10px] uppercase font-mono text-zinc-400">Aux Space</span>
+          <p className="text-xs sm:text-sm font-mono font-bold text-white mt-0.5 sm:mt-1 truncate">
             {details.spaceComplexity || '-'}
           </p>
         </div>
       </div>
 
       {/* Description */}
-      <div className="space-y-2">
-        <h4 className="text-xs font-mono font-bold uppercase text-zinc-300">Overview</h4>
+      <div className="space-y-1.5 sm:space-y-2">
+        <h4 className="text-[11px] sm:text-xs font-mono font-bold uppercase text-zinc-300">Overview</h4>
         <p className="text-xs leading-relaxed text-zinc-400">
           {details.description}
         </p>
@@ -98,9 +98,9 @@ export default function ComplexityCard({ algoKey }) {
 
       {/* Key Highlights */}
       {details.keyPoints && details.keyPoints.length > 0 && (
-        <div className="space-y-2">
-          <h4 className="text-xs font-mono font-bold uppercase text-zinc-300">Key Highlights</h4>
-          <ul className="space-y-1.5">
+        <div className="space-y-1.5 sm:space-y-2">
+          <h4 className="text-[11px] sm:text-xs font-mono font-bold uppercase text-zinc-300">Key Highlights</h4>
+          <ul className="space-y-1 sm:space-y-1.5">
             {details.keyPoints.map((pt, idx) => (
               <li key={idx} className="flex items-start gap-2 text-xs text-zinc-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-white mt-1.5 flex-shrink-0" />
@@ -113,34 +113,34 @@ export default function ComplexityCard({ algoKey }) {
 
       {/* Practice Problems Section (LeetCode & Codeforces) */}
       {details.practiceProblems && details.practiceProblems.length > 0 && (
-        <div className="space-y-3 pt-4 border-t border-white/10">
+        <div className="space-y-2.5 sm:space-y-3 pt-3 sm:pt-4 border-t border-white/10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Trophy className="w-4 h-4 text-white" />
-              <h4 className="text-xs font-mono font-bold uppercase text-white tracking-wider">
+              <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white flex-shrink-0" />
+              <h4 className="text-[11px] sm:text-xs font-mono font-bold uppercase text-white tracking-wider">
                 Curated Practice Problems
               </h4>
             </div>
-            <span className="text-[10px] font-mono text-zinc-400">
+            <span className="text-[9px] sm:text-[10px] font-mono text-zinc-400">
               LeetCode & Codeforces
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-2.5">
             {details.practiceProblems.map((prob, idx) => (
               <a
                 key={idx}
                 href={prob.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center justify-between p-3 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/5 hover:border-white/20 transition-all duration-200"
+                className="group flex items-center justify-between p-2.5 sm:p-3 rounded-xl bg-zinc-900/80 hover:bg-zinc-800 border border-white/5 hover:border-white/20 transition-all duration-200 touch-manipulation"
               >
                 <div className="flex flex-col gap-1 min-w-0 pr-2">
-                  <div className="flex items-center gap-2">
-                    <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border font-semibold ${getPlatformBadge(prob.platform)}`}>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className={`text-[8px] sm:text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border font-semibold ${getPlatformBadge(prob.platform)}`}>
                       {prob.platform}
                     </span>
-                    <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border font-semibold ${getDifficultyColor(prob.difficulty)}`}>
+                    <span className={`text-[8px] sm:text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border font-semibold ${getDifficultyColor(prob.difficulty)}`}>
                       {prob.difficulty}
                     </span>
                   </div>

@@ -97,35 +97,36 @@ export default function LinearBasisVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Input & Action Row */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center gap-2 bg-zinc-900/90 p-2 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400">Number (0-63):</span>
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-zinc-900/90 p-1.5 sm:p-2 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Num (0-63):</span>
             <input
               type="number"
               min="0"
               max="63"
               value={inputVal}
               onChange={e => setInputVal(Number(e.target.value))}
-              className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+              className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 py-1 text-xs font-mono text-white text-center"
             />
             <button
               onClick={() => handleInsert(inputVal)}
-              className="px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 flex items-center gap-1.5"
+              className="px-3 sm:px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 flex items-center gap-1.5 touch-manipulation"
             >
-              <Plus className="w-3.5 h-3.5" /> Insert Vector
+              <Plus className="w-3.5 h-3.5" /> Insert
             </button>
           </div>
 
           <button
             onClick={handleMaxXor}
-            className="px-4 py-2.5 rounded-xl bg-zinc-900 text-white font-mono text-xs border border-white/15 hover:border-white/30 transition-all flex items-center gap-2"
+            className="px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-white font-mono text-xs border border-white/15 hover:border-white/30 transition-all flex items-center gap-1.5 touch-manipulation"
           >
-            <Zap className="w-3.5 h-3.5" /> Query Maximum XOR Subset
+            <Zap className="w-3.5 h-3.5" /> Max XOR
           </button>
 
           <button
             onClick={handleReset}
-            className="p-2.5 rounded-xl bg-zinc-900 text-zinc-400 border border-white/10 hover:text-white transition-all"
+            className="p-2 sm:p-2.5 rounded-xl bg-zinc-900 text-zinc-400 border border-white/10 hover:text-white transition-all touch-manipulation"
             title="Reset Basis"
           >
             <RotateCcw className="w-4 h-4" />
@@ -134,12 +135,12 @@ export default function LinearBasisVisualizer({ onActiveLineChange }) {
       </div>
 
       {/* Main Visualizer Stage */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Left Column: Live Step Inspection & Bit Visualizer */}
-        <div className="lg:col-span-7 glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-          <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+        <div className="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+          <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs font-mono">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
               <span className="text-white font-medium">
                 {currentStep?.description || 'Enter a number and click Insert Vector to inspect Gaussian bit elimination.'}
               </span>
@@ -152,17 +153,17 @@ export default function LinearBasisVisualizer({ onActiveLineChange }) {
           </div>
 
           {/* Active Vector Mask Binary Grid */}
-          <div className="p-4 rounded-xl bg-black/90 border border-white/10 space-y-3">
-            <span className="text-xs font-mono text-zinc-400">Current Vector Mask:</span>
+          <div className="p-3 sm:p-4 rounded-xl bg-black/90 border border-white/10 space-y-2 sm:space-y-3">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Current Vector Mask:</span>
             {currentStep?.mask !== undefined ? (
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto touch-scroll py-1">
                 {Array.from({ length: 6 }, (_, i) => 5 - i).map(bit => {
                   const isBitSet = (currentStep.mask & (1 << bit)) !== 0;
                   const isCurrentBit = currentStep.currentBit === bit;
                   return (
                     <div
                       key={bit}
-                      className={`flex flex-col items-center justify-center w-12 h-14 rounded-xl border font-mono transition-all ${
+                      className={`flex flex-col items-center justify-center w-10 h-12 sm:w-12 sm:h-14 rounded-xl border font-mono transition-all ${
                         isCurrentBit
                           ? 'bg-white text-black font-black border-white shadow-lg'
                           : isBitSet
@@ -170,8 +171,8 @@ export default function LinearBasisVisualizer({ onActiveLineChange }) {
                           : 'bg-zinc-950 text-zinc-600 border-white/5'
                       }`}
                     >
-                      <span className="text-base font-bold">{isBitSet ? '1' : '0'}</span>
-                      <span className="text-[9px] text-zinc-500 mt-1">2^{bit}</span>
+                      <span className="text-sm sm:text-base font-bold">{isBitSet ? '1' : '0'}</span>
+                      <span className="text-[8px] sm:text-[9px] text-zinc-500 mt-0.5 sm:mt-1">2^{bit}</span>
                     </div>
                   );
                 })}

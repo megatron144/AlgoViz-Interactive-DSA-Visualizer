@@ -91,59 +91,59 @@ export default function LCSVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Input Strings */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center gap-2 bg-zinc-900/90 p-2 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400">String 1:</span>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 bg-zinc-900/90 p-1.5 sm:p-2 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Str 1:</span>
             <input
               type="text"
               value={string1}
               onChange={e => setString1(e.target.value.toUpperCase())}
-              className="w-28 bg-black border border-white/15 rounded-lg px-2.5 py-1 text-xs font-mono text-white text-center uppercase"
+              className="w-20 sm:w-28 bg-black border border-white/15 rounded-lg px-2 sm:px-2.5 py-1 text-xs font-mono text-white text-center uppercase"
             />
-            <span className="text-zinc-500 font-mono">and</span>
-            <span className="text-xs font-mono text-zinc-400">String 2:</span>
+            <span className="text-zinc-500 font-mono text-xs">&</span>
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Str 2:</span>
             <input
               type="text"
               value={string2}
               onChange={e => setString2(e.target.value.toUpperCase())}
-              className="w-28 bg-black border border-white/15 rounded-lg px-2.5 py-1 text-xs font-mono text-white text-center uppercase"
+              className="w-20 sm:w-28 bg-black border border-white/15 rounded-lg px-2 sm:px-2.5 py-1 text-xs font-mono text-white text-center uppercase"
             />
             <button
               onClick={handleStartLCS}
-              className="px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10"
+              className="px-3 sm:px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 touch-manipulation"
             >
-              Solve LCS Matrix
+              Solve LCS
             </button>
           </div>
         </div>
       </div>
 
       {/* Main LCS Matrix */}
-      <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-3 sm:space-y-4">
         {/* Description Banner */}
-        <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+        <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs font-mono">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
             <span className="text-white font-medium">
               {currentStep.description || 'Click Solve LCS Matrix to inspect string matching recurrence.'}
             </span>
           </div>
           {currentStep.lcsStr && (
-            <div className="bg-white text-black font-mono font-black text-xs px-3 py-1 rounded-lg">
+            <div className="bg-white text-black font-mono font-black text-xs px-2.5 sm:px-3 py-1 rounded-lg">
               LCS = "{currentStep.lcsStr}" (Len: {currentStep.lcsLength})
             </div>
           )}
         </div>
 
         {/* 2D DP Table */}
-        <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/90 p-3">
+        <div className="overflow-x-auto rounded-xl border border-white/10 bg-black/90 p-2.5 sm:p-3 touch-scroll">
           <table className="w-full text-center text-xs font-mono border-collapse">
             <thead>
-              <tr className="border-b border-white/10 text-zinc-400 text-[11px]">
-                <th className="py-2 px-3 text-left">i \ j</th>
-                <th className="py-2 px-2">∅ (0)</th>
+              <tr className="border-b border-white/10 text-zinc-400 text-[10px] sm:text-[11px]">
+                <th className="py-2 px-2 sm:px-3 text-left">i \ j</th>
+                <th className="py-2 px-1.5 sm:px-2">∅ (0)</th>
                 {string2.split('').map((c, j) => (
-                  <th key={j} className="py-2 px-2 font-bold text-white">
+                  <th key={j} className="py-2 px-1.5 sm:px-2 font-bold text-white">
                     {c} ({j + 1})
                   </th>
                 ))}

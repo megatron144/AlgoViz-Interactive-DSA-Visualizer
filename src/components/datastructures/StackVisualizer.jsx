@@ -103,19 +103,19 @@ export default function StackVisualizer() {
   return (
     <div className="space-y-6">
       {/* Control Panel */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Linear Data Structures</span>
-            <h2 className="text-xl font-display font-black text-white">Stack (LIFO - Last In, First Out)</h2>
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Linear Data Structures</span>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">Stack (LIFO - Last In, First Out)</h2>
           </div>
 
           {/* Quick Metrics */}
           <div className="flex items-center gap-2 font-mono text-xs">
-            <span className="px-3 py-1.5 rounded-xl bg-zinc-900 border border-white/10 text-zinc-300">
+            <span className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-zinc-900 border border-white/10 text-zinc-300 text-[11px] sm:text-xs">
               Size: <strong className="text-white">{stack.length}</strong> / {MAX_CAPACITY}
             </span>
-            <span className={`px-3 py-1.5 rounded-xl border font-semibold ${
+            <span className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl border font-semibold text-[10px] sm:text-xs ${
               isFull ? 'bg-rose-950/40 text-rose-300 border-rose-800/50' : 
               isEmpty ? 'bg-amber-950/40 text-amber-300 border-amber-800/50' : 
               'bg-zinc-900 border-white/10 text-zinc-300'
@@ -126,19 +126,19 @@ export default function StackVisualizer() {
         </div>
 
         {/* Input & Action Buttons */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
-          <div className="flex items-center gap-2 bg-zinc-900 p-1.5 rounded-xl border border-white/10">
-            <span className="text-xs font-mono text-zinc-400 pl-2">Value:</span>
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 bg-zinc-900 p-1 sm:p-1.5 rounded-xl border border-white/10">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400 pl-1 sm:pl-2">Value:</span>
             <input
               type="number"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center focus:outline-none focus:border-white"
+              className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center focus:outline-none focus:border-white"
             />
             <button
               onClick={handlePush}
               disabled={isFull || animating}
-              className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all disabled:opacity-40 shadow-sm"
+              className="flex items-center gap-1 px-3 sm:px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all disabled:opacity-40 shadow-sm touch-manipulation"
             >
               <ArrowDown className="w-3.5 h-3.5" />
               <span>Push</span>
@@ -148,7 +148,7 @@ export default function StackVisualizer() {
           <button
             onClick={handlePop}
             disabled={isEmpty || animating}
-            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-zinc-900 text-zinc-200 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono font-medium transition-all disabled:opacity-40"
+            className="flex items-center gap-1.5 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-zinc-900 text-zinc-200 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono font-medium transition-all disabled:opacity-40 touch-manipulation"
           >
             <ArrowUp className="w-3.5 h-3.5 text-rose-400" />
             <span>Pop</span>
@@ -157,7 +157,7 @@ export default function StackVisualizer() {
           <button
             onClick={handlePeek}
             disabled={isEmpty || animating}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-zinc-900 text-zinc-200 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all disabled:opacity-40"
+            className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-zinc-900 text-zinc-200 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all disabled:opacity-40 touch-manipulation"
           >
             <Eye className="w-3.5 h-3.5 text-amber-400" />
             <span>Peek</span>
@@ -166,7 +166,7 @@ export default function StackVisualizer() {
           <button
             onClick={handleRandomFill}
             disabled={animating}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all"
+            className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all touch-manipulation"
           >
             <Shuffle className="w-3.5 h-3.5" />
             <span>Random Fill</span>
@@ -175,7 +175,7 @@ export default function StackVisualizer() {
           <button
             onClick={handleClear}
             disabled={isEmpty || animating}
-            className="p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-white/10 hover:border-rose-900/40 transition-all disabled:opacity-40"
+            className="p-1.5 sm:p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-white/10 hover:border-rose-900/40 transition-all disabled:opacity-40 touch-manipulation"
             title="Clear Stack"
           >
             <Trash2 className="w-4 h-4" />
@@ -183,16 +183,16 @@ export default function StackVisualizer() {
         </div>
 
         {/* Dynamic Log Bar */}
-        <div className="p-2.5 rounded-xl bg-zinc-950 border border-white/5 font-mono text-xs text-zinc-300 flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-          <span>{log}</span>
+        <div className="p-2 sm:p-2.5 rounded-xl bg-zinc-950 border border-white/5 font-mono text-[11px] sm:text-xs text-zinc-300 flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
+          <span className="leading-relaxed">{log}</span>
         </div>
       </div>
 
       {/* Visualizer Canvas Area */}
-      <div className="glass-card rounded-2xl p-8 border border-white/10 flex flex-col items-center justify-center min-h-[380px]">
+      <div className="glass-card rounded-2xl p-4 sm:p-8 border border-white/10 flex flex-col items-center justify-center min-h-[340px] sm:min-h-[380px]">
         {/* Stack Container Tower */}
-        <div className="relative w-72 flex flex-col-reverse items-center justify-start border-b-4 border-l-4 border-r-4 border-white/40 rounded-b-2xl p-2 bg-gradient-to-t from-zinc-950 to-black min-h-[300px] shadow-2xl">
+        <div className="relative w-full max-w-[260px] sm:w-72 flex flex-col-reverse items-center justify-start border-b-4 border-l-4 border-r-4 border-white/40 rounded-b-2xl p-2 bg-gradient-to-t from-zinc-950 to-black min-h-[280px] sm:min-h-[300px] shadow-2xl">
           {isEmpty && (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-600 font-mono text-xs gap-2">
               <Layers className="w-8 h-8 opacity-40" />
@@ -207,7 +207,7 @@ export default function StackVisualizer() {
             return (
               <div
                 key={idx}
-                className={`relative w-full my-1 h-10 rounded-xl flex items-center justify-between px-4 font-mono font-bold text-sm transition-all duration-300 ${
+                className={`relative w-full my-1 h-9 sm:h-10 rounded-xl flex items-center justify-between px-3 sm:px-4 font-mono font-bold text-xs sm:text-sm transition-all duration-300 ${
                   isHighlighted
                     ? 'bg-white text-black scale-105 shadow-[0_0_20px_rgba(255,255,255,0.6)] z-10'
                     : isTop
@@ -221,7 +221,7 @@ export default function StackVisualizer() {
                 </div>
 
                 {isTop && (
-                  <span className={`text-[9px] uppercase px-2 py-0.5 rounded-md font-extrabold tracking-wider ${
+                  <span className={`text-[8px] sm:text-[9px] uppercase px-1.5 sm:px-2 py-0.5 rounded-md font-extrabold tracking-wider ${
                     isHighlighted ? 'bg-black text-white' : 'bg-white text-black'
                   }`}>
                     TOP
@@ -232,7 +232,7 @@ export default function StackVisualizer() {
           })}
         </div>
 
-        <div className="mt-4 text-xs font-mono text-zinc-500 text-center">
+        <div className="mt-3 sm:mt-4 text-[11px] sm:text-xs font-mono text-zinc-500 text-center">
           Stack Base (Index 0) ───▶ Top (Index {Math.max(0, stack.length - 1)})
         </div>
       </div>

@@ -179,19 +179,19 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
   return (
     <div className="space-y-6">
       {/* Top Header & Algo Selector */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+      <div className="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4">
           <div>
-            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Graph & Grid Traversal</span>
-            <h2 className="text-xl font-display font-black text-white">Pathfinding & Maze Visualizer</h2>
+            <span className="text-[10px] sm:text-xs font-mono text-zinc-400 uppercase tracking-widest">Graph & Grid Traversal</span>
+            <h2 className="text-lg sm:text-xl font-display font-black text-white">Pathfinding & Maze Visualizer</h2>
           </div>
 
           {/* Action Button */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={runVisualizer}
               disabled={isPlaying}
-              className="px-6 py-2.5 rounded-xl bg-white text-black font-display font-black text-xs hover:bg-zinc-200 transition-all shadow-lg shadow-white/10 disabled:opacity-40"
+              className="w-full sm:w-auto px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-white text-black font-display font-black text-xs hover:bg-zinc-200 transition-all shadow-lg shadow-white/10 disabled:opacity-40 touch-manipulation"
             >
               Find Shortest Path
             </button>
@@ -199,7 +199,7 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Algorithm Tabs */}
-        <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 bg-zinc-900/90 rounded-2xl border border-white/10 scrollbar-none">
+        <div className="flex items-center gap-1.5 overflow-x-auto p-1 sm:p-1.5 bg-zinc-900/90 rounded-2xl border border-white/10 scrollbar-none touch-scroll">
           {algoOptions.map(opt => {
             const isActive = selectedAlgo === opt.id;
             return (
@@ -209,7 +209,7 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
                   setSelectedAlgo(opt.id);
                   clearSearchVisuals();
                 }}
-                className={`flex-shrink-0 px-3.5 py-1.5 rounded-xl text-xs font-mono transition-all ${
+                className={`flex-shrink-0 px-3 sm:px-3.5 py-1 sm:py-1.5 rounded-xl text-[11px] sm:text-xs font-mono transition-all touch-manipulation ${
                   isActive
                     ? 'bg-white text-black font-bold shadow-md'
                     : 'text-zinc-400 hover:text-white'
@@ -222,14 +222,14 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
         </div>
 
         {/* Tools and Maze Generators */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+        <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-4 pt-1 sm:pt-2">
           {/* Drawing Tools */}
-          <div className="flex items-center gap-1 bg-zinc-900/80 p-1 rounded-xl border border-white/10">
+          <div className="flex flex-wrap items-center gap-1 bg-zinc-900/80 p-1 rounded-xl border border-white/10">
             {[
-              { id: 'wall', label: 'Draw Wall', icon: Square },
-              { id: 'weight', label: 'Weight (+5)', icon: ShieldAlert },
-              { id: 'start', label: 'Set Start', icon: Navigation },
-              { id: 'target', label: 'Set Target', icon: Flag },
+              { id: 'wall', label: 'Wall', icon: Square },
+              { id: 'weight', label: 'Weight', icon: ShieldAlert },
+              { id: 'start', label: 'Start', icon: Navigation },
+              { id: 'target', label: 'Target', icon: Flag },
               { id: 'eraser', label: 'Eraser', icon: Eraser },
             ].map(t => {
               const Icon = t.icon;
@@ -238,13 +238,13 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
                 <button
                   key={t.id}
                   onClick={() => setTool(t.id)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono transition-all ${
+                  className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-mono transition-all touch-manipulation ${
                     isActive
                       ? 'bg-white text-black font-bold'
                       : 'text-zinc-400 hover:text-white'
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                   <span>{t.label}</span>
                 </button>
               );
@@ -252,17 +252,17 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
           </div>
 
           {/* Maze Presets & Clear */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-mono text-zinc-400">Mazes:</span>
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+            <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Mazes:</span>
             {[
-              { id: 'recursive-division', label: 'Recursive Div' },
+              { id: 'recursive-division', label: 'Div' },
               { id: 'random', label: 'Random' },
               { id: 'stair', label: 'Stair' },
             ].map(m => (
               <button
                 key={m.id}
                 onClick={() => handleGenerateMaze(m.id)}
-                className="px-2.5 py-1 rounded-lg bg-zinc-900 text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/30 hover:text-white transition-all"
+                className="px-2 sm:px-2.5 py-1 rounded-lg bg-zinc-900 text-[10px] sm:text-xs font-mono text-zinc-300 border border-white/10 hover:border-white/30 hover:text-white transition-all touch-manipulation"
               >
                 {m.label}
               </button>
@@ -270,7 +270,7 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
 
             <button
               onClick={clearAllWalls}
-              className="p-1.5 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition-all"
+              className="p-1 sm:p-1.5 rounded-lg bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition-all touch-manipulation"
               title="Clear Walls & Board"
             >
               <Trash2 className="w-3.5 h-3.5" />
@@ -280,7 +280,7 @@ export default function PathfindingVisualizer({ onActiveLineChange }) {
       </div>
 
       {/* Main Grid View */}
-      <div className="glass-card rounded-2xl p-5 border border-white/10 space-y-4">
+      <div className="glass-card rounded-2xl p-3 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
         {/* Description Banner */}
         <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
           <div className="flex items-center gap-2">

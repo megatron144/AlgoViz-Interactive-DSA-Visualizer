@@ -80,21 +80,21 @@ export default function SortingDuel({ baseArray = [] }) {
   ];
 
   return (
-    <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6">
+    <div className="glass-card rounded-2xl p-4 sm:p-6 border border-white/10 space-y-4 sm:space-y-6">
       {/* Header with duel selector */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-3 sm:gap-4 border-b border-white/10 pb-3 sm:pb-4">
         <div className="flex items-center gap-2">
-          <Swords className="w-5 h-5 text-white" />
-          <h3 className="text-lg font-display font-black text-white uppercase tracking-wider">
-            Algorithm Duel: Side-by-Side Arena
+          <Swords className="w-4 h-4 sm:w-5 sm:h-5 text-white flex-shrink-0" />
+          <h3 className="text-sm sm:text-lg font-display font-black text-white uppercase tracking-wider">
+            Algorithm Duel Arena
           </h3>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={startDuel}
             disabled={isBattling}
-            className="flex items-center gap-2 px-5 py-2 rounded-xl bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 disabled:opacity-40"
+            className="flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-5 py-1.5 sm:py-2 rounded-xl bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 disabled:opacity-40 touch-manipulation"
           >
             <Play className="w-3.5 h-3.5 fill-black" />
             <span>{isBattling ? 'Battling...' : 'Start Duel'}</span>
@@ -102,7 +102,7 @@ export default function SortingDuel({ baseArray = [] }) {
 
           <button
             onClick={resetDuel}
-            className="p-2 rounded-xl bg-zinc-900 text-zinc-300 border border-white/10 hover:text-white transition-all"
+            className="p-1.5 sm:p-2 rounded-xl bg-zinc-900 text-zinc-300 border border-white/10 hover:text-white transition-all touch-manipulation"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -110,7 +110,7 @@ export default function SortingDuel({ baseArray = [] }) {
       </div>
 
       {/* Dual Arena Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Fighter 1 */}
         <div className="space-y-3 bg-zinc-950 p-4 rounded-xl border border-white/10">
           <div className="flex items-center justify-between">

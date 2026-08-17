@@ -90,60 +90,60 @@ export default function BinaryLiftingVisualizer({ onActiveLineChange }) {
           </div>
         </div>
 
-        {/* Input Parameters */}
-        <div className="flex flex-wrap items-center gap-4 pt-2">
+        {/* Input selectors */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 pt-1 sm:pt-2">
           {mode === 'lca' ? (
             <>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-zinc-400">Node u:</span>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Node u:</span>
                 <select
                   value={nodeU}
                   onChange={e => setNodeU(Number(e.target.value))}
-                  className="bg-black border border-white/15 rounded-lg px-3 py-1 text-xs font-mono text-white"
+                  className="bg-black border border-white/15 rounded-lg px-2 sm:px-3 py-1 text-xs font-mono text-white"
                 >
                   {Array.from({ length: 12 }, (_, i) => i + 1).map(n => (
-                    <option key={n} value={n}>Node {n} (depth {model.depth[n]})</option>
+                    <option key={n} value={n}>Node {n} (d={model.depth[n]})</option>
                   ))}
                 </select>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-zinc-400">Node v:</span>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Node v:</span>
                 <select
                   value={nodeV}
                   onChange={e => setNodeV(Number(e.target.value))}
-                  className="bg-black border border-white/15 rounded-lg px-3 py-1 text-xs font-mono text-white"
+                  className="bg-black border border-white/15 rounded-lg px-2 sm:px-3 py-1 text-xs font-mono text-white"
                 >
                   {Array.from({ length: 12 }, (_, i) => i + 1).map(n => (
-                    <option key={n} value={n}>Node {n} (depth {model.depth[n]})</option>
+                    <option key={n} value={n}>Node {n} (d={model.depth[n]})</option>
                   ))}
                 </select>
               </div>
             </>
           ) : (
             <>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-zinc-400">Target Node:</span>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-[11px] sm:text-xs font-mono text-zinc-400">Target:</span>
                 <select
                   value={nodeU}
                   onChange={e => setNodeU(Number(e.target.value))}
-                  className="bg-black border border-white/15 rounded-lg px-3 py-1 text-xs font-mono text-white"
+                  className="bg-black border border-white/15 rounded-lg px-2 sm:px-3 py-1 text-xs font-mono text-white"
                 >
                   {Array.from({ length: 12 }, (_, i) => i + 1).map(n => (
-                    <option key={n} value={n}>Node {n} (depth {model.depth[n]})</option>
+                    <option key={n} value={n}>Node {n} (d={model.depth[n]})</option>
                   ))}
                 </select>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-zinc-400">k (ancestor distance):</span>
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="text-[11px] sm:text-xs font-mono text-zinc-400">k (jump):</span>
                 <input
                   type="number"
                   min="1"
                   max="4"
                   value={targetK}
                   onChange={e => setTargetK(Number(e.target.value))}
-                  className="w-16 bg-black border border-white/15 rounded-lg px-2 py-1 text-xs font-mono text-white text-center"
+                  className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center"
                 />
               </div>
             </>
@@ -151,7 +151,7 @@ export default function BinaryLiftingVisualizer({ onActiveLineChange }) {
 
           <button
             onClick={handleStart}
-            className="px-5 py-2 rounded-xl bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-lg shadow-white/10"
+            className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-xl bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-lg shadow-white/10 touch-manipulation"
           >
             Execute {mode === 'lca' ? 'LCA Search' : 'Ancestor Jump'}
           </button>
@@ -159,20 +159,20 @@ export default function BinaryLiftingVisualizer({ onActiveLineChange }) {
       </div>
 
       {/* Main Visualizer Area: Grid Layout with Tree on Left, Binary Lifting Table on Right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6">
         {/* Left Column: Tree Canvas */}
-        <div className="lg:col-span-7 glass-card rounded-2xl p-5 border border-white/10 space-y-4">
-          <div className="min-h-[45px] bg-black/80 rounded-xl p-3 border border-white/15 flex items-center justify-between text-xs font-mono">
+        <div className="lg:col-span-7 glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3 sm:space-y-4">
+          <div className="min-h-[40px] sm:min-h-[45px] bg-black/80 rounded-xl p-2.5 sm:p-3 border border-white/15 flex items-center justify-between text-[11px] sm:text-xs font-mono">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0" />
               <span className="text-white font-medium">
                 {currentStep?.description || 'Select nodes and click Execute to observe power-of-2 tree jumps.'}
               </span>
             </div>
           </div>
 
-          <div className="w-full h-[360px] bg-black/95 rounded-xl border border-white/10 overflow-hidden relative flex items-center justify-center">
-            <svg className="w-full h-full" viewBox="0 0 760 340">
+          <div className="w-full h-[280px] sm:h-[360px] bg-black/95 rounded-xl border border-white/10 overflow-x-auto touch-scroll relative flex items-center justify-start sm:justify-center">
+            <svg className="w-full min-w-[500px] sm:min-w-[650px] md:min-w-[760px] h-full" viewBox="0 0 760 340">
               {/* Render Tree Edges */}
               {Object.keys(model.adj).map(uStr => {
                 const u = Number(uStr);
