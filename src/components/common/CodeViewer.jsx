@@ -3,16 +3,16 @@ import { CODE_SNIPPETS } from '../../utils/codeSnippets';
 import { Copy, Check, Code2, Terminal, X } from 'lucide-react';
 
 export default function CodeViewer({ algoKey, activeLine = 1, onClose }) {
-  const [lang, setLang] = useState('javascript');
+  const [lang, setLang] = useState('java');
   const [copied, setCopied] = useState(false);
 
   const snippetObj = CODE_SNIPPETS[algoKey] || {
-    javascript: '// Algorithm implementation placeholder',
-    python: '# Algorithm implementation placeholder',
-    cpp: '// Algorithm implementation placeholder'
+    java: '// Java algorithm implementation placeholder',
+    cpp: '// C++ algorithm implementation placeholder',
+    python: '# Python algorithm implementation placeholder'
   };
 
-  const codeText = snippetObj[lang] || snippetObj.javascript || '';
+  const codeText = snippetObj[lang] || snippetObj.java || '';
   const lines = codeText.split('\n');
 
   const handleCopy = () => {
@@ -20,6 +20,12 @@ export default function CodeViewer({ algoKey, activeLine = 1, onClose }) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  const languages = [
+    { id: 'java', label: 'Java' },
+    { id: 'cpp', label: 'C++' },
+    { id: 'python', label: 'Python' },
+  ];
 
   return (
     <div className="glass-card rounded-2xl border border-white/10 overflow-hidden flex flex-col h-full shadow-2xl">
@@ -35,17 +41,17 @@ export default function CodeViewer({ algoKey, activeLine = 1, onClose }) {
         <div className="flex items-center gap-2">
           {/* Language Selector */}
           <div className="flex items-center gap-1 bg-black/80 p-1 rounded-xl border border-white/10">
-            {['javascript', 'python', 'cpp'].map((l) => (
+            {languages.map((l) => (
               <button
-                key={l}
-                onClick={() => setLang(l)}
+                key={l.id}
+                onClick={() => setLang(l.id)}
                 className={`px-2.5 py-1 rounded-lg text-[11px] font-mono transition-all ${
-                  lang === l
+                  lang === l.id
                     ? 'bg-white text-black font-bold'
                     : 'text-zinc-400 hover:text-white'
                 }`}
               >
-                {l === 'cpp' ? 'C++' : l === 'javascript' ? 'JS' : 'Py'}
+                {l.label}
               </button>
             ))}
           </div>

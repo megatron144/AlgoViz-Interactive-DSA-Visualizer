@@ -447,40 +447,69 @@ export function generateSortingSteps(algoKey, originalArray) {
       break;
     }
 
-    case 'counting-sort': {
+    case 'radix-sort': {
       const n = arr.length;
-      const maxVal = Math.max(...arr);
-      const minVal = Math.min(...arr);
-      const range = maxVal - minVal + 1;
-      const count = new Array(range).fill(0);
-      const output = new Array(n).fill(0);
+      const maxVal = Math.max(...arr, 1);
 
-      pushStep({ desc: `Counting Sort range: [${minVal}..${maxVal}] (${range} buckets).`, line: 3 });
+      pushStep({
+        desc: `Starting Radix Sort (LSD). Max value = ${maxVal}.`,
+        line: 1
+      });
 
-      for (let i = 0; i < n; i++) {
-        count[arr[i] - minVal]++;
-        accesses++;
-        pushStep({ comparing: [i], desc: `Counted frequency of ${arr[i]} (Count = ${count[arr[i] - minVal]}).`, line: 5 });
+      // Do counting sort for every digit. exp is 10^i
+      for (let exp = 1; Math.floor(maxVal / exp) > 0; exp *= 10) {
+        const placeName = exp === 1 ? '1s' : exp === 10 ? '10s' : `${exp}s`;
+        const count = new Array(10).fill(0);
+        const output = new Array(n).fill(0);
+
+        pushStep({
+          desc: `Pass for ${placeName} place (exp = ${exp}). Counting digit frequencies (0-9).`,
+          line: 3
+        });
+
+        // Store count of occurrences in count[]
+        for (let i = 0; i < n; i++) {
+          const digit = Math.floor(arr[i] / exp) % 10;
+          count[digit]++;
+          accesses++;
+          pushStep({
+            comparing: [i],
+            desc: `Element ${arr[i]}: digit at ${placeName} place is ${digit}. (Bucket ${digit} count = ${count[digit]})`,
+            line: 5
+          });
+        }
+
+        // Change count[i] so that count[i] now contains actual position of this digit in output[]
+        for (let i = 1; i < 10; i++) {
+          count[i] += count[i - 1];
+        }
+
+        // Build the output array
+        for (let i = n - 1; i >= 0; i--) {
+          const digit = Math.floor(arr[i] / exp) % 10;
+          output[count[digit] - 1] = arr[i];
+          count[digit]--;
+          accesses += 2;
+          swaps++;
+        }
+
+        // Copy the output array to arr[], so that arr[] now contains sorted numbers according to current digit
+        for (let i = 0; i < n; i++) {
+          arr[i] = output[i];
+          accesses++;
+          pushStep({
+            swapping: [i],
+            desc: `Placed ${arr[i]} into position ${i} after sorting by ${placeName} digit.`,
+            line: 9
+          });
+        }
       }
 
-      for (let i = 1; i < count.length; i++) {
-        count[i] += count[i - 1];
-      }
-
-      for (let i = n - 1; i >= 0; i--) {
-        output[count[arr[i] - minVal] - 1] = arr[i];
-        count[arr[i] - minVal]--;
-        accesses += 2;
-        swaps++;
-      }
-
-      for (let i = 0; i < n; i++) {
-        arr[i] = output[i];
-        accesses++;
-        pushStep({ swapping: [i], sorted: Array.from({ length: i + 1 }, (_, idx) => idx), desc: `Copied sorted element ${arr[i]} into index ${i}.`, line: 9 });
-      }
-
-      pushStep({ sorted: Array.from({ length: n }, (_, idx) => idx), desc: 'Counting Sort completed in O(N + K)!', line: 11 });
+      pushStep({
+        sorted: Array.from({ length: n }, (_, idx) => idx),
+        desc: 'Radix Sort completed successfully in O(d · (N + K)) time!',
+        line: 12
+      });
       break;
     }
 

@@ -102,7 +102,7 @@ export default function SortingVisualizer({ onActiveLineChange }) {
     { id: 'quick-sort', label: 'Quick Sort' },
     { id: 'heap-sort', label: 'Heap Sort' },
     { id: 'shell-sort', label: 'Shell Sort' },
-    { id: 'counting-sort', label: 'Counting Sort' },
+    { id: 'radix-sort', label: 'Radix Sort' },
   ];
 
   return (
