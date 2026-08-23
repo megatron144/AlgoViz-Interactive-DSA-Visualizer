@@ -773,19 +773,19 @@ public:
 
   'dsu': {
     java: `// Disjoint Set Union (DSU / Union-Find) in Java
-// Optimized with Path Compression and Union by Rank: O(alpha(N)) per operation
+// Optimized with Path Compression and Union by Size: O(alpha(N)) per operation
 public class DSU {
     private int[] parent;
-    private int[] rank;
+    private int[] size;
     private int components;
 
     public DSU(int n) {
         this.parent = new int[n];
-        this.rank = new int[n];
+        this.size = new int[n];
         this.components = n;
         for (int i = 0; i < n; i++) {
             parent[i] = i; // Each node starts as its own representative root
-            rank[i] = 0;
+            size[i] = 1;   // Singleton set has size 1
         }
     }
 
@@ -798,21 +798,20 @@ public class DSU {
         return parent[i];
     }
 
-    // Union by Rank: O(alpha(N))
+    // Union by Size: O(alpha(N))
     public boolean union(int u, int v) {
         int rootU = find(u);
         int rootV = find(v);
 
         if (rootU == rootV) return false; // Already in same set (cycle detected)
 
-        // Attach smaller rank tree under larger rank tree
-        if (rank[rootU] < rank[rootV]) {
+        // Attach smaller size tree under larger size tree
+        if (size[rootU] < size[rootV]) {
             parent[rootU] = rootV;
-        } else if (rank[rootU] > rank[rootV]) {
-            parent[rootV] = rootU;
+            size[rootV] += size[rootU];
         } else {
             parent[rootV] = rootU;
-            rank[rootU]++;
+            size[rootU] += size[rootV];
         }
         components--;
         return true;
@@ -823,13 +822,18 @@ public class DSU {
         return find(u) == find(v);
     }
 
+    // Query size of component containing node u in O(1)
+    public int getSize(int u) {
+        return size[find(u)];
+    }
+
     public int getComponentCount() { return components; }
 }`,
     python: `# Disjoint Set Union (DSU / Union-Find) in Python
 class DSU:
     def __init__(self, n):
         self.parent = list(range(n))
-        self.rank = [0] * n
+        self.size = [1] * n
         self.components = n
 
     # Find root with Path Compression
@@ -838,23 +842,25 @@ class DSU:
             self.parent[i] = self.find(self.parent[i])
         return self.parent[i]
 
-    # Union by Rank
+    # Union by Size
     def union(self, u, v):
         root_u, root_v = self.find(u), self.find(v)
         if root_u == root_v: return False # Cycle
         
-        if self.rank[root_u] < self.rank[root_v]:
+        if self.size[root_u] < self.size[root_v]:
             self.parent[root_u] = root_v
-        elif self.rank[root_u] > self.rank[root_v]:
-            self.parent[root_v] = root_u
+            self.size[root_v] += self.size[root_u]
         else:
             self.parent[root_v] = root_u
-            self.rank[root_u] += 1
+            self.size[root_u] += self.size[root_v]
         self.components -= 1
         return True
 
     def is_connected(self, u, v):
-        return self.find(u) == self.find(v)`,
+        return self.find(u) == self.find(v)
+
+    def get_size(self, u):
+        return self.size[self.find(u)]`,
     cpp: `// Disjoint Set Union (DSU / Union-Find) in C++
 #include <vector>
 #include <numeric>
@@ -863,11 +869,11 @@ using namespace std;
 class DSU {
 private:
     vector<int> parent;
-    vector<int> rank;
+    vector<int> sz;
     int components;
 
 public:
-    DSU(int n) : parent(n), rank(n, 0), components(n) {
+    DSU(int n) : parent(n), sz(n, 1), components(n) {
         iota(parent.begin(), parent.end(), 0);
     }
 
@@ -877,19 +883,18 @@ public:
         return parent[i] = find(parent[i]);
     }
 
-    // Union by Rank: O(alpha(N))
+    // Union by Size: O(alpha(N))
     bool unionSets(int u, int v) {
         int rootU = find(u);
         int rootV = find(v);
         if (rootU == rootV) return false;
 
-        if (rank[rootU] < rank[rootV]) {
+        if (sz[rootU] < sz[rootV]) {
             parent[rootU] = rootV;
-        } else if (rank[rootU] > rank[rootV]) {
-            parent[rootV] = rootU;
+            sz[rootV] += sz[rootU];
         } else {
             parent[rootV] = rootU;
-            rank[rootU]++;
+            sz[rootU] += sz[rootV];
         }
         components--;
         return true;
@@ -897,6 +902,10 @@ public:
 
     bool isConnected(int u, int v) {
         return find(u) == find(v);
+    }
+
+    int getSize(int u) {
+        return sz[find(u)];
     }
 
     int count() const { return components; }

@@ -18,12 +18,12 @@ const NODE_COUNT = 8; // Nodes 0..7
 
 export default function DSUVisualizer() {
   const [parent, setParent] = useState(Array.from({ length: NODE_COUNT }, (_, i) => i));
-  const [rank, setRank] = useState(Array.from({ length: NODE_COUNT }, () => 0));
+  const [size, setSize] = useState(Array.from({ length: NODE_COUNT }, () => 1));
   const [nodeU, setNodeU] = useState(0);
   const [nodeV, setNodeV] = useState(1);
   const [findNode, setFindNode] = useState(0);
   const [highlightNodes, setHighlightNodes] = useState([]);
-  const [log, setLog] = useState('Disjoint Set Union (DSU) initialized with 8 singleton sets {0} through {7}.');
+  const [log, setLog] = useState('Disjoint Set Union (DSU) initialized with 8 singleton sets {0} through {7}, each of size 1.');
   const [animating, setAnimating] = useState(false);
 
   // Find root with Path Compression
@@ -46,7 +46,7 @@ export default function DSUVisualizer() {
 
     setHighlightNodes(path);
     soundPlayer.playTone((root + 1) * 60, 0, 150);
-    setLog(`🔍 Find(${u}): Traced path [${path.join(' ➔ ')}]. Root leader is ${root}. Applying Path Compression...`);
+    setLog(`🔍 Find(${u}): Traced path [${path.join(' ➔ ')}]. Root leader is ${root} (Component size: ${size[root]}). Applying Path Compression...`);
 
     await new Promise(r => setTimeout(r, 600));
 
@@ -80,7 +80,7 @@ export default function DSUVisualizer() {
     soundPlayer.playTone((rootU + 1) * 50, 0, 100);
 
     if (rootU === rootV) {
-      setLog(`⚠️ Nodes ${u} and ${v} already belong to the same component (Root: ${rootU}). Union creates a cycle!`);
+      setLog(`⚠️ Nodes ${u} and ${v} already belong to the same component (Root: ${rootU}, Size: ${size[rootU]}). Union creates a cycle!`);
       soundPlayer.playTone(120, 0, 200);
       setTimeout(() => {
         setHighlightNodes([]);
@@ -89,27 +89,25 @@ export default function DSUVisualizer() {
       return;
     }
 
-    setLog(`🔗 Union(${u}, ${v}): Merging component of root ${rootU} (rank ${rank[rootU]}) with component of root ${rootV} (rank ${rank[rootV]})...`);
+    setLog(`🔗 Union(${u}, ${v}): Merging component of root ${rootU} (size ${size[rootU]}) with component of root ${rootV} (size ${size[rootV]})...`);
     await new Promise(r => setTimeout(r, 600));
 
     const nextParent = [...parent];
-    const nextRank = [...rank];
+    const nextSize = [...size];
 
-    // Union by rank
-    if (rank[rootU] < rank[rootV]) {
+    // Union by size
+    if (size[rootU] < size[rootV]) {
       nextParent[rootU] = rootV;
-      setLog(`✅ Attached tree ${rootU} under root ${rootV} (Union by Rank).`);
-    } else if (rank[rootU] > rank[rootV]) {
-      nextParent[rootV] = rootU;
-      setLog(`✅ Attached tree ${rootV} under root ${rootU} (Union by Rank).`);
+      nextSize[rootV] += size[rootU];
+      setLog(`✅ Attached smaller tree ${rootU} (size ${size[rootU]}) under larger root ${rootV} (size ${size[rootV]}). New size of root ${rootV} is ${nextSize[rootV]} (Union by Size).`);
     } else {
       nextParent[rootV] = rootU;
-      nextRank[rootU] += 1;
-      setLog(`✅ Roots had equal rank (${rank[rootU]}). Attached ${rootV} under ${rootU} and incremented rank of ${rootU} to ${nextRank[rootU]}.`);
+      nextSize[rootU] += size[rootV];
+      setLog(`✅ Attached tree ${rootV} (size ${size[rootV]}) under root ${rootU} (size ${size[rootU]}). New size of root ${rootU} is ${nextSize[rootU]} (Union by Size).`);
     }
 
     setParent(nextParent);
-    setRank(nextRank);
+    setSize(nextSize);
     soundPlayer.playTone(450, 0, 150);
 
     setTimeout(() => {
@@ -134,9 +132,9 @@ export default function DSUVisualizer() {
 
   const handleReset = () => {
     setParent(Array.from({ length: NODE_COUNT }, (_, i) => i));
-    setRank(Array.from({ length: NODE_COUNT }, () => 0));
+    setSize(Array.from({ length: NODE_COUNT }, () => 1));
     setHighlightNodes([]);
-    setLog('Disjoint Set Union reset: all elements are distinct singletons.');
+    setLog('Disjoint Set Union reset: all elements are distinct singletons with size 1.');
   };
 
   // Group elements into connected components
@@ -199,7 +197,7 @@ export default function DSUVisualizer() {
             <button
               onClick={handleUnion}
               disabled={animating}
-              className="flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all disabled:opacity-40 shadow-sm touch-manipulation"
+              className="flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all disabled:opacity-40 shadow-sm touch-manipulation cursor-pointer"
             >
               <GitMerge className="w-3.5 h-3.5" />
               <span>Union</span>
@@ -221,7 +219,7 @@ export default function DSUVisualizer() {
             <button
               onClick={handleFind}
               disabled={animating}
-              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-200 hover:text-white text-xs font-mono border border-white/10 transition-all disabled:opacity-40 touch-manipulation"
+              className="flex items-center gap-1 px-2.5 sm:px-3 py-1.5 rounded-lg bg-zinc-800 text-zinc-200 hover:text-white text-xs font-mono border border-white/10 transition-all disabled:opacity-40 touch-manipulation cursor-pointer"
             >
               <Search className="w-3.5 h-3.5" />
               <span>Find Root</span>
@@ -231,7 +229,7 @@ export default function DSUVisualizer() {
           <button
             onClick={handleRandomUnion}
             disabled={animating}
-            className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all touch-manipulation"
+            className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl bg-zinc-900 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 text-xs font-mono transition-all touch-manipulation cursor-pointer"
           >
             <Shuffle className="w-3.5 h-3.5" />
             <span>Random</span>
@@ -240,7 +238,7 @@ export default function DSUVisualizer() {
           <button
             onClick={handleReset}
             disabled={animating}
-            className="p-1.5 sm:p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-white/10 hover:border-rose-900/40 transition-all touch-manipulation"
+            className="p-1.5 sm:p-2 rounded-xl bg-zinc-900 text-zinc-400 hover:text-rose-400 border border-white/10 hover:border-rose-900/40 transition-all touch-manipulation cursor-pointer"
             title="Reset DSU"
           >
             <RotateCcw className="w-4 h-4" />
@@ -263,7 +261,7 @@ export default function DSUVisualizer() {
               <Network className="w-4 h-4" />
               <span>Connected Components</span>
             </span>
-            <span className="hidden sm:inline">Path Compression & Rank</span>
+            <span className="hidden sm:inline">Path Compression & Union by Size</span>
           </div>
 
           {/* Forest Clusters */}
@@ -288,7 +286,7 @@ export default function DSUVisualizer() {
                       <strong className="text-white text-sm">Node {rootId}</strong>
                     </div>
                     <span className="text-[10px] font-mono text-zinc-400 bg-zinc-900 px-2 py-0.5 rounded-lg border border-white/10">
-                      Rank: {rank[rootId]}
+                      Size: {size[rootId]}
                     </span>
                   </div>
 
@@ -323,7 +321,7 @@ export default function DSUVisualizer() {
           </div>
 
           <div className="text-xs font-mono text-zinc-500 text-center">
-            <code>parent[i]</code> points to parent node in tree. Root nodes satisfy <code>parent[root] == root</code>.
+            <code>parent[i]</code> points to parent node in tree. Root nodes satisfy <code>parent[root] == root</code> with component size <code>size[root]</code>.
           </div>
         </div>
 
@@ -354,17 +352,17 @@ export default function DSUVisualizer() {
               </div>
             </div>
 
-            {/* Rank Array Table */}
+            {/* Size Array Table */}
             <div className="space-y-1.5 pt-2">
-              <span className="text-[10px] font-mono text-zinc-400 uppercase">Rank Array:</span>
+              <span className="text-[10px] font-mono text-zinc-400 uppercase">Size Array (Set element count):</span>
               <div className="grid grid-cols-4 gap-1.5">
-                {rank.map((r, idx) => (
+                {size.map((s, idx) => (
                   <div
                     key={idx}
-                    className="p-2 rounded-xl bg-zinc-950 border border-white/5 text-center font-mono text-xs text-zinc-400"
+                    className="p-2 rounded-xl bg-zinc-950 border border-white/5 text-center font-mono text-xs text-zinc-300"
                   >
                     <div className="text-[9px] text-zinc-600">[{idx}]</div>
-                    <div>{r}</div>
+                    <div className="font-bold text-white">{s}</div>
                   </div>
                 ))}
               </div>
@@ -374,7 +372,7 @@ export default function DSUVisualizer() {
           {/* Key Invariants */}
           <div className="p-3.5 rounded-xl bg-zinc-950/80 border border-white/5 font-mono text-xs space-y-1 text-zinc-400">
             <div className="text-[10px] uppercase font-bold text-white">Complexity Invariant:</div>
-            <div>Find / Union: <code className="text-emerald-300">O(α(N)) ≈ O(1)</code></div>
+            <div>Find / Union (by Size): <code className="text-emerald-300">O(α(N)) ≈ O(1)</code></div>
             <div>α(N) is the Inverse Ackermann function.</div>
           </div>
         </div>

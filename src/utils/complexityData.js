@@ -336,11 +336,12 @@ export const ALGO_DETAILS = {
       union: 'O(α(N))'
     },
     spaceComplexity: 'O(N)',
-    description: 'A data structure that stores a collection of disjoint (non-overlapping) sets. Supports two principal operations: Find (determine which set a particular element belongs to) and Union (merge two sets into a single set). With Path Compression and Union by Rank, amortized cost per operation is nearly constant O(α(N)).',
+    description: 'A data structure that stores a collection of disjoint (non-overlapping) sets. Supports two principal operations: Find (determine which set a particular element belongs to) and Union (merge two sets into a single set). With Path Compression and Union by Size, amortized cost per operation is nearly constant O(α(N)).',
     keyPoints: [
       'Path Compression flattens the tree so find() takes almost O(1) subsequent time',
-      'Union by Rank attaches shallower tree under deeper tree root',
+      'Union by Size attaches smaller component tree under larger tree root and adds sizes: size[rootLarge] += size[rootSmall]',
       'Combined time complexity is O(alpha(N)) where alpha is the Inverse Ackermann function (<= 4 for all practical universe sizes)',
+      'Provides O(1) component size queries: size[find(u)]',
       'Essential for Kruskal Minimum Spanning Tree (MST), dynamic connectivity, and cycle detection'
     ],
     practiceProblems: [

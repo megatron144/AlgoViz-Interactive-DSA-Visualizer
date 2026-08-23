@@ -74,7 +74,7 @@ An interactive, high-performance web application designed to bring Data Structur
 <summary><b>🌲 Disjoint Set Union (DSU / Union-Find)</b></summary>
 
 * **Core Concept**: Maintains a collection of non-overlapping sets. Supports finding the representative root of any element (`find`) and merging two sets (`union`).
-* **Key Invariant**: Optimized with **Path Compression** (flattening tree depths during lookups) and **Union by Rank** (attaching shallower trees under deeper trees).
+* **Key Invariant**: Optimized with **Path Compression** (flattening tree depths during lookups) and **Union by Size** (attaching smaller trees under larger trees and tracking component sizes).
 * **When to use**: Kruskal’s Minimum Spanning Tree algorithm, dynamic graph connectivity queries, and cycle detection.
 * **Complexity**: Time: $O(\alpha(N)) \approx O(1)$ amortized per operation (Inverse Ackermann function) \| Auxiliary Space: $O(N)$.
 * **Practice**: [LeetCode 684 - Redundant Connection](https://leetcode.com/problems/redundant-connection/) • [LeetCode 547 - Number of Provinces](https://leetcode.com/problems/number-of-provinces/) • [Codeforces 25D - Roads not only in Berland](https://codeforces.com/problemset/problem/25/D)
