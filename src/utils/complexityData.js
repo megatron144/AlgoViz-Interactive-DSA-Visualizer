@@ -1258,5 +1258,45 @@ export const ALGO_DETAILS = {
         url: 'https://codeforces.com/problemset/problem/1201/C'
       }
     ]
+  },
+
+  'ternary-search': {
+    name: 'Ternary Search',
+    category: 'Searching',
+    timeComplexity: { best: 'O(1)', average: 'O(log₃ N)', worst: 'O(log₃ N)' },
+    spaceComplexity: 'O(1)',
+    description: 'A divide-and-conquer search algorithm that divides a sorted array into three equal segments using two midpoints (mid1 and mid2). Also widely used in competitive programming to find the maximum or minimum of unimodal functions.',
+    keyPoints: [
+      'Requires sorted array (or unimodal function for extremum search)',
+      'Calculates mid1 = low + (high - low)/3 and mid2 = high - (high - low)/3',
+      'Discards 2/3 of remaining range each step (O(log₃ N) iterations)',
+      'Popular in Competitive Programming for ternary search on convex/concave real functions'
+    ],
+    practiceProblems: [
+      {
+        title: 'LeetCode 162 - Find Peak Element',
+        platform: 'LeetCode',
+        difficulty: 'Medium',
+        url: 'https://leetcode.com/problems/find-peak-element/'
+      },
+      {
+        title: 'Codeforces 439D - Devu and his Brother',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/439/D'
+      },
+      {
+        title: 'Codeforces 578C - Weakness and Poorness',
+        platform: 'Codeforces',
+        difficulty: 'Hard',
+        url: 'https://codeforces.com/problemset/problem/578/C'
+      },
+      {
+        title: 'CSES 1640 - Sum of Two Values',
+        platform: 'CSES',
+        difficulty: 'Easy',
+        url: 'https://cses.fi/problemset/task/1640'
+      }
+    ]
   }
 };

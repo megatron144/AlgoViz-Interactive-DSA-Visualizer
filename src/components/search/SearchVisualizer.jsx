@@ -18,8 +18,9 @@ export default function SearchVisualizer({ onActiveLineChange }) {
 
   const timerRef = useRef(null);
 
-  const handleStartSearch = (algo = selectedAlgo, targetVal = target) => {
-    const s = generateSearchSteps(algo, array, Number(targetVal));
+  const handleStartSearch = (algo = selectedAlgo, targetVal = target, arr = array) => {
+    const numTarget = targetVal === '' ? 0 : Number(targetVal);
+    const s = generateSearchSteps(algo, arr, isNaN(numTarget) ? 0 : numTarget);
     setSteps(s);
     setCurrentStepIdx(0);
     setIsPlaying(true);
@@ -31,10 +32,20 @@ export default function SearchVisualizer({ onActiveLineChange }) {
     setArray(newArr);
     const randomTarget = newArr[Math.floor(Math.random() * newArr.length)];
     setTarget(randomTarget);
-    setSteps([]);
+    const s = generateSearchSteps(selectedAlgo, newArr, randomTarget);
+    setSteps(s);
     setCurrentStepIdx(0);
     setIsPlaying(false);
   };
+
+  // Generate initial steps on algorithm or mount
+  useEffect(() => {
+    const numTarget = target === '' ? 0 : Number(target);
+    const s = generateSearchSteps(selectedAlgo, array, isNaN(numTarget) ? 0 : numTarget);
+    setSteps(s);
+    setCurrentStepIdx(0);
+    setIsPlaying(false);
+  }, [selectedAlgo]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -46,6 +57,10 @@ export default function SearchVisualizer({ onActiveLineChange }) {
           const step = steps[next];
           if (step?.currentIndex !== null && step?.currentIndex !== undefined) {
             soundPlayer.playTone(step.array[step.currentIndex], 10, 160);
+          } else if (step?.mid1 !== null && step?.mid1 !== undefined && (step?.type === 'COMPARE_MID1' || step?.type === 'FOUND')) {
+            soundPlayer.playTone(step.array[step.mid1], 10, 160);
+          } else if (step?.mid2 !== null && step?.mid2 !== undefined && step?.type === 'COMPARE_MID2') {
+            soundPlayer.playTone(step.array[step.mid2], 10, 160);
           } else if (step?.mid !== null && step?.mid !== undefined) {
             soundPlayer.playTone(step.array[step.mid], 10, 160);
           }
@@ -73,13 +88,18 @@ export default function SearchVisualizer({ onActiveLineChange }) {
     low: null,
     high: null,
     mid: null,
+    mid1: null,
+    mid2: null,
     foundIndex: null,
     comparisons: 0,
     description: ''
   };
 
+  const displayArray = currentStep.array || array;
+
   const subTabs = [
     { id: 'binary-search', label: 'Binary Search O(log N)' },
+    { id: 'ternary-search', label: 'Ternary Search O(log₃ N)' },
     { id: 'linear-search', label: 'Linear Search O(N)' },
   ];
 
@@ -94,8 +114,6 @@ export default function SearchVisualizer({ onActiveLineChange }) {
               key={tab.id}
               onClick={() => {
                 setSelectedAlgo(tab.id);
-                setSteps([]);
-                setCurrentStepIdx(0);
                 setIsPlaying(false);
               }}
               className={`dock-pill ${isActive ? 'active' : ''}`}
@@ -124,12 +142,15 @@ export default function SearchVisualizer({ onActiveLineChange }) {
             <input
               type="number"
               value={target}
-              onChange={e => setTarget(Number(e.target.value))}
+              onChange={e => setTarget(e.target.value === '' ? '' : Number(e.target.value))}
+              onKeyDown={e => {
+                if (e.key === 'Enter') handleStartSearch(selectedAlgo, target);
+              }}
               className="w-14 sm:w-16 bg-black border border-white/15 rounded-lg px-1.5 sm:px-2 py-1 text-xs font-mono text-white text-center"
             />
             <button
               onClick={() => handleStartSearch(selectedAlgo, target)}
-              className="px-3 sm:px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 flex items-center gap-1.5 touch-manipulation"
+              className="px-3 sm:px-4 py-1.5 rounded-lg bg-white text-black font-display font-bold text-xs hover:bg-zinc-200 transition-all shadow-md shadow-white/10 flex items-center gap-1.5 touch-manipulation cursor-pointer"
             >
               <Search className="w-3.5 h-3.5" /> Start
             </button>
@@ -137,7 +158,7 @@ export default function SearchVisualizer({ onActiveLineChange }) {
 
           <button
             onClick={generateNewArray}
-            className="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-zinc-300 font-mono text-xs border border-white/10 hover:text-white transition-all flex items-center gap-1.5 touch-manipulation"
+            className="px-3 sm:px-3.5 py-2 sm:py-2.5 rounded-xl bg-zinc-900 text-zinc-300 font-mono text-xs border border-white/10 hover:text-white transition-all flex items-center gap-1.5 touch-manipulation cursor-pointer"
           >
             <Shuffle className="w-3.5 h-3.5" /> Randomize
           </button>
@@ -162,9 +183,11 @@ export default function SearchVisualizer({ onActiveLineChange }) {
         {/* Search Array Elements Visualizer */}
         <div className="space-y-4">
           <div className="flex items-center justify-start sm:justify-center gap-1.5 sm:gap-2 overflow-x-auto p-3 sm:p-6 bg-black/95 rounded-2xl border border-white/10 touch-scroll">
-            {array.map((val, idx) => {
+            {displayArray.map((val, idx) => {
               const isCurrent = currentStep.currentIndex === idx;
               const isMid = currentStep.mid === idx;
+              const isMid1 = currentStep.mid1 === idx;
+              const isMid2 = currentStep.mid2 === idx;
               const isLow = currentStep.low === idx;
               const isHigh = currentStep.high === idx;
               const isFound = currentStep.foundIndex === idx;
@@ -178,6 +201,10 @@ export default function SearchVisualizer({ onActiveLineChange }) {
                       <span className="text-[8px] sm:text-[10px] font-mono font-black text-black bg-white px-1 rounded">MATCH</span>
                     ) : isMid ? (
                       <span className="text-[8px] sm:text-[10px] font-mono font-bold text-white bg-zinc-700 px-1 rounded border border-white">MID</span>
+                    ) : isMid1 ? (
+                      <span className="text-[8px] sm:text-[10px] font-mono font-bold text-white bg-zinc-700 px-1 rounded border border-white">MID1</span>
+                    ) : isMid2 ? (
+                      <span className="text-[8px] sm:text-[10px] font-mono font-bold text-white bg-zinc-700 px-1 rounded border border-white">MID2</span>
                     ) : isLow ? (
                       <span className="text-[8px] sm:text-[9px] font-mono text-zinc-400">LOW</span>
                     ) : isHigh ? (
@@ -190,7 +217,7 @@ export default function SearchVisualizer({ onActiveLineChange }) {
                     className={`w-9 h-11 xs:w-10 xs:h-12 sm:w-12 sm:h-14 rounded-xl border flex flex-col items-center justify-center font-mono transition-all duration-150 ${
                       isFound
                         ? 'bg-white text-black font-black border-white shadow-[0_0_20px_rgba(255,255,255,0.9)] scale-110'
-                        : isMid || isCurrent
+                        : isMid || isMid1 || isMid2 || isCurrent
                         ? 'bg-zinc-800 text-white font-bold border-2 border-white shadow-lg'
                         : isOutRange
                         ? 'bg-zinc-950 text-zinc-600 border-white/5 opacity-40'
@@ -211,7 +238,16 @@ export default function SearchVisualizer({ onActiveLineChange }) {
         {/* Playback Controls */}
         <PlaybackControls
           isPlaying={isPlaying}
-          onPlayPause={() => setIsPlaying(!isPlaying)}
+          onPlayPause={() => {
+            if (steps.length === 0) {
+              handleStartSearch();
+            } else if (currentStepIdx >= steps.length - 1) {
+              setCurrentStepIdx(0);
+              setIsPlaying(true);
+            } else {
+              setIsPlaying(!isPlaying);
+            }
+          }}
           onReset={() => {
             setCurrentStepIdx(0);
             setIsPlaying(false);

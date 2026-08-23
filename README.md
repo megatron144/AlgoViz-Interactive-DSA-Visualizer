@@ -257,11 +257,12 @@ An interactive, high-performance web application designed to bring Data Structur
 ### 🔎 7. Searching Algorithms
 
 <details>
-<summary><b>🎯 Binary Search & Linear Search</b></summary>
+<summary><b>🎯 Binary Search, Ternary Search & Linear Search</b></summary>
 
 * **Binary Search**: Logarithmic $O(\log N)$ search on sorted arrays by repeatedly halving search intervals.
+* **Ternary Search**: $O(\log_3 N)$ divide-and-conquer search on sorted arrays (and unimodal function extremum search) splitting the interval into 3 equal parts via two midpoints.
 * **Linear Search**: $O(N)$ sequential scan on unsorted arrays.
-* **Practice**: [LeetCode 704 - Binary Search](https://leetcode.com/problems/binary-search/) • [LeetCode 33 - Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/) • [LeetCode 4 - Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays/)
+* **Practice**: [LeetCode 704 - Binary Search](https://leetcode.com/problems/binary-search/) • [LeetCode 162 - Find Peak Element](https://leetcode.com/problems/find-peak-element/) • [Codeforces 439D - Devu and his Brother](https://codeforces.com/problemset/problem/439/D) • [LeetCode 33 - Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
 
 </details>
 

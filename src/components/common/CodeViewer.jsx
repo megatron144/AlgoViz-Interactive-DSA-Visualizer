@@ -69,6 +69,7 @@ const ALGORITHM_GROUPS = [
     category: 'Searching Algorithms',
     items: [
       { id: 'binary-search', label: 'Binary Search' },
+      { id: 'ternary-search', label: 'Ternary Search' },
       { id: 'linear-search', label: 'Linear Search' },
     ]
   }
