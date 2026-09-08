@@ -4,7 +4,8 @@ import BinaryLiftingVisualizer from './BinaryLiftingVisualizer';
 import SparseTableVisualizer from './SparseTableVisualizer';
 import HLDVisualizer from './HLDVisualizer';
 import LinearBasisVisualizer from './LinearBasisVisualizer';
-import { Cpu, GitBranch, Table, GitFork, Binary } from 'lucide-react';
+import MosAlgorithmVisualizer from './MosAlgorithmVisualizer';
+import { Cpu, GitBranch, Table, GitFork, Binary, Boxes } from 'lucide-react';
 
 export default function AdvancedVisualizer({ onActiveLineChange }) {
   const [subTab, setSubTab] = useState('segment-tree');
@@ -15,6 +16,7 @@ export default function AdvancedVisualizer({ onActiveLineChange }) {
     { id: 'sparse-table', label: 'Sparse Table (RMQ)', icon: Table },
     { id: 'hld', label: 'Heavy-Light Decomp.', icon: GitFork },
     { id: 'linear-basis', label: 'Linear Basis (XOR)', icon: Binary },
+    { id: 'mos-algorithm', label: "Mo's Algorithm (√N)", icon: Boxes },
   ];
 
   return (
@@ -43,6 +45,7 @@ export default function AdvancedVisualizer({ onActiveLineChange }) {
       {subTab === 'sparse-table' && <SparseTableVisualizer onActiveLineChange={onActiveLineChange} />}
       {subTab === 'hld' && <HLDVisualizer onActiveLineChange={onActiveLineChange} />}
       {subTab === 'linear-basis' && <LinearBasisVisualizer onActiveLineChange={onActiveLineChange} />}
+      {subTab === 'mos-algorithm' && <MosAlgorithmVisualizer onActiveLineChange={onActiveLineChange} />}
     </div>
   );
 }

@@ -1399,6 +1399,137 @@ struct LinearBasis {
 };`
   },
 
+  'mos-algorithm': {
+    java: `// Mo's Algorithm (Square Root Decomposition) in Java
+class MosAlgorithm {
+    static class Query { int l, r, id, block; }
+    public static int[] solve(int[] arr, int[][] rawQueries) {
+        int n = arr.length, q = rawQueries.length;
+        int B = Math.max(1, (int) Math.sqrt(n));
+        Query[] queries = new Query[q];
+        for (int i = 0; i < q; i++) {
+            queries[i] = new Query();
+            queries[i].l = rawQueries[i][0]; queries[i].r = rawQueries[i][1];
+            queries[i].id = i; queries[i].block = queries[i].l / B;
+        }
+        // Sort queries by block, with alternating zig-zag order on R
+        Arrays.sort(queries, (a, b) -> a.block != b.block ? Integer.compare(a.block, b.block) : ((a.block & 1) == 1 ? Integer.compare(b.r, a.r) : Integer.compare(a.r, b.r)));
+        int currL = 0, currR = -1, distinct = 0;
+        int[] freq = new int[1000005], ans = new int[q];
+        for (Query query : queries) {
+            // Expand right boundary
+            while (currR < query.r) { if (++freq[arr[++currR]] == 1) distinct++; }
+
+            // Expand left boundary
+            while (currL > query.l) { if (++freq[arr[--currL]] == 1) distinct++; }
+
+            // Contract right boundary
+            while (currR > query.r) { if (--freq[arr[currR--]] == 0) distinct--; }
+
+            // Contract left boundary
+            while (currL < query.l) { if (--freq[arr[currL++]] == 0) distinct--; }
+
+            // Store current query answer
+            ans[query.id] = distinct;
+        }
+        return ans;
+    }
+}`,
+    python: `# Mo's Algorithm (Square Root Decomposition) in Python
+import math
+
+def mos_algorithm(arr, raw_queries):
+    n = len(arr)
+    B = max(1, int(math.isqrt(n)))
+    queries = []
+    for idx, (l, r) in enumerate(raw_queries):
+        queries.append((l // B, r, l, idx))
+    # Sort queries by block, odd-even zig-zag on R
+    queries.sort(key=lambda q: (q[0], -q[1] if q[0] % 2 else q[1]))
+
+    curr_l, curr_r, distinct = 0, -1, 0
+    freq = {}
+    ans = [0] * len(raw_queries)
+
+    for block, r, l, q_id in queries:
+        # Expand right boundary
+        while curr_r < r:
+            curr_r += 1
+            x = arr[curr_r]
+            freq[x] = freq.get(x, 0) + 1
+            if freq[x] == 1: distinct += 1
+
+        # Expand left boundary
+        while curr_l > l:
+            curr_l -= 1
+            x = arr[curr_l]
+            freq[x] = freq.get(x, 0) + 1
+            if freq[x] == 1: distinct += 1
+
+        # Contract right boundary
+        while curr_r > r:
+            x = arr[curr_r]
+            freq[x] -= 1
+            if freq[x] == 0: distinct -= 1
+            curr_r -= 1
+
+        # Contract left boundary
+        while curr_l < l:
+            x = arr[curr_l]
+            freq[x] -= 1
+            if freq[x] == 0: distinct -= 1
+            curr_l += 1
+
+        # Store answer for offline query
+        ans[q_id] = distinct
+
+    return ans`,
+    cpp: `// Mo's Algorithm (Square Root Decomposition) in C++
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Query { int l, r, id, block; };
+
+vector<int> mosAlgorithm(vector<int>& arr, vector<pair<int, int>>& rawQueries) {
+    int n = arr.size(), q = rawQueries.size();
+    int B = max(1, (int)sqrt(n));
+    vector<Query> queries(q);
+    for (int i = 0; i < q; i++) {
+        queries[i] = {rawQueries[i].first, rawQueries[i].second, i, rawQueries[i].first / B};
+    }
+    // Sort by block ID, then by R (odd-even zig-zag order)
+    sort(queries.begin(), queries.end(), [](const Query& a, const Query& b) {
+        if (a.block != b.block) return a.block < b.block;
+        return (a.block & 1) ? (a.r > b.r) : (a.r < b.r);
+    });
+
+    int currL = 0, currR = -1, distinct = 0;
+    vector<int> freq(1000005, 0), ans(q);
+
+    for (const auto& query : queries) {
+        // Expand right boundary
+        while (currR < query.r) {
+            if (++freq[arr[++currR]] == 1) distinct++;
+        }
+        // Expand left boundary
+        while (currL > query.l) {
+            if (++freq[arr[--currL]] == 1) distinct++;
+        }
+        // Contract right boundary
+        while (currR > query.r) {
+            if (--freq[arr[currR--]] == 0) distinct--;
+        }
+        // Contract left boundary
+        while (currL < query.l) {
+            if (--freq[arr[currL++]] == 0) distinct--;
+        }
+        // Store answer for offline query
+        ans[query.id] = distinct;
+    }
+    return ans;
+}`
+  },
+
   // =========================================================================
   // 2. SORTING ALGORITHMS
   // =========================================================================

@@ -591,6 +591,51 @@ export const ALGO_DETAILS = {
     ]
   },
 
+  'mos-algorithm': {
+    name: "Mo's Algorithm (Square Root Decomposition)",
+    category: 'Offline Range Queries & Two Pointers',
+    timeComplexity: {
+      best: 'O((N + Q) · √N)',
+      average: 'O((N + Q) · √N)',
+      worst: 'O((N + Q) · √N)',
+      build: 'O(Q log Q)',
+    },
+    spaceComplexity: 'O(N + Q + MAX_VAL) for frequency arrays and query storage',
+    description: "An offline algorithm for answering range queries on static arrays by sorting queries into √N blocks. By keeping a contiguous active window [currL, currR] and shifting pointers between sorted queries with O(1) element additions and removals, total pointer movement is bounded to O((N + Q)√N).",
+    keyPoints: [
+      'Array is partitioned into blocks of size B = ⌊√N⌋',
+      'Queries are sorted by block index (L / B), breaking ties by R',
+      'Odd-even block sorting (zig-zag) reverses R sort order on odd blocks, nearly halving right-pointer movement',
+      'Applicable whenever adding or removing an element from the range takes O(1) amortized time'
+    ],
+    practiceProblems: [
+      {
+        title: 'SPOJ DQUERY - D-query (Distinct Elements)',
+        platform: 'SPOJ',
+        difficulty: 'Medium',
+        url: 'https://www.spoj.com/problems/DQUERY/'
+      },
+      {
+        title: 'Codeforces 86D - Powerful array',
+        platform: 'Codeforces',
+        difficulty: 'Hard',
+        url: 'https://codeforces.com/problemset/problem/86/D'
+      },
+      {
+        title: 'Codeforces 220B - Little Elephant and Array',
+        platform: 'Codeforces',
+        difficulty: 'Medium',
+        url: 'https://codeforces.com/problemset/problem/220/B'
+      },
+      {
+        title: 'Codeforces 617E - XOR and Favorite Number',
+        platform: 'Codeforces',
+        difficulty: 'Hard',
+        url: 'https://codeforces.com/problemset/problem/617/E'
+      }
+    ]
+  },
+
   // =========================================================================
   // 2. SORTING ALGORITHMS
   // =========================================================================

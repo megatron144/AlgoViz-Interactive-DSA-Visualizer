@@ -37,6 +37,7 @@ const ALGORITHM_GROUPS = [
       { id: 'sparse-table', label: 'Sparse Table (RMQ)' },
       { id: 'hld', label: 'Heavy-Light Decomposition' },
       { id: 'linear-basis', label: 'Linear Basis (XOR)' },
+      { id: 'mos-algorithm', label: "Mo's Algorithm (√N)" },
     ]
   },
   {
